@@ -1,0 +1,36 @@
+.AboutUs {
+    float: left;
+    width: 405px;
+    margin-top: 180px;
+    margin-left: 270px;
+}
+
+.AboutUsTitle {
+    /* float: left; */
+    font-size: 50px;
+    color: green;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    
+}
+
+.rectangle {
+    width: 400px;
+    height: 10px;
+    background: salmon;
+    margin-top: 10px;
+  }
+
+.AboutUsP {
+    color: green;
+    font-size: small;
+  }
+
+  .Login-Box {
+    float: right;
+    border: 10px solid salmon;
+    /* background-color: salmon;   */
+    width: 450px;
+    height: 450px;
+    margin-right: 180px;
+    margin-top: 130px
+  }
