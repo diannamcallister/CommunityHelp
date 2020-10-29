@@ -1,0 +1,17 @@
+#header{
+    text-align: center;
+    color: green;
+    font-size: xx-large;
+}
+
+#listContentButton {
+    float: right;
+}
+
+#rating {
+    size: large;
+}
+
+#remove {
+    background-color: red;
+}
