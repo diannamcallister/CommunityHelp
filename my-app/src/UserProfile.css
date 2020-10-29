@@ -1,0 +1,59 @@
+#UserContent{
+    margin-top: 10%;
+    margin-left: 10%;
+
+}
+.links{
+    float: left;
+}
+.Heading{
+
+    font-size: 100px;
+    border-bottom: 30px solid salmon;
+    padding-bottom: 100px;
+    color: seagreen;
+    font-weight: bold;
+
+}
+#UserInfo {
+     float:left;
+     align-items: center; /*horizontal centering*/
+}
+#ProfilePicture {
+    float:left;
+    margin-right: 50px;
+    align-items: center; /*horizontal centering*/
+}
+.UserHeadings {
+    font-size: 50px;
+    margin: 100px 100px 35px 0px;
+    color: seagreen;
+    
+}
+.UserHeadingContent {
+    font-size: 50px;
+    color: white;
+    background-color: seagreen;
+    
+}
+#b1{
+    background-color: salmon;
+    font-size: 25px;
+    }
+#b2{
+    background-color: salmon;
+    font-size: 25px;
+    }   
+#Edit{
+float: left;
+margin-left: 10px;
+position: absolute;
+left: 350px;
+
+}
+
+#SeeRatings{
+    float: left;
+    position: absolute;
+    right: 400px;
+    }

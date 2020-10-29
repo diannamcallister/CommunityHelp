@@ -6,8 +6,9 @@ import './App.css';
 
 import Tasks from './Tasks.jsx';
 import TaskDescription from './TaskDescription';
-
 import Login from './Authentication';
+import UserPage from './Components/UserPage.js'
+import UserProfile from './UserProfile.jsx'
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
         <Switch>
           <Route exact path='/alltasks' component={ Tasks } />
           <Route exact path='/task' component={ TaskDescription } />
+		      <Route exact path='/UserProfile' component={ UserProfile } />
+          <Route exact path='/UserPage' component={ UserPage } />
         </Switch>
       </BrowserRouter>
 
