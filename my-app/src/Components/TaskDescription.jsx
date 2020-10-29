@@ -3,7 +3,8 @@ import "semantic-ui-css/semantic.min.css";
 import { Icon, Button, Grid, Image, Card, Divider, TextArea } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
 
-import './TaskDescription.css'
+import '../Styling/TaskDescription.css'
+import Dashboard from './Dashboard';
 
 class TaskDescription extends React.Component {
 
@@ -23,7 +24,8 @@ class TaskDescription extends React.Component {
         this.state = {
             task: this.props.location.state.task,
             comments: [comment1, comment2],
-            newComment: ''
+            newComment: '',
+            isAdmin: this.props.location.state.isAdmin
         };
 
         this.addComment = this.addComment.bind(this);
@@ -60,11 +62,14 @@ class TaskDescription extends React.Component {
 
         return (
             <div>
+                <Dashboard 
+                    isAdmin = {this.state.isAdmin}
+                />
                 <header>
                     <h1 className='header-new'>{this.state.task.title}</h1>
                 </header>
 
-                <Link to={'/'}>
+                <Link to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin}}}>
                     <Button animated className='all-jobs'>
                         <Button.Content visible>
                             All Jobs
@@ -78,13 +83,13 @@ class TaskDescription extends React.Component {
                 <Grid columns='two'>
                     <Grid.Column width={7}>
 
-                        <Card className='card' style={{backgroundColor:'blue'}}>
+                        <Card className='card'>
                             <Image className='task-image' src={this.state.task.image} />
                             <h2 className='text-center description'>{this.state.task.description}</h2>
 
-                            <p className='text-center'><b className='subtitles'>Hours: </b>6</p>
-                            <p className='text-center'><b className='subtitles'>Num Volunteers Needed:</b> 2</p>
-                            <p className='text-center'><b className='subtitles'>Price: </b>$15/hour</p>
+                            <p className='text-center'><b className='subtitles'>Hours: </b>{this.state.task.hours}</p>
+                            <p className='text-center'><b className='subtitles'>Num Volunteers Needed: </b>{this.state.task.volunteerNum}</p>
+                            <p className='text-center'><b className='subtitles'>Price: </b>{this.state.task.price}</p>
 
                             <Button className='report-task' onClick={() => this.addReportedJob(this.state.task)}>Report</Button>
                         </Card>
@@ -93,7 +98,7 @@ class TaskDescription extends React.Component {
                     </Grid.Column>
 
                     <Grid.Column width={8}>
-                        <h1>COMMENTS</h1>
+                        <h1 className='comment-title'>COMMENTS</h1>
                         <Divider className='divider' />
                         { this.state.comments.map(comment => (
                             <p key={comment.user + comment.comment}> <b className='subtitles'>{comment.user}: </b>{comment.comment}</p>
@@ -101,7 +106,7 @@ class TaskDescription extends React.Component {
 
                         }
 
-                        <div class="ui focus input bottom-right">
+                        <div className="ui focus input bottom-right">
                             <TextArea name='newComment' className='input-box' plalceholder='tell us more' onChange={this.updateComment}/>
                             <Button className='comment' onClick={() => this.addComment()}>Comment</Button>
                         </div>

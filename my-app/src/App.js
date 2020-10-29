@@ -4,8 +4,8 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
 import './App.css';
 
-import Tasks from './Tasks.jsx';
-import TaskDescription from './TaskDescription';
+import Tasks from './Components/Tasks.jsx';
+import TaskDescription from './Components/TaskDescription';
 import Login from './Authentication';
 import UserPage from './Components/UserPage.js'
 import UserProfile from './UserProfile.jsx'
@@ -19,19 +19,12 @@ function App() {
         <Switch>
           <Route exact path='/alltasks' component={ Tasks } />
           <Route exact path='/task' component={ TaskDescription } />
-		   <Route exact path='/UserProfile' component={ UserProfile } />
+		      <Route exact path='/UserProfile' component={ UserProfile } />
           <Route exact path='/UserPage' component={ UserPage } />
-		  <Route exact path='/AdminUserPage' component={ AdminUserPage } />
-        </Switch>
-      </BrowserRouter>
-
-      <BrowserRouter>
-        <Switch>
+		      <Route exact path='/AdminUserPage' component={ AdminUserPage } />
           <Route exact path='/authentication' component={ Login } />
         </Switch>
       </BrowserRouter>
-      {/* <Login/> */}
-
     </div>
   );
 }
