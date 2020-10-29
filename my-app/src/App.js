@@ -7,6 +7,8 @@ import './App.css';
 import Tasks from './Tasks.jsx';
 import TaskDescription from './TaskDescription';
 
+import Login from './Authentication';
+
 function App() {
   return (
 
@@ -18,23 +20,14 @@ function App() {
         </Switch>
       </BrowserRouter>
 
+      <BrowserRouter>
+        <Switch>
+          <Route exact path='/authentication' component={ Login } />
+        </Switch>
+      </BrowserRouter>
+      {/* <Login/> */}
+
     </div>
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.js</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header>
-    // </div>
   );
 }
 
