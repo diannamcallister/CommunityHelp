@@ -45,8 +45,9 @@
     background-color: paleturquoise !important;
     z-index: 100 !important;
     margin-bottom: 10px !important;
-    margin-left: 50px !important;
-
+    margin-left: 58px !important;
+    background-color: #1E90FF !important;
+    color: white !important;
 }
 
 .comment {
@@ -57,12 +58,22 @@
     z-index: 100 !important;
     margin-bottom: 10px !important;
     margin-left: 10px !important;
+    background-color: #32BD32 !important;
+    color: white !important;
+}
 
+.comment:hover {
+    background-color: #31AD32 !important;
+}
+
+.comment-title {
+    color: green;
 }
 
 .header-new {
     text-align: center;
     font-size: 55px;
+    color: green;
 }
 
 .bottom-right {

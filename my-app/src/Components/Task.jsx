@@ -1,9 +1,9 @@
 import React from 'react';
 import "semantic-ui-css/semantic.min.css";
 import { Image, Button } from 'semantic-ui-react';
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
-import './Tasks.css';
+import '../Styling/Tasks.css';
 
 class Task extends React.Component {
 
@@ -25,12 +25,13 @@ class Task extends React.Component {
 
         const {
             task,
-            seeReported
+            seeReported,
+            isAdmin
         } = this.props;
 
         return (
             <div>
-                {this.state.showTaskDetails ? <Redirect push to={{pathname:'/task', state:{task:task}}} /> : null}
+                {this.state.showTaskDetails ? <Redirect push to={{pathname:'/task', state:{task:task, isAdmin:isAdmin}}} /> : null}
                     <Button animated className='button-center' onClick={() => this.openTaskDetails()}>
                         {seeReported ? 
                         <div>
@@ -45,7 +46,7 @@ class Task extends React.Component {
 
                         <div className='center'>
                             <h1>{task.title}</h1>
-                            <b className='description'> {task.description}</b>
+                            <b className='description'>{task.description}</b>
                         </div>
                     </Button>
             </div>

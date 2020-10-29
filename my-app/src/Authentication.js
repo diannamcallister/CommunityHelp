@@ -1,6 +1,7 @@
 import React from 'react';
 import './Authentication.css';
 import { Button, Input, Icon } from 'semantic-ui-react'
+import { Redirect } from "react-router-dom";
 
 // create login and register component, figure out how onclicks will work
 
@@ -8,10 +9,18 @@ class Login extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {isLogin: true};
+        this.state = {
+            isLogin: true,
+            username: '',
+            password: '',
+            loginWorked: false,
+            isAdmin: false
+        };
         this.switchPage = this.switchPage.bind(this);
         this.showLogin = this.showLogin.bind(this);
         this.showRegister = this.showRegister.bind(this);
+        this.updateUserEntry = this.updateUserEntry.bind(this);
+        this.checkLogin = this.checkLogin.bind(this);
     }
 
     switchPage(isLogin) {
@@ -19,15 +28,31 @@ class Login extends React.Component {
         this.setState({isLogin: curr});
     }
 
+    checkLogin() {
+        if (this.state.username === 'user' && this.state.password === 'password') {
+            this.setState({loginWorked: true});
+        } else if (this.state.username === "admin" && this.state.password === "admin") {
+            this.setState({isAdmin: true, loginWorked: true});
+        }
+    }
+
+    updateUserEntry = e => {
+        const target = e.target;
+        const value = target.value;
+        const name = target.name;
+
+        this.setState({[name]: value})
+    }
+
     showLogin() {
 
         return (
             <div className="page">
                 <strong className="Login-Label">EMAIL: </strong>
-                <Input className="LoginInput" focus placeholder='Email' />
+                <Input className="LoginInput" focus placeholder='Email' name='username' onChange={this.updateUserEntry} />
                 <strong className="Login-Label">PASSWORD: </strong>
-                <Input className="LoginInput" focus placeholder='Password' />
-                <Button className="Submit1" animated >
+                <Input className="LoginInput" focus placeholder='Password' name='password' onChange={this.updateUserEntry} />
+                <Button className="Submit1" animated onClick={this.checkLogin}>
                     <Button.Content visible>LOGIN</Button.Content>
                     <Button.Content hidden>
                      <Icon name='arrow right' />
@@ -62,6 +87,7 @@ class Login extends React.Component {
     render() {
         return (
             <div>
+                {this.state.loginWorked ? <Redirect push to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin}}} /> : null}
                 <div className="block1"/>
                 <div className="block2"/>
         <div className="AboutUs">

@@ -1,0 +1,64 @@
+#r_UserContent{
+    margin-top: 10%;
+    margin-left: 10%;
+
+}
+.r_links{
+    float: left;
+}
+.r_Heading{
+
+    font-size: 100px;
+    border-bottom: 30px solid salmon;
+    margin-bottom: 100px;
+    padding-bottom: 100px;
+    color: seagreen;
+    font-weight: bold;
+
+}
+.r_size{
+    font-size: 10px;
+}
+#r_UserInfo {
+     float:left;
+     align-items: center; /*horizontal centering*/
+}
+#r_ProfilePicture {
+    float:left;
+    margin-right: 50px;
+    align-items: center; /*horizontal centering*/
+}
+.r_UserPost {
+    font-size: 30px;
+    margin: 0px 10px 35px 0px;
+    padding: 30px;
+    background-color: salmon;
+    
+}
+.r_UserHeadingContent {
+    font-size: 50px;
+    color: white;
+    background-color: seagreen;
+    
+}
+#r_b1{
+    background-color: salmon;
+    font-size: 25px;
+    }
+#r_b2{
+    background-color: salmon;
+    font-size: 25px;
+    }   
+#r_Edit{
+float: left;
+margin-left: 10px;
+position: absolute;
+left: 350px;
+
+}
+
+#r_SeeRatings{
+    float: left;
+    position: absolute;
+    right: 400px;
+    }

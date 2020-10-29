@@ -2,7 +2,7 @@ import React from 'react';
 import "semantic-ui-css/semantic.min.css";
 import { Form, Button, Grid } from 'semantic-ui-react';
 
-import './CreateTasks.css';
+import '../Styling/CreateTasks.css';
 
 class CreateTask extends React.Component {
 
@@ -33,16 +33,18 @@ class CreateTask extends React.Component {
         const newJob = {
             title: this.state.title,
             description: this.state.description,
-            image: this.state.image
+            image: this.state.image,
+            hours: this.state.hours,
+            volunteerNum: this.state.volunteerNum,
+            price: this.state.price
         }
-        console.log("add job!");
         this.props.addJob(newJob);
     }
 
     render() {
         return (
             <div>
-                <Button onClick={this.props.closeModal}>
+                <Button className='exit-button' onClick={this.props.closeModal}>
                     <Button.Content visible> X</Button.Content>
                 </Button>
 
@@ -50,23 +52,20 @@ class CreateTask extends React.Component {
                     <h1 className='header'>ADD JOB</h1>
                 </header>
 
-
-                {/* <Grid>
-                <Grid.Row centered> */}
                 <Form className='form-padding'>
 
                     <Form.Group>
                         <Form.Input
                             name="title"
                             label='JOB TITLE:'
-                            placholder="Job Title!"
+                            placholder="Job Title"
                             width={6}
                             onChange={this.updateField} />
 
                         <Form.Input
                             name="description"
                             label='DESCRIPTION:'
-                            placholder='Job Title'
+                            placholder='Description'
                             width={10}
                             onChange={this.updateField}/>
                     </Form.Group>
@@ -76,29 +75,29 @@ class CreateTask extends React.Component {
                     <Form.Input
                         name="price"
                         label='PRICE:'
-                        placholder='Job Title'
+                        placholder='Price'
                         width={5}
                         onChange={this.updateField}/>
 
                     <Form.Input
                         name="hours"
                         label='HOURS:'
-                        placholder='Job Title'
+                        placholder='Hours'
                         width={5}
                         onChange={this.updateField}/>
 
                     <Form.Input
                         name="volunteerNum"
                         label='NUMBER OF VOLUNTEERS NEEDED:'
-                        placholder='Job Title'
+                        placholder='Number of Volunteers'
                         width={6}
                         onChange={this.updateField}/>
                     </Form.Group>
 
                     <Form.Input
                         name="image"
-                        label='IMAGE:'
-                        placholder='Job Title'
+                        label='IMAGE (ONLY URL ACCEPTED):'
+                        placholder='Image'
                         onChange={this.updateField}>
                     </Form.Input>
 
@@ -111,10 +110,6 @@ class CreateTask extends React.Component {
                         </Button>
                     </Grid.Row>
                 </Grid>
-
-                {/* </Grid.Row>
-                </Grid> */}
-
 
             </div>
         )

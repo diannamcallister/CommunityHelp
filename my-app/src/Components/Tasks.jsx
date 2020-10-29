@@ -3,8 +3,9 @@ import "semantic-ui-css/semantic.min.css";
 import { Grid, Button } from 'semantic-ui-react';
 import Modal from 'react-modal';
 // import { uid } from "react-uid";
+import Dashboard from './Dashboard';
 
-import './Tasks.css';
+import '../Styling/Tasks.css';
 import Task from './Task.jsx';
 import CreateTask from './CreateTask.jsx';
 
@@ -16,30 +17,43 @@ class Tasks extends React.Component {
         let job1 = {
             image: 'https://static.vecteezy.com/system/resources/previews/000/093/698/non_2x/vector-gardening-icon-set.jpg',
             title: 'Plant New Flowers',
-            description: 'Come help me plant new flowers!'
+            description: 'Come help me plant new flowers!',
+            price: '$5/hour',
+            hours: 3,
+            volunteerNum: 1
         };
 
         let job2 = {
             image: 'https://www.geico.com/living/wp-content/uploads/flat-tire-post.jpg',
             title: 'Change Tires',
-            description: 'I could use help changing my tires.'
+            description: 'I could use help changing my tires.',
+            price: '$25/hour',
+            hours: 2,
+            volunteerNum: 3
         };
 
         let job3 = {
             image: 'https://stormguardrc.com/wp-content/uploads/2015/04/Factors-to-Consider-When-Painting-Your-House-Featured-Image.png',
             title: 'Help Paint House',
-            description: 'Come paint my house with me!'
+            description: 'Come paint my house with me!',
+            price: '$15/hour',
+            hours: 10,
+            volunteerNum: 2
         };
 
         let job4 = {
             image: 'https://q3p9g6n2.rocketcdn.me/wp-content/ml-loads/2015/12/email_ss_1920.png',
             title: 'Sending Emails',
-            description: 'Please teach me to send emails.'
+            description: 'Please teach me to send emails.',
+            price: '$5/hour',
+            hours: 1,
+            volunteerNum: 1
         };
 
         this.state = {
             modal_is_open: false,
             showReportedOnly: false,
+            isAdmin: typeof(this.props.location.state) != undefined ? this.props.location.state.isAdmin : false,
             reportedButton: 'See Reported',
             jobs: [job1, job2, job3, job4],
             reportedJobs: [job2, job3]
@@ -118,6 +132,7 @@ class Tasks extends React.Component {
                             <Grid.Column key={task.image}>
                                 <Task 
                                     task = {task}
+                                    isAdmin = {this.state.isAdmin}
                                     seeReported = {this.state.showReportedOnly}
                                     deleteReported = {this.deleteReported}
                                 />
@@ -131,13 +146,19 @@ class Tasks extends React.Component {
     render() {
         return (
             <div className='overall-padding'>
+                <Dashboard 
+                    isAdmin = {this.state.isAdmin}
+                />
                 <header>
                     <h1 className='header'>JOB BOARD</h1>
                 </header>
 
+                {this.state.isAdmin ? 
                 <Button className='reported' onClick={() => this.showReportedJobs()}>
                         {this.state.reportedButton}
                 </Button>
+                : null
+                }
 
                 <Button className='new-job' onClick={() => this.changeModalPosition()}>
                         Add New Job
@@ -147,7 +168,7 @@ class Tasks extends React.Component {
                     {this.state.showReportedOnly ? this.buildGrid(this.state.reportedJobs) : this.buildGrid(this.state.jobs)}
                 </Grid>
 
-                <Modal isOpen={this.state.modal_is_open} style={{overlay:{zIndex:1000}}} disableAutoFocus={true}>
+                <Modal isOpen={this.state.modal_is_open} style={{overlay:{zIndex:1000}}} ariaHideApp={false} disableAutoFocus={true}>
                      <CreateTask closeModal={this.changeModalPosition} addJob={this.addJob}/>
                 </Modal>
 
