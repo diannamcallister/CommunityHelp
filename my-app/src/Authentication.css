@@ -109,3 +109,10 @@
     width: 165px;
     margin-left: 15px;
 }
+
+#selector-reg {
+    background: salmon;
+    height: 5px;
+    width: 165px;
+    margin-left: 55px;
+}

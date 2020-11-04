@@ -24,6 +24,12 @@ class Login extends React.Component {
     }
 
     switchPage(isLogin) {
+        let bar = document.querySelector('#selector');
+        if (!isLogin) {
+            bar.className = bar.className + 'reg';
+        } else {
+            bar.className = 'selector';
+        }
         const curr = isLogin;
         this.setState({isLogin: curr});
     }
@@ -45,7 +51,6 @@ class Login extends React.Component {
     }
 
     showLogin() {
-
         return (
             <div className="page">
                 <strong className="Login-Label">EMAIL: </strong>
@@ -104,7 +109,7 @@ class Login extends React.Component {
         <div className="Login-Box">
             <Button id="LoginButton" onClick= {() => this.switchPage(true)} primary>LOG IN</Button>
             <Button id= "RegisterButton" onClick= {() => this.switchPage(false)} secondary>REGISTER</Button>
-            {/* <div id="selector"/>  finish later*/}
+            <div id="selector"/>
             {this.state.isLogin ? this.showLogin() : this.showRegister()}
         </div>
         
