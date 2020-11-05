@@ -26,21 +26,21 @@ class Task extends React.Component {
         const {
             task,
             seeReported,
-            isAdmin
+            isAdmin,
+            username,
+            addReportedJob
         } = this.props;
 
         return (
             <div>
-                {this.state.showTaskDetails ? <Redirect push to={{pathname:'/task', state:{task:task, isAdmin:isAdmin}}} /> : null}
+                {this.state.showTaskDetails ? <Redirect push to={{pathname:'/task', state:{task:task, isAdmin:isAdmin, username:username, addReportedJob:addReportedJob}}} /> : null}
                     <Button animated className='button-center' onClick={() => this.openTaskDetails()}>
                         {seeReported ? 
                         <div>
                             <h1 className='reported-text'>REPORTED</h1>
                             <Button className='reported-button' onClick={() => this.props.deleteReported(task)}>X</Button>
                         </div>
-                        :
-                        <Image className='status' src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Ski_trail_rating_symbol-green_circle.svg/768px-Ski_trail_rating_symbol-green_circle.svg.png' />
-                        }
+                        : null }
                         
                         <Image className='image-stuff' src={task.image} />
 

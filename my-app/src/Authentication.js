@@ -29,7 +29,7 @@ class Login extends React.Component {
     }
 
     checkLogin() {
-        if (this.state.username === 'user' && this.state.password === 'password') {
+        if (this.state.username === 'user' && this.state.password === 'user') {
             this.setState({loginWorked: true});
         } else if (this.state.username === "admin" && this.state.password === "admin") {
             this.setState({isAdmin: true, loginWorked: true});
@@ -87,7 +87,7 @@ class Login extends React.Component {
     render() {
         return (
             <div>
-                {this.state.loginWorked ? <Redirect push to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin}}} /> : null}
+                {this.state.loginWorked ? <Redirect push to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin, username:this.state.username}}} /> : null}
                 <div className="block1"/>
                 <div className="block2"/>
         <div className="AboutUs">

@@ -20,7 +20,8 @@ class Tasks extends React.Component {
             description: 'Come help me plant new flowers!',
             price: '$5/hour',
             hours: 3,
-            volunteerNum: 1
+            volunteerNum: 1,
+            username: 'user'
         };
 
         let job2 = {
@@ -29,7 +30,8 @@ class Tasks extends React.Component {
             description: 'I could use help changing my tires.',
             price: '$25/hour',
             hours: 2,
-            volunteerNum: 3
+            volunteerNum: 3,
+            username: 'admin'
         };
 
         let job3 = {
@@ -38,7 +40,8 @@ class Tasks extends React.Component {
             description: 'Come paint my house with me!',
             price: '$15/hour',
             hours: 10,
-            volunteerNum: 2
+            volunteerNum: 2,
+            username: 'admin'
         };
 
         let job4 = {
@@ -47,18 +50,22 @@ class Tasks extends React.Component {
             description: 'Please teach me to send emails.',
             price: '$5/hour',
             hours: 1,
-            volunteerNum: 1
+            volunteerNum: 1,
+            username: 'user'
         };
 
         this.state = {
             modal_is_open: false,
             showReportedOnly: false,
+            showPersonalJobs: false,
+            username: this.props.location.state.username,
             isAdmin: typeof(this.props.location.state) != undefined ? this.props.location.state.isAdmin : false,
             reportedButton: 'See Reported',
+            personalJobsButtonText: 'See Your Postings',
             jobs: [job1, job2, job3, job4],
-            reportedJobs: [job2, job3]
+            reportedJobs: [job2, job3],
+            personalJobs: []
         };
-
         this.changeModalPosition = this.changeModalPosition.bind(this);
         this.addJob = this.addJob.bind(this);
         this.showReportedJobs = this.showReportedJobs.bind(this);
@@ -68,6 +75,32 @@ class Tasks extends React.Component {
     changeModalPosition() {
         let newState = !this.state.modal_is_open;
         this.setState({modal_is_open: newState});
+    }
+
+    seePersonalPostedJobs() {
+
+        // get all jobs for the certain user
+        let personalJobs = []
+        this.state.jobs.forEach(job => {
+            if (job.username === this.state.username) {
+                personalJobs.push(job);
+            }
+        })
+        this.setState({personalJobs: personalJobs});
+
+        let newButtonTitle = this.state.personalJobsButtonText;
+        // update the text of the button
+        if (this.state.personalJobsButtonText === 'See Your Postings') {
+            newButtonTitle = 'See All Postings';
+        } else if (this.state.personalJobsButtonText === 'See All Postings') {
+            newButtonTitle = 'See Your Postings';
+        }
+
+        this.setState({personalJobsButtonText: newButtonTitle});
+
+        // update which job postings are being displayed 
+        let showPersonalJobs = !this.state.showPersonalJobs;
+        this.setState({showPersonalJobs: showPersonalJobs});
     }
 
     addJob(job) {
@@ -80,7 +113,7 @@ class Tasks extends React.Component {
 
     showReportedJobs() {
         // change the label on the button
-        let newButtonTitle = '';
+        let newButtonTitle = this.state.reportedButton;
         if (this.state.reportedButton === 'See Reported') {
             newButtonTitle = 'See All Jobs';
         } else if (this.state.reportedButton === 'See All Jobs') {
@@ -132,6 +165,7 @@ class Tasks extends React.Component {
                             <Grid.Column key={task.image}>
                                 <Task 
                                     task = {task}
+                                    username = {this.state.username}
                                     isAdmin = {this.state.isAdmin}
                                     seeReported = {this.state.showReportedOnly}
                                     deleteReported = {this.deleteReported}
@@ -154,18 +188,22 @@ class Tasks extends React.Component {
                 </header>
 
                 {this.state.isAdmin ? 
-                <Button className='reported' onClick={() => this.showReportedJobs()}>
-                        {this.state.reportedButton}
-                </Button>
-                : null
+                    <Button className='reported' onClick={() => this.showReportedJobs()}>
+                            {this.state.reportedButton}
+                    </Button>
+                    : null
                 }
 
                 <Button className='new-job' onClick={() => this.changeModalPosition()}>
                         Add New Job
                 </Button>
 
+                <Button className='your-jobs' onClick={() => this.seePersonalPostedJobs()}>
+                        {this.state.personalJobsButtonText}
+                </Button>
+
                 <Grid columns='four'>
-                    {this.state.showReportedOnly ? this.buildGrid(this.state.reportedJobs) : this.buildGrid(this.state.jobs)}
+                    {this.state.showReportedOnly ? this.buildGrid(this.state.reportedJobs) : this.state.showPersonalJobs ? this.buildGrid(this.state.personalJobs) : this.buildGrid(this.state.jobs)}
                 </Grid>
 
                 <Modal isOpen={this.state.modal_is_open} style={{overlay:{zIndex:1000}}} ariaHideApp={false} disableAutoFocus={true}>

@@ -12,8 +12,9 @@ class AdminUserPage extends Component {
 
     return (
         <div>
-        <Dashboard>
-        </Dashboard>
+        <Dashboard
+            isAdmin = {typeof(this.props.location.state) != undefined ? this.props.location.state.isAdmin : false}
+        />
         <Header as='h2' icon textAlign='center'>
             <Icon name='users' circular />
             <Header.Content>Users</Header.Content>

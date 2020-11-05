@@ -25,9 +25,9 @@ class TaskDescription extends React.Component {
             task: this.props.location.state.task,
             comments: [comment1, comment2],
             newComment: '',
-            isAdmin: this.props.location.state.isAdmin
+            isAdmin: this.props.location.state.isAdmin,
+            username: this.props.location.state.username
         };
-
         this.addComment = this.addComment.bind(this);
         this.updateComment = this.updateComment.bind(this);
         this.addReportedJob = this.addReportedJob.bind(this);
@@ -69,7 +69,7 @@ class TaskDescription extends React.Component {
                     <h1 className='header-new'>{this.state.task.title}</h1>
                 </header>
 
-                <Link to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin}}}>
+                <Link to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>
                     <Button animated className='all-jobs'>
                         <Button.Content visible>
                             All Jobs
@@ -84,6 +84,9 @@ class TaskDescription extends React.Component {
                     <Grid.Column width={7}>
 
                         <Card className='card'>
+                            { this.state.task.username === this.state.username ?
+                            <Button className='delete-task' onClick={() => this.addReportedJob(this.state.task)}>Delete Job</Button>
+                            : null}
                             <Image className='task-image' src={this.state.task.image} />
                             <h2 className='text-center description'>{this.state.task.description}</h2>
 

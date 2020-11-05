@@ -1,8 +1,7 @@
 ﻿import React from 'react';
 import profile_picture from './usr_profile_pic.jpg';
 import "semantic-ui-css/semantic.min.css";
-import { Icon, Button, Grid, Image, Card, Divider, TextArea } from 'semantic-ui-react';
-import { Link } from "react-router-dom";
+import {Button} from 'semantic-ui-react';
 import './UserProfile.css'
 import './UserEditProfile.css'
 import './UserRatingsProfile.css'
@@ -87,7 +86,9 @@ class UserProfile extends React.Component {
 
         return (
         <div>
-            <Dashboard></Dashboard>
+            <Dashboard 
+                isAdmin = {typeof(this.props.location.state) != undefined ? this.props.location.state.isAdmin : false}
+            />
             <div id="UserContent">
              <div id='ProfilePicture'><img src={profile_picture}></img></div>      
                  

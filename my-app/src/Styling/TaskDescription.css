@@ -88,10 +88,19 @@
 }
 
 .report-task {
-    background-color: #ff4747 !important;
+    background-color: #e70d0d !important;
     width: 100px !important;
     margin-bottom: 0px !important;
     margin-right: 0px !important;
     margin-top: 20px !important;
     margin-left: -20px !important;
+}
+
+.delete-task {
+    background-color: #e70d0d !important;
+    width: 100px !important;
+    margin-bottom: 0px !important;
+    margin-right: -20px !important;
+    margin-top: -10px !important;
+    margin-left: 330px !important;
 }
