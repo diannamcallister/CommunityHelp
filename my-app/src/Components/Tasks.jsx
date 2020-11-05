@@ -3,7 +3,7 @@ import "semantic-ui-css/semantic.min.css";
 import { Grid, Button } from 'semantic-ui-react';
 import Modal from 'react-modal';
 // import { uid } from "react-uid";
-import Dashboard from './Dashboard';
+import Dashboard from './Dashboard/Dashboard.js';
 
 import '../Styling/Tasks.css';
 import Task from './Task.jsx';
