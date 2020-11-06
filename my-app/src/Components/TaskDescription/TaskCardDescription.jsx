@@ -52,7 +52,7 @@ class TaskCardDescription extends React.Component {
                     <p className='text-center'><b className='subtitles'>Hours: </b>{this.state.task.hours}</p>
                     <p className='text-center'><b className='subtitles'>Num Volunteers Needed: </b>{this.state.task.volunteerNum}</p>
                     <p className='text-center'><b className='subtitles'>Price: </b>{this.state.task.price}</p>
-                    <p className='text-center'><b className='subtitles'>Posted By: </b>{this.state.username}</p>
+                    <p className='text-center'><b className='subtitles'>Posted By: </b>{this.state.task.username}</p>
 
                     <div>
                     {this.state.isReported ?

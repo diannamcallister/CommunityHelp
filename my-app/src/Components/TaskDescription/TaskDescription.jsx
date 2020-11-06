@@ -100,6 +100,7 @@ class TaskDescription extends React.Component {
             <div>
                 <Dashboard 
                     isAdmin = {this.state.isAdmin}
+                    username = {this.state.username}
                 />
                 {this.state.editMode ? 
                     <header>

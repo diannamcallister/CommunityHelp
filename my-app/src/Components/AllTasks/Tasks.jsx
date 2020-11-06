@@ -200,6 +200,7 @@ class Tasks extends React.Component {
             <div className='overall-padding'>
                 <Dashboard 
                     isAdmin = {this.state.isAdmin}
+                    username = {this.state.username}
                 />
                 <header>
                     <h1 className='header'>JOB BOARD</h1>

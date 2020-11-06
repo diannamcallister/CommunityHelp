@@ -38,6 +38,7 @@ class UserPage extends Component {
         <div>
         <Dashboard
           isAdmin = {this.props.location.state === undefined ? true : this.props.location.state.isAdmin}
+          username = {this.props.location.state === undefined ? '' : this.props.location.state.username}
         />
         <h1 id='header'> Users </h1>
         <Card.Group className='card_group' itemsPerRow={3} centered>

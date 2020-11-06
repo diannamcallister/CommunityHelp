@@ -90,6 +90,7 @@ class UserProfile extends React.Component {
         <div>
             <Dashboard 
                 isAdmin = {this.props.location.state === undefined ? false : this.props.location.state.isAdmin}
+                username = {this.props.location.state === undefined ? '' : this.props.location.state.username}
             />
             <div id="UserContent">
              <div id='ProfilePicture'><img src={profile_picture}></img></div>      

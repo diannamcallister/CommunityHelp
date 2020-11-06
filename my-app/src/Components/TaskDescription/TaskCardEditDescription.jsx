@@ -35,7 +35,7 @@ class TaskCardEditDescription extends React.Component {
         return (
             <div>
                 <Card className='task-card'>
-                    <p><b className='subtitles'>Title: </b><Input name='title' className='input-image-sizing' focus onChange={this.updateUserEntry} defaultValue={this.props.task.title}/></p>
+                    <p><b className='subtitles'>Title: </b><Input name='title' className='input-title-sizing' focus onChange={this.updateUserEntry} defaultValue={this.props.task.title}/></p>
                     <p><b className='subtitles'>Image: </b><Input name='image' className='input-image-sizing' focus onChange={this.updateUserEntry} defaultValue={this.props.task.image}/></p>
                     <p><b className='subtitles'>Description: </b><TextArea name='description' className='input-description-sizing' onChange={this.updateUserEntry} defaultValue={this.props.task.description}/></p>
                     <p><b className='subtitles'>Hours: </b><Input name='hours' className='input-hours-sizing' focus onChange={this.updateUserEntry} defaultValue={this.props.task.hours}/></p>
