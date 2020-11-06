@@ -7,6 +7,7 @@ import thirdPlaceImage from '../../Images/thirdPlace.png';
 import PinkUserLogo from '../../Images/PinkUserLogo.png';
 import GreenUserLogo from '../../Images/GreenUserLogo.png';
 import OrangeUserLogo from '../../Images/OrangeUserLogo.png';
+import { Link } from "react-router-dom";
 import "./AdminUserPage.css";
 
 class AdminUserPage extends Component {
@@ -45,6 +46,7 @@ class AdminUserPage extends Component {
         })});
 
     }
+
       render() {
         return (
             <div>
@@ -62,7 +64,7 @@ class AdminUserPage extends Component {
                 <Card.Content extra>
                 <Rating defaultRating={5} maxRating={5} disabled  icon='star' id='rating'/> 
                 </Card.Content>
-                <Card.Content extra> <Button basic>Learn More</Button> <Button circular className='remove' id={item.name} onClick={(e) => this.handleCardClick(e)}>x</Button> </Card.Content>
+                <Card.Content extra> <Button basic as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin}}}>Learn More</Button> <Button circular className='remove' id={item.name} onClick={(e) => this.handleCardClick(e)}>x</Button> </Card.Content>
                 </Card>
                 
               )}
@@ -71,12 +73,14 @@ class AdminUserPage extends Component {
     
                 {this.state.allPlayers.map(item =>
                   <List.Item id={item.name} key={item.name}>
-                  <List.Content >
+                  <List.Content>
                     <Button circular className='remove' id={item.name} onClick={(e) => this.handleClick(e)}>x</Button>
-                  </List.Content>
+                  </List.Content >
+                  <List.Content as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin}}}>
                   <Image avatar src={item.image} />
-                  <List.Content >{item.name}</List.Content>
-                  <Rating defaultRating={item.rating} maxRating={5} disabled  icon='star' id='rating' />
+                  </List.Content>
+                  <List.Content as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin}}} >{item.name}</List.Content>
+                  <Rating defaultRating={item.rating} maxRating={5} disabled  icon='star' id='rating' as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin}}} />
                   </List.Item>
     
                 )}
