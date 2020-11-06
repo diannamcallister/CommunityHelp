@@ -3,7 +3,7 @@ import "semantic-ui-css/semantic.min.css";
 import { Icon, Button, Grid, Divider, TextArea } from 'semantic-ui-react';
 import { Link, Redirect } from "react-router-dom";
 
-import './TaskDescription.css'
+import './TaskDescription.css';
 import Dashboard from '../Dashboard/Dashboard';
 import TaskCardDescription from './TaskCardDescription';
 import TaskCardEditDescription from './TaskCardEditDescription';

@@ -3,7 +3,8 @@ import "semantic-ui-css/semantic.min.css";
 import { Button, Image, Card } from 'semantic-ui-react';
 import { Redirect } from "react-router-dom";
 
-import './TaskDescription.css'
+import './TaskDescription.css';
+import '../AllTasks/Tasks.css';
 
 class TaskCardDescription extends React.Component {
 
@@ -41,7 +42,7 @@ class TaskCardDescription extends React.Component {
 
         return (
             <div>
-                <Card className='card'>
+                <Card className='task-card'>
                     {this.state.isDeleted ? 
                     <Redirect push to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin, username:this.state.username, deletedTask:this.state.task}}} /> 
                     : null}

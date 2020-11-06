@@ -2,7 +2,8 @@ import React from 'react';
 import "semantic-ui-css/semantic.min.css";
 import { Button, Card, TextArea, Input } from 'semantic-ui-react';
 
-import './TaskDescription.css'
+import './TaskDescription.css';
+import '../AllTasks/Tasks.css';
 
 class TaskCardEditDescription extends React.Component {
 
@@ -33,7 +34,7 @@ class TaskCardEditDescription extends React.Component {
 
         return (
             <div>
-                <Card className='card'>
+                <Card className='task-card'>
                     <p><b className='subtitles'>Title: </b><Input name='title' className='input-image-sizing' focus onChange={this.updateUserEntry} defaultValue={this.props.task.title}/></p>
                     <p><b className='subtitles'>Image: </b><Input name='image' className='input-image-sizing' focus onChange={this.updateUserEntry} defaultValue={this.props.task.image}/></p>
                     <p><b className='subtitles'>Description: </b><TextArea name='description' className='input-description-sizing' onChange={this.updateUserEntry} defaultValue={this.props.task.description}/></p>

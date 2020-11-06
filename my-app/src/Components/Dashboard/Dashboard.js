@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Menu, Button } from 'semantic-ui-react'
 import { Link } from "react-router-dom";
 
-import "./Dashboard.css"
+import "./Dashboard.css";
 
 class Dashboard extends Component {
 
@@ -13,12 +13,12 @@ class Dashboard extends Component {
         };
     }
 
-  state = {}
+    state = {}
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
-  render() {
-    const { activeItem } = this.state
+    render() {
+        const { activeItem } = this.state
 
     return (
         <Menu id='menu' inverted widths={5}>

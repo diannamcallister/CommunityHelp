@@ -5,7 +5,9 @@ import {Button} from 'semantic-ui-react';
 import './UserProfile.css'
 import './UserEditProfile.css'
 import './UserRatingsProfile.css'
-import Dashboard from '../Dashboard/Dashboard';
+
+import Dashboard from '../Dashboard/Dashboard.js';
+
 class UserProfile extends React.Component {
     constructor(props) {
         super(props);
