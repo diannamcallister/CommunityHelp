@@ -46,7 +46,7 @@ class Dashboard extends Component {
             active={activeItem === 'Profile'}
             onClick={this.handleItemClick}
             />
-            <Menu.Item name='Logout' name='Logout' as={Link} to={{pathname:'/authentication'}}
+            <Menu.Item name='Logout' as={Link} to={{pathname:'/authentication'}}
             active={activeItem === 'Logout'}
             onClick={this.handleItemClick}>
                 <Button primary>

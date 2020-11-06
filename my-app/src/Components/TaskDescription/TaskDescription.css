@@ -29,7 +29,7 @@
 }
 
 .description {
-    color: lightslategrey;
+    color: lightslategrey !important;
 }
 
 .ui.divider {
@@ -156,4 +156,17 @@
 .done-editing {
     background-color: #1E90FF !important;
     color: white !important;
+}
+
+.bottom-spacing {
+    padding-bottom: 10px;
+}
+
+.link-color {
+    color: black;
+}
+
+.link-color:hover {
+    color: blue !important;
+    text-decoration: underline;
 }

@@ -7,6 +7,10 @@ import Dashboard from '../Dashboard/Dashboard';
 import './Tasks.css';
 import Task from './Task.jsx';
 import CreateTask from '../CreateTask/CreateTask.jsx';
+import gardening from '../../Images/gardening.jpg';
+import fixing_tire from '../../Images/fixing_tire.jpg';
+import painting_house from '../../Images/painting_house.png';
+import email from '../../Images/email.png';
 
 class Tasks extends React.Component {
 
@@ -15,7 +19,7 @@ class Tasks extends React.Component {
 
         // FUTURE TODO: all of the hardcoded jobs (job# = {}) will be removed when db is created, as they will be fetched from the db instead.
         let job1 = {
-            image: 'https://static.vecteezy.com/system/resources/previews/000/093/698/non_2x/vector-gardening-icon-set.jpg',
+            image: gardening,
             title: 'Plant New Flowers',
             description: 'Come help me plant new flowers!',
             price: '$5/hour',
@@ -25,7 +29,7 @@ class Tasks extends React.Component {
         };
 
         let job2 = {
-            image: 'https://www.geico.com/living/wp-content/uploads/flat-tire-post.jpg',
+            image: fixing_tire,
             title: 'Change Tires',
             description: 'I could use help changing my tires.',
             price: '$25/hour',
@@ -35,7 +39,7 @@ class Tasks extends React.Component {
         };
 
         let job3 = {
-            image: 'https://stormguardrc.com/wp-content/uploads/2015/04/Factors-to-Consider-When-Painting-Your-House-Featured-Image.png',
+            image: painting_house,
             title: 'Help Paint House',
             description: 'Come paint my house with me!',
             price: '$15/hour',
@@ -45,7 +49,7 @@ class Tasks extends React.Component {
         };
 
         let job4 = {
-            image: 'https://q3p9g6n2.rocketcdn.me/wp-content/ml-loads/2015/12/email_ss_1920.png',
+            image: email,
             title: 'Sending Emails',
             description: 'Please teach me to send emails.',
             price: '$5/hour',

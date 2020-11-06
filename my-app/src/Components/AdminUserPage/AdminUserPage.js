@@ -27,7 +27,9 @@ class AdminUserPage extends Component {
               {id: 6, image: OrangeUserLogo, name: 'Lui', rating: 2},
               {id: 7, image: PinkUserLogo, name: 'Hannah', rating: 1}
             ],
-    
+
+            isAdmin: this.props.location.state === undefined ? true : this.props.location.state.isAdmin,
+            username: this.props.location.state === undefined ? '' : this.props.location.state.username
         }
     
     }
@@ -51,8 +53,8 @@ class AdminUserPage extends Component {
         return (
             <div>
             <Dashboard
-                isAdmin = {this.props.location.state === undefined ? true : this.props.location.state.isAdmin}
-                username = {this.props.location.state === undefined ? '' : this.props.location.state.username}
+                isAdmin = {this.state.isAdmin}
+                username = {this.state.username}
             />
             <h1 id='header'> Users </h1>
             <Card.Group className='card_group' itemsPerRow={3} centered>
@@ -65,7 +67,7 @@ class AdminUserPage extends Component {
                 <Card.Content extra>
                 <Rating defaultRating={5} maxRating={5} disabled  icon='star' id='rating'/> 
                 </Card.Content>
-                <Card.Content extra> <Button basic as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin}}}>Learn More</Button> <Button circular className='remove' id={item.name} onClick={(e) => this.handleCardClick(e)}>x</Button> </Card.Content>
+                <Card.Content extra> <Button basic as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>Learn More</Button> <Button circular className='remove' id={item.name} onClick={(e) => this.handleCardClick(e)}>x</Button> </Card.Content>
                 </Card>
                 
               )}
@@ -81,7 +83,7 @@ class AdminUserPage extends Component {
                   <Image avatar src={item.image} />
                   </List.Content>
                   <List.Content as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin}}} >{item.name}</List.Content>
-                  <Rating defaultRating={item.rating} maxRating={5} disabled  icon='star' id='rating' as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin}}} />
+                  <Rating defaultRating={item.rating} maxRating={5} disabled  icon='star' id='rating' as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}} />
                   </List.Item>
     
                 )}

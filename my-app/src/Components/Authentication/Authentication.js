@@ -1,6 +1,6 @@
 import React from 'react';
 import './Authentication.css';
-import { Button, Input, Icon, Message } from 'semantic-ui-react'
+import { Button, Input, Icon } from 'semantic-ui-react'
 import { Redirect } from "react-router-dom";
 
 // create login and register component, figure out how onclicks will work
@@ -104,11 +104,6 @@ class Login extends React.Component {
         <div className="Login-Box">
             <Button id="LoginButton" onClick= {() => this.switchPage(true)} primary>LOG IN</Button>
             <Button id= "RegisterButton" onClick= {() => this.switchPage(false)} secondary>REGISTER</Button>
-            {/* <Message
-                    error
-                    header="One or more fields were left blank."
-                    content={true}
-            />  */}
             {/* <div id="selector"/>  finish later*/}
             {this.state.isLogin ? this.showLogin() : this.showRegister()}
         </div>

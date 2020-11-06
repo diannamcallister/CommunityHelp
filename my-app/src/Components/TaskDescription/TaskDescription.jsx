@@ -150,7 +150,7 @@ class TaskDescription extends React.Component {
                                 name and comment, their comment won't get the same key - every comment will have a unique ID instead */}
                         <Divider className='divider' />
                         { this.state.comments.map(comment => (
-                            <p key={comment.user + comment.comment}> <b className='subtitles'>{comment.user}: </b>{comment.comment}</p>
+                            <p key={comment.user + comment.comment}> <b className='subtitles'><Link className='link-color' to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>{comment.user}</Link>: </b>{comment.comment}</p>
                         ))
                         }
                         <div className='extra-middle-spacing'></div>

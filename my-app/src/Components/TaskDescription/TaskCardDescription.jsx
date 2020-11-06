@@ -1,7 +1,7 @@
 import React from 'react';
 import "semantic-ui-css/semantic.min.css";
 import { Button, Image, Card } from 'semantic-ui-react';
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import './TaskDescription.css';
 import '../AllTasks/Tasks.css';
@@ -52,7 +52,7 @@ class TaskCardDescription extends React.Component {
                     <p className='text-center'><b className='subtitles'>Hours: </b>{this.state.task.hours}</p>
                     <p className='text-center'><b className='subtitles'>Num Volunteers Needed: </b>{this.state.task.volunteerNum}</p>
                     <p className='text-center'><b className='subtitles'>Price: </b>{this.state.task.price}</p>
-                    <p className='text-center'><b className='subtitles'>Posted By: </b>{this.state.task.username}</p>
+                    <p className='text-center'><b className='subtitles'>Posted By: <Link className='link-color description' to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>{this.state.task.username}</Link></b></p>
 
                     <div>
                     {this.state.isReported ?
