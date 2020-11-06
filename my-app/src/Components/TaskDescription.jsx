@@ -1,16 +1,19 @@
 import React from 'react';
 import "semantic-ui-css/semantic.min.css";
-import { Icon, Button, Grid, Image, Card, Divider, TextArea } from 'semantic-ui-react';
-import { Link } from "react-router-dom";
+import { Icon, Button, Grid, Divider, TextArea } from 'semantic-ui-react';
+import { Link, Redirect } from "react-router-dom";
 
 import '../Styling/TaskDescription.css'
-import Dashboard from './Dashboard';
+import Dashboard from './Dashboard/Dashboard';
+import TaskCardDescription from './TaskCardDescription';
+import TaskCardEditDescription from './TaskCardEditDescription';
 
 class TaskDescription extends React.Component {
 
     constructor(props) {
         super(props);
 
+        // FUTURE TODO: all of the hardcoded comments (comment# = {}) will be removed when db is created, as they will be fetched from the db instead.
         const comment1 = {
             user: 'Dianna McAllister',
             comment: 'I can help!!'
@@ -20,32 +23,43 @@ class TaskDescription extends React.Component {
             user: 'Qasim Ali',
             comment: 'I can help too'
         };
-
+;
         this.state = {
-            task: this.props.location.state.task,
-            comments: [comment1, comment2],
+            task: this.props.location.state === undefined ? <Redirect push to={{pathname:'/alltasks'}} />  : this.props.location.state.task,
+            comments: [comment1, comment2], // FUTURE TODO: this will be initialized as an empty array, and populated from GET call to backend -> db
             newComment: '',
-            isAdmin: this.props.location.state.isAdmin,
-            username: this.props.location.state.username
+            isAdmin: this.props.location.state === undefined ? false : this.props.location.state.isAdmin,
+            username: this.props.location.state === undefined ? '' : this.props.location.state.username,
+            isDeleted: false,
+            isReported: false,
+            editMode: false
         };
         this.addComment = this.addComment.bind(this);
         this.updateComment = this.updateComment.bind(this);
         this.addReportedJob = this.addReportedJob.bind(this);
+        this.deleteJob = this.deleteJob.bind(this);
+        this.changeEditTaskMode = this.changeEditTaskMode.bind(this);
+        this.doneEditingTask = this.doneEditingTask.bind(this);
+    }
+
+    componentDidMount() {
+        //FUTURE TODO: make a GET call to the backend to get all comments associated to the current task
     }
 
     addComment() {
         const newComment = {
-            user: 'Current User',
+            user: this.state.username,
             comment: this.state.newComment
         };
+        //FUTURE TODO: make a POST call to the backend to add a new comment associated with the current task
 
         const allComments = this.state.comments;
         allComments.push(newComment);
-
         this.setState({comments: allComments});
     }
 
     updateComment = event => {
+        // udpate the text in the comment box
         const target = event.target;
         const value = target.value;
         const name = target.name;
@@ -54,7 +68,29 @@ class TaskDescription extends React.Component {
     }
 
     addReportedJob(job) {
-        // here, we will add the job to the list of reported jobs in the database
+        // FUTURE TODO: perform a POST call to add this job to the reported jobs table, or a PATCH call to update this job as reported -
+        //  whichever is used is dependant on how the database is set up
+
+        // change the color of the button to indicate that it has been clicked
+        const isReported = !this.state.isReported;
+        this.setState({isReported: isReported});
+    }
+
+    deleteJob(job) {
+        // FUTURE TODO: perform a DELETE call to delete this job from the database
+        const isDeleted = !this.state.isDeleted;
+        this.setState({isDeleted: isDeleted});
+    }
+
+    changeEditTaskMode() {
+        const editMode = !this.state.editMode;
+        this.setState({editMode: editMode});
+    }
+
+    doneEditingTask(task) {
+        // FUTURE TODO: perform a PUT call to update the information of this job in the db
+        this.setState({task: task});
+        this.changeEditTaskMode();
     }
 
 
@@ -65,9 +101,15 @@ class TaskDescription extends React.Component {
                 <Dashboard 
                     isAdmin = {this.state.isAdmin}
                 />
-                <header>
-                    <h1 className='header-new'>{this.state.task.title}</h1>
-                </header>
+                {this.state.editMode ? 
+                    <header>
+                        <h1 className='header-new'>Editing Task</h1>
+                    </header>
+                    :
+                    <header>
+                        <h1 className='header-new'>{this.state.task.title}</h1>
+                    </header>
+                }
 
                 <Link to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>
                     <Button animated className='all-jobs'>
@@ -83,34 +125,36 @@ class TaskDescription extends React.Component {
                 <Grid columns='two'>
                     <Grid.Column width={7}>
 
-                        <Card className='card'>
-                            { this.state.task.username === this.state.username ?
-                            <Button className='delete-task' onClick={() => this.addReportedJob(this.state.task)}>Delete Job</Button>
-                            : null}
-                            <Image className='task-image' src={this.state.task.image} />
-                            <h2 className='text-center description'>{this.state.task.description}</h2>
-
-                            <p className='text-center'><b className='subtitles'>Hours: </b>{this.state.task.hours}</p>
-                            <p className='text-center'><b className='subtitles'>Num Volunteers Needed: </b>{this.state.task.volunteerNum}</p>
-                            <p className='text-center'><b className='subtitles'>Price: </b>{this.state.task.price}</p>
-
-                            <Button className='report-task' onClick={() => this.addReportedJob(this.state.task)}>Report</Button>
-                        </Card>
-
+                        {this.state.editMode ?                         
+                        <TaskCardEditDescription 
+                            task = {this.state.task}
+                            isAdmin = {this.state.isAdmin}
+                            username = {this.state.username}
+                            doneEditingTask = {this.doneEditingTask}
+                        />
+                        :
+                        <TaskCardDescription 
+                            task = {this.state.task}
+                            isAdmin = {this.state.isAdmin}
+                            username = {this.state.username}
+                            changeEditTaskMode = {this.changeEditTaskMode}
+                        />
+                        }
 
                     </Grid.Column>
 
                     <Grid.Column width={8}>
                         <h1 className='comment-title'>COMMENTS</h1>
+                        {/* FUTURE TODO: this will be updated to use the coimments's IDs so if there are users with the same
+                                name and comment, their comment won't get the same key - every comment will have a unique ID instead */}
                         <Divider className='divider' />
                         { this.state.comments.map(comment => (
                             <p key={comment.user + comment.comment}> <b className='subtitles'>{comment.user}: </b>{comment.comment}</p>
                         ))
-
                         }
-
+                        <div className='extra-middle-spacing'></div>
                         <div className="ui focus input bottom-right">
-                            <TextArea name='newComment' className='input-box' plalceholder='tell us more' onChange={this.updateComment}/>
+                            <TextArea name='newComment' className='input-box' placeholder='Comment' onChange={this.updateComment}/>
                             <Button className='comment' onClick={() => this.addComment()}>Comment</Button>
                         </div>
                     </Grid.Column>

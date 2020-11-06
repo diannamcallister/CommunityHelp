@@ -7,9 +7,9 @@ import './App.css';
 import Tasks from './Components/Tasks.jsx';
 import TaskDescription from './Components/TaskDescription';
 import Login from './Authentication';
-import UserPage from './Components/UserPage.js'
+import UserPage from './Components/UserPage/UserPage.js'
 import UserProfile from './UserProfile.jsx'
-import AdminUserPage from './Components/AdminUserPage.js'
+import AdminUserPage from './Components/AdminUserPage/AdminUserPage.js'
 
 function App() {
   return (

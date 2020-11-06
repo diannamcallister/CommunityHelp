@@ -13,8 +13,9 @@ class UserPage extends Component {
 
     return (
         <div>
-        <Dashboard>
-        </Dashboard>
+        <Dashboard
+          isAdmin = {this.props.location.state === undefined ? true : this.props.location.state.isAdmin}
+        />
         <h1 id='header'> Users </h1>
         <List selection divided id='list'>
             <List.Item >

@@ -94,13 +94,62 @@
     margin-right: 0px !important;
     margin-top: 20px !important;
     margin-left: -20px !important;
+    color: white !important;
+}
+
+.edit-task {
+    background-color: #1E90FF !important;
+    width: 100px !important;
+    margin-top: 0px !important;
+    margin-left: 65px !important;
+    color: white !important;
+}
+
+.clicked-report-task {
+    background-color: grey !important;
+    width: 100px !important;
+    margin-bottom: 0px !important;
+    margin-right: 0px !important;
+    margin-top: 20px !important;
+    margin-left: -20px !important;
 }
 
 .delete-task {
     background-color: #e70d0d !important;
-    width: 100px !important;
+    position: absolute !important;
     margin-bottom: 0px !important;
-    margin-right: -20px !important;
-    margin-top: -10px !important;
-    margin-left: 330px !important;
+    margin-right: -400px !important;
+    margin-top: 20px !important;
+    margin-left: 65px !important;
+    color: white !important;
+}
+
+.extra-middle-spacing {
+    margin-bottom: 100px !important;
+}
+
+.input-description-sizing {
+    width: 100%;
+    height: 100px;
+}
+
+.input-image-sizing {
+    width: 325px;
+}
+
+.input-hours-sizing {
+    width: 335px;
+}
+
+.input-volunteers-sizing {
+    width: 170px;
+}
+
+.input-price-sizing {
+    width: 340px;
+}
+
+.done-editing {
+    background-color: #1E90FF !important;
+    color: white !important;
 }

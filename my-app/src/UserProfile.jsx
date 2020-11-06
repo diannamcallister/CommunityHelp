@@ -5,7 +5,7 @@ import {Button} from 'semantic-ui-react';
 import './UserProfile.css'
 import './UserEditProfile.css'
 import './UserRatingsProfile.css'
-import Dashboard from './Components/Dashboard';
+import Dashboard from './Components/Dashboard/Dashboard';
 class UserProfile extends React.Component {
     constructor(props) {
         super(props);
@@ -87,7 +87,7 @@ class UserProfile extends React.Component {
         return (
         <div>
             <Dashboard 
-                isAdmin = {typeof(this.props.location.state) != undefined ? this.props.location.state.isAdmin : false}
+                isAdmin = {this.props.location.state === undefined ? false : this.props.location.state.isAdmin}
             />
             <div id="UserContent">
              <div id='ProfilePicture'><img src={profile_picture}></img></div>      

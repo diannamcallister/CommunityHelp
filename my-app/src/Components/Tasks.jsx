@@ -2,8 +2,7 @@ import React from 'react';
 import "semantic-ui-css/semantic.min.css";
 import { Grid, Button } from 'semantic-ui-react';
 import Modal from 'react-modal';
-// import { uid } from "react-uid";
-import Dashboard from './Dashboard';
+import Dashboard from './Dashboard/Dashboard';
 
 import '../Styling/Tasks.css';
 import Task from './Task.jsx';
@@ -14,6 +13,7 @@ class Tasks extends React.Component {
     constructor(props) {
         super(props);
 
+        // FUTURE TODO: all of the hardcoded jobs (job# = {}) will be removed when db is created, as they will be fetched from the db instead.
         let job1 = {
             image: 'https://static.vecteezy.com/system/resources/previews/000/093/698/non_2x/vector-gardening-icon-set.jpg',
             title: 'Plant New Flowers',
@@ -58,86 +58,104 @@ class Tasks extends React.Component {
             modal_is_open: false,
             showReportedOnly: false,
             showPersonalJobs: false,
-            username: this.props.location.state.username,
-            isAdmin: typeof(this.props.location.state) != undefined ? this.props.location.state.isAdmin : false,
-            reportedButton: 'See Reported',
+            username: this.props.location.state === undefined ? '' : this.props.location.state.username,
+            isAdmin: this.props.location.state === undefined ? false : this.props.location.state.isAdmin,
+            reportedButtonText: 'See Reported',
             personalJobsButtonText: 'See Your Postings',
-            jobs: [job1, job2, job3, job4],
-            reportedJobs: [job2, job3],
+            jobs: [job1, job2, job3, job4], // FUTURE TODO: this will be initialized as an empty array, and populated from GET call to backend -> db
+            reportedJobs: [job2, job3], // FUTURE TODO: this will be initiaalized as an empty array, and populated from GET call to backend -> db
             personalJobs: []
         };
         this.changeModalPosition = this.changeModalPosition.bind(this);
         this.addJob = this.addJob.bind(this);
         this.showReportedJobs = this.showReportedJobs.bind(this);
-        this.deleteReported = this.deleteReported.bind(this);
+        this.deleteJob = this.deleteJob.bind(this);
+    }
+
+    componentDidMount() {
+        // FUTURE TODOS:
+            // 1. fetch all tasks from db, save them in this.state.jobs so that they are displayed 
+            // 2. fetch all REPORTED tasks from db, save them in this.state.reportedJobs so that they are displayed (if the user is an admin)
+        if (this.props.location.state && this.props.location.state.deletedTask) {
+            this.deleteJob(this.props.location.state.deletedTask)
+        }
     }
 
     changeModalPosition() {
+        // open or close the modal (whichever it currently is not doing)
         let newState = !this.state.modal_is_open;
         this.setState({modal_is_open: newState});
     }
 
     seePersonalPostedJobs() {
+        if (this.state.personalJobs) { // if the user has already looked at their personal jobs, no reason to loop through & filter all jobs again
+            // get all jobs for the certain user
+            //  this can be done this way, or by performing a call to backend where only tasks from a specific user are returned
+            let personalJobs = []
+            this.state.jobs.forEach(job => {
+                if (job.username === this.state.username) {
+                    personalJobs.push(job);
+                }
+            })
+            this.setState({personalJobs: personalJobs});
 
-        // get all jobs for the certain user
-        let personalJobs = []
-        this.state.jobs.forEach(job => {
-            if (job.username === this.state.username) {
-                personalJobs.push(job);
+            // update the text of the button
+            let newButtonTitle = this.state.personalJobsButtonText;
+            if (this.state.personalJobsButtonText === 'See Your Postings') {
+                newButtonTitle = 'See All Postings';
+            } else if (this.state.personalJobsButtonText === 'See All Postings') {
+                newButtonTitle = 'See Your Postings';
             }
-        })
-        this.setState({personalJobs: personalJobs});
+            this.setState({personalJobsButtonText: newButtonTitle});
 
-        let newButtonTitle = this.state.personalJobsButtonText;
-        // update the text of the button
-        if (this.state.personalJobsButtonText === 'See Your Postings') {
-            newButtonTitle = 'See All Postings';
-        } else if (this.state.personalJobsButtonText === 'See All Postings') {
-            newButtonTitle = 'See Your Postings';
+            // update which job postings are being displayed 
+            let showPersonalJobs = !this.state.showPersonalJobs;
+            this.setState({showPersonalJobs: showPersonalJobs});
         }
-
-        this.setState({personalJobsButtonText: newButtonTitle});
-
-        // update which job postings are being displayed 
-        let showPersonalJobs = !this.state.showPersonalJobs;
-        this.setState({showPersonalJobs: showPersonalJobs});
     }
 
     addJob(job) {
+        // FUTURE TODO: add a POST call to the backend to add the new job to the db
         const curJobs = this.state.jobs;
         curJobs.push(job);
         this.setState({jobs: curJobs});
 
+        // hide the modal since the new job has finished being created
         this.changeModalPosition();
     }
 
     showReportedJobs() {
         // change the label on the button
-        let newButtonTitle = this.state.reportedButton;
-        if (this.state.reportedButton === 'See Reported') {
+        let newButtonTitle = this.state.reportedButtonText;
+        if (this.state.reportedButtonText === 'See Reported') {
             newButtonTitle = 'See All Jobs';
-        } else if (this.state.reportedButton === 'See All Jobs') {
+        } else if (this.state.reportedButtonText === 'See All Jobs') {
             newButtonTitle = 'See Reported';
         }
-        
-        this.setState({reportedButton: newButtonTitle});
+        this.setState({reportedButtonText: newButtonTitle});
 
         // only show the reported jobs
         const isReported = !this.state.showReportedOnly;
         this.setState({showReportedOnly: isReported});
     }
 
-    deleteReported(job) {
-        const jobIndex = this.state.jobs.indexOf(job);
-        const reportedIndex = this.state.reportedJobs.indexOf(job);
+    deleteJob(job) {
+        //FUTURE TODOS:
+            // 1. add a DELETE call to the backend to delete the job from the db
+            // 2. compare jobs by IDs instead of titles, since each job will have a unique ID and this will avoid the issue of tasks with
+            //      identical titles being removed
+        const nonDeletedJobs = this.state.jobs.filter(cur_job => cur_job.title !== job.title);
+        this.setState({jobs: nonDeletedJobs});
 
-        const jobs = this.state.jobs;
-        jobs.splice(jobIndex, 1);
-        this.setState({jobs: jobs});
-
-        const reportedJobs = this.state.reportedJobs;
-        reportedJobs.splice(reportedIndex, 1);
-        this.setState({reportedJobs: reportedJobs});
+        //FUTURE TODOS:
+            // 1. add a DELETE call to the backend to delete the job from all the reported jobs in the db
+            // 2. compare jobs by IDs instead of titles, since each job will have a unique ID and this will avoid the issue of tasks with
+            //      identical titles being removed
+        // check to see if the job is in the reported jobs, and if it is, delete it from that list as well
+        const nonDeletedReportedJobs = this.state.reportedJobs.filter(cur_job => cur_job.title !== job.title);
+        if (nonDeletedReportedJobs !== this.state.reportedJobs) {
+            this.setState({reportedJobs: nonDeletedReportedJobs});
+        }
     }
 
     buildGrid = (jobs) => {
@@ -168,7 +186,7 @@ class Tasks extends React.Component {
                                     username = {this.state.username}
                                     isAdmin = {this.state.isAdmin}
                                     seeReported = {this.state.showReportedOnly}
-                                    deleteReported = {this.deleteReported}
+                                    deleteReported = {this.deleteJob}
                                 />
                             </Grid.Column>)}
                     </Grid.Row>
@@ -189,7 +207,7 @@ class Tasks extends React.Component {
 
                 {this.state.isAdmin ? 
                     <Button className='reported' onClick={() => this.showReportedJobs()}>
-                            {this.state.reportedButton}
+                            {this.state.reportedButtonText}
                     </Button>
                     : null
                 }
