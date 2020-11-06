@@ -133,8 +133,12 @@
     height: 100px;
 }
 
+.input-title-sizing {
+    width: 345px;
+}
+
 .input-image-sizing {
-    width: 325px;
+    width: 330px;
 }
 
 .input-hours-sizing {
