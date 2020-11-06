@@ -146,9 +146,11 @@ class TaskDescription extends React.Component {
 
                     <Grid.Column width={8}>
                         <h1 className='comment-title'>COMMENTS</h1>
-                        {/* FUTURE TODO: this will be updated to use the coimments's IDs so if there are users with the same
-                                name and comment, their comment won't get the same key - every comment will have a unique ID instead */}
                         <Divider className='divider' />
+                        {/* FUTURE TODOS: 
+                                1. this will be updated to use the comments's IDs so if there are users with the same
+                                    name and comment, their comment won't get the same key - every comment will have a unique ID instead
+                                2. send the commented user's name to the UserProfile page so that the correct user's information can be displayed */}
                         { this.state.comments.map(comment => (
                             <p key={comment.user + comment.comment}> <b className='subtitles'><Link className='link-color' to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>{comment.user}</Link>: </b>{comment.comment}</p>
                         ))
