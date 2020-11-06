@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import './UserProfile.css'
 import './UserEditProfile.css'
 import './UserRatingsProfile.css'
-import Dashboard from './Components/Dashboard';
+import Dashboard from './Components/Dashboard/Dashboard.js';
 class UserProfile extends React.Component {
     constructor(props) {
         super(props);

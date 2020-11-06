@@ -4,7 +4,7 @@ import { Icon, Button, Grid, Image, Card, Divider, TextArea } from 'semantic-ui-
 import { Link } from "react-router-dom";
 
 import '../Styling/TaskDescription.css'
-import Dashboard from './Dashboard';
+import Dashboard from './Dashboard/Dashboard.js';
 
 class TaskDescription extends React.Component {
 
