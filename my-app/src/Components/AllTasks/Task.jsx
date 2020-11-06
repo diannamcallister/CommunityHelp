@@ -3,7 +3,7 @@ import "semantic-ui-css/semantic.min.css";
 import { Image, Button } from 'semantic-ui-react';
 import { Redirect } from "react-router-dom";
 
-import '../Styling/Tasks.css';
+import './Tasks.css';
 
 class Task extends React.Component {
 

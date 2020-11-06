@@ -3,7 +3,7 @@ import "semantic-ui-css/semantic.min.css";
 import { Button, Image, Card } from 'semantic-ui-react';
 import { Redirect } from "react-router-dom";
 
-import '../Styling/TaskDescription.css'
+import './TaskDescription.css'
 
 class TaskCardDescription extends React.Component {
 

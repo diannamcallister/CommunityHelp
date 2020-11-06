@@ -4,11 +4,11 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
 import './App.css';
 
-import Tasks from './Components/Tasks.jsx';
-import TaskDescription from './Components/TaskDescription';
-import Login from './Authentication';
+import Tasks from './Components/AllTasks/Tasks.jsx';
+import TaskDescription from './Components/TaskDescription/TaskDescription';
+import Login from './Components/Authentication/Authentication';
 import UserPage from './Components/UserPage/UserPage.js'
-import UserProfile from './UserProfile.jsx'
+import UserProfile from './Components/UserProfile/UserProfile.jsx'
 import AdminUserPage from './Components/AdminUserPage/AdminUserPage.js'
 
 function App() {

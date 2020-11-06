@@ -2,11 +2,11 @@ import React from 'react';
 import "semantic-ui-css/semantic.min.css";
 import { Grid, Button } from 'semantic-ui-react';
 import Modal from 'react-modal';
-import Dashboard from './Dashboard/Dashboard';
+import Dashboard from '../Dashboard/Dashboard';
 
-import '../Styling/Tasks.css';
+import './Tasks.css';
 import Task from './Task.jsx';
-import CreateTask from './CreateTask.jsx';
+import CreateTask from '../CreateTask/CreateTask.jsx';
 
 class Tasks extends React.Component {
 

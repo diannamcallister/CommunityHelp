@@ -1,0 +1,155 @@
+.task-image {
+    margin-top: 10px;
+    height: 100px;
+    width: 150px;
+    margin-right: auto;
+    margin-left: auto;
+    vertical-align: middle;
+}
+
+.card {
+    background: lightgrey !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-bottom: auto !important;
+    margin-top: 30px !important;
+    padding-top: 30px !important;
+    padding-bottom: 20px !important;
+    padding-left: 50px !important;
+    padding-right: 50px !important;
+    min-width: 500px !important;
+}
+
+.subtitles {
+    font-size: 20px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.description {
+    color: lightslategrey;
+}
+
+.ui.divider {
+    border-top-width: 5px !important;
+    border-bottom-width: 5px !important;
+}
+
+.all-jobs {
+    margin: auto !important;
+    padding-top: 25px !important;
+    padding-bottom: 25px !important;
+    padding-right: 40px !important;
+    background-color: paleturquoise !important;
+    z-index: 100 !important;
+    margin-bottom: 10px !important;
+    margin-left: 58px !important;
+    background-color: #1E90FF !important;
+    color: white !important;
+}
+
+.comment {
+    padding-top: 25px !important;
+    padding-bottom: 25px !important;
+    padding-right: 20px !important;
+    background-color: paleturquoise !important;
+    z-index: 100 !important;
+    margin-bottom: 10px !important;
+    margin-left: 10px !important;
+    background-color: #32BD32 !important;
+    color: white !important;
+}
+
+.comment:hover {
+    background-color: #31AD32 !important;
+}
+
+.comment-title {
+    color: green;
+}
+
+.header-new {
+    text-align: center;
+    font-size: 55px;
+    color: green;
+}
+
+.bottom-right {
+    position: absolute !important;
+    bottom: 10px !important;
+    right: 10px !important;
+}
+
+.input-box {
+    width: 500px;
+    height: 65px;
+}
+
+.report-task {
+    background-color: #e70d0d !important;
+    width: 100px !important;
+    margin-bottom: 0px !important;
+    margin-right: 0px !important;
+    margin-top: 20px !important;
+    margin-left: -20px !important;
+    color: white !important;
+}
+
+.edit-task {
+    background-color: #1E90FF !important;
+    width: 100px !important;
+    margin-top: 0px !important;
+    margin-left: 65px !important;
+    color: white !important;
+}
+
+.clicked-report-task {
+    background-color: grey !important;
+    width: 100px !important;
+    margin-bottom: 0px !important;
+    margin-right: 0px !important;
+    margin-top: 20px !important;
+    margin-left: -20px !important;
+}
+
+.delete-task {
+    background-color: #e70d0d !important;
+    position: absolute !important;
+    margin-bottom: 0px !important;
+    margin-right: -400px !important;
+    margin-top: 20px !important;
+    margin-left: 65px !important;
+    color: white !important;
+}
+
+.extra-middle-spacing {
+    margin-bottom: 100px !important;
+}
+
+.input-description-sizing {
+    width: 100%;
+    height: 100px;
+}
+
+.input-image-sizing {
+    width: 325px;
+}
+
+.input-hours-sizing {
+    width: 335px;
+}
+
+.input-volunteers-sizing {
+    width: 170px;
+}
+
+.input-price-sizing {
+    width: 340px;
+}
+
+.done-editing {
+    background-color: #1E90FF !important;
+    color: white !important;
+}

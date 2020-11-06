@@ -2,7 +2,7 @@ import React from 'react';
 import "semantic-ui-css/semantic.min.css";
 import { Form, Button, Grid, Message } from 'semantic-ui-react';
 
-import '../Styling/CreateTasks.css';
+import './CreateTasks.css';
 
 class CreateTask extends React.Component {
 
