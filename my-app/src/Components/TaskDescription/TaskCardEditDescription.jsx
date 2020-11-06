@@ -3,7 +3,6 @@ import "semantic-ui-css/semantic.min.css";
 import { Button, Card, TextArea, Input } from 'semantic-ui-react';
 
 import './TaskDescription.css';
-import '../AllTasks/Tasks.css';
 
 class TaskCardEditDescription extends React.Component {
 

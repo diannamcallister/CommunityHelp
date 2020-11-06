@@ -4,7 +4,6 @@ import { Button, Image, Card } from 'semantic-ui-react';
 import { Link, Redirect } from "react-router-dom";
 
 import './TaskDescription.css';
-import '../AllTasks/Tasks.css';
 
 class TaskCardDescription extends React.Component {
 
