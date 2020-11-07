@@ -15,6 +15,19 @@
 * If you click on the "learn more" button on the user cards, you will be taken to that users profile page
 * If you click on the user icon, username or user rating (stars) in the users list, you will also be taken to the users profile page
 
+
+### User Profile Page ###
+<img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/UserProfile/UserProfile.png" width="400" height="250" />
+<img src="https://github.com/csc309-fall-2020/team17/blob/UserProfile/AllTasks/EditProfile.png" width="400" height="250" />
+<img src="https://github.com/csc309-fall-2020/team17/blob/master/UserProfile/UserReviews" width="400" height="250" />
+
+* Access User Profile page by "/UserProfile" or by clicking "learn more" in User page for any given user.
+
+* By clicking on the Edit Profile button, a user has the option to edit their profile to update information about them they would like to disclose
+
+* By clicking on "See Ratings" you can see a history of reviews and ratings of previous jobs a user has completed.
+
+
 ### All Tasks Page ###
 <img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/AllTasks/user_alltasks.png" width="400" height="250" />
 <img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/AllTasks/new_job.png" width="400" height="250" />
@@ -49,3 +62,4 @@
 <img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/AllTasks/admin_view_reported_tasks.png" width="400" height="250" />
 
 * Admins are able to have identical functionality in the "/alltasks" page, with the addition of being able to view and remove reported postings. You are able to view reported postings by clicking on the "See Reported" button on the bottom right of the screen. You are then able to click on the "x" button on the inappropriate task to delete the posting.
+
