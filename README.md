@@ -18,8 +18,8 @@
 
 ### User Profile Page ###
 <img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/UserProfile/UserProfile.png" width="400" height="250" />
-<img src="https://github.com/csc309-fall-2020/team17/blob/UserProfile/AllTasks/EditProfile.png" width="400" height="250" />
-<img src="https://github.com/csc309-fall-2020/team17/blob/master/UserProfile/UserReviews" width="400" height="250" />
+<img src="https://github.com/csc309-fall-2020/team17/blob/UserProfile/EditProfile.png" width="400" height="250" />
+<img src="https://github.com/csc309-fall-2020/team17/blob/master/UserProfile/UserReviews.png" width="400" height="250" />
 
 * Access User Profile page by "/UserProfile" or by clicking "learn more" in User page for any given user.
 
