@@ -18,6 +18,8 @@
 #UserInfo {
      float:left;
      align-items: center; /*horizontal centering*/
+     min-width: 1000px;
+    height: auto;
 }
 #ProfilePicture {
     float:left;
@@ -53,6 +55,7 @@ margin-right: 50px;
     background-color: salmon;
     color: white;
     border-radius: 10px;
+    width: 50%;
 }
 #Save{
     float: left;

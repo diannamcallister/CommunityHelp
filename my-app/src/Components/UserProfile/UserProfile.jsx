@@ -23,13 +23,15 @@ class UserProfile extends React.Component {
     showProfile(){
         return(
         <div id="UserInfo"> 
-        <div class="Heading"> USER PROFILE </div>
-        <div class="UserHeadings"> NAME: <span class="UserHeadingContent">EMILY SMITH</span> </div>
-        <div class="UserHeadings">  LOCATION: <span class="UserHeadingContent">NEW YORK</span></div>
-        <div class="UserHeadings">  WHO ARE YOU: <span class="UserHeadingContent">ARTIST </span></div>
+        <div className="Heading"> USER PROFILE </div>
+        <div className="UserHeadings"> NAME: <span class="UserHeadingContent">EMILY SMITH</span> </div>
+        <div className="UserHeadings">  LOCATION: <span class="UserHeadingContent">NEW YORK</span></div>
+        <div className="UserHeadings">  WHO ARE YOU: <span class="UserHeadingContent">ARTIST </span></div>
         <div id="links">
-        <div id="Edit"><Button id="b1" onClick= {() => this.switchProfile(1)}>Edit Profile</Button></div>
-        <div id="SeeRatings"><Button id="b2" onClick= {() => this.switchProfile(2)}> See Ratings</Button></div>
+        <div id="Edit_b"><Button id="b2" onClick= {() => this.switchProfile(1)}>Edit Profile</Button></div>
+        <div id="SeeRatings"><Button id="b3" onClick= {() => this.switchProfile(2)}> See Ratings</Button></div>
+            
+            
         </div>
     </div>  
         )
@@ -39,16 +41,16 @@ class UserProfile extends React.Component {
         <div id="UserContent">
                   
        <div id="UserInfo"> 
-           <div class="Heading"> USER PROFILE </div>
+           <div className="Heading"> USER PROFILE </div>
            <form>
-               <div class="UserHeadings"> NAME:
-                   <input type='text'class="small_text"></input>
+               <div className="UserHeadings"> NAME:
+                   <input type='text'className="small_text"></input>
                </div>
-               <div class="UserHeadings"> LOCATION:
-                   <input type='text'class="small_text"></input>
+               <div className="UserHeadings"> LOCATION:
+                   <input type='text'className="small_text"></input>
                </div>
-               <div class="UserHeadings"> WHO ARE YOU: 
-                   <input class="small_text" type='text'></input>
+               <div className="UserHeadings"> WHO ARE YOU: 
+                   <input className="small_text" type='text'></input>
                </div>
            </form>
            <div id="links">
@@ -65,11 +67,11 @@ class UserProfile extends React.Component {
             <div id="r_UserContent">
                  
                 <div id="r_UserInfo"> 
-                    <div class="r_Heading">RATINGS</div>
+                    <div className="r_Heading">RATINGS</div>
                     
-                    <div class="r_UserPost"> "Hey! Emily did a great job painting my house! Great kid!" </div>
-                    <div class="r_UserPost"> Jordan rates you &#9733; &#9733; &#9733; &#9733; &#9733; </div>
-                    <div class="r_UserPost">  Mary rates you &#9733; &#9733;&#9733; &#9733;&#9734;</div>
+                    <div className="r_UserPost"> "Hey! Emily did a great job painting my house! Great kid!" </div>
+                    <div className="r_UserPost"> Jordan rates you &#9733; &#9733; &#9733; &#9733; &#9733; </div>
+                    <div className="r_UserPost">  Mary rates you &#9733; &#9733;&#9733; &#9733;&#9734;</div>
                     <div id="r_links">
                     <div id="r_Edit"><Button id="b1" onClick= {() => this.switchProfile(0)} >Back</Button></div>
                     
@@ -84,7 +86,7 @@ class UserProfile extends React.Component {
     }
     render() {
         
-        let {isProfile} = false
+        
 
         return (
         <div>
@@ -93,11 +95,11 @@ class UserProfile extends React.Component {
                 username = {this.props.location.state === undefined ? '' : this.props.location.state.username}
             />
             <div id="UserContent">
-             <div id='ProfilePicture'><img src={profile_picture}></img></div>      
+             <div id='ProfilePicture'><img src={profile_picture} alt='DP'></img></div>      
                  
-             {this.state.UserPage===0 ? this.showProfile(): console.log("notshow")}
-             {this.state.UserPage===1 ? this.showEditProfile(): console.log("notshow")}
-             {this.state.UserPage===2 ? this.showRatings(): console.log("notshow")}         
+             {this.state.UserPage===0 ? this.showProfile(): null}
+             {this.state.UserPage===1 ? this.showEditProfile(): null}
+             {this.state.UserPage===2 ? this.showRatings(): null}         
             </div>
         </div>
             
