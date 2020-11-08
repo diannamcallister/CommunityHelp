@@ -25,15 +25,15 @@ class Login extends React.Component {
     //sets isLogin value to true of Login form should show and false if Register form should be shown.
     switchPage(isLogin) {
         // let bar = document.getElementsByClassName(this.state.barClass);
-        // finish for phase2
+        // finish for phase2*
         //if (!isLogin) {
         //     bar.className = 'selector-reg';
         // } else {
         //     bar.className = 'selector';
         // }
         const curr = isLogin;
-        const name = bar.className;
-        this.setState({isLogin: curr, barClass: name});
+        // const name = bar.className;
+        this.setState({isLogin: curr});
     }
 
     //hardcoded username and password for either admin login or regular login
@@ -114,7 +114,7 @@ class Login extends React.Component {
         <div className="Login-Box">
             <Button id="LoginButton" onClick= {() => this.switchPage(true)} primary>LOG IN</Button>
             <Button id= "RegisterButton" onClick= {() => this.switchPage(false)} secondary>REGISTER</Button>
-            <div className="selector"/>
+            {/* finish for phase 2 <div className="selector"/> */}
             {this.state.isLogin ? this.showLogin() : this.showRegister()}
         </div>
         
