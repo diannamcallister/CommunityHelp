@@ -7,7 +7,7 @@
     vertical-align: middle;
 }
 
-.card {
+.task-card {
     background: lightgrey !important;
     margin-left: auto !important;
     margin-right: auto !important;
@@ -29,7 +29,7 @@
 }
 
 .description {
-    color: lightslategrey;
+    color: lightslategrey !important;
 }
 
 .ui.divider {
@@ -88,10 +88,85 @@
 }
 
 .report-task {
-    background-color: #ff4747 !important;
+    background-color: #e70d0d !important;
     width: 100px !important;
     margin-bottom: 0px !important;
     margin-right: 0px !important;
     margin-top: 20px !important;
     margin-left: -20px !important;
+    color: white !important;
+}
+
+.edit-task {
+    background-color: #1E90FF !important;
+    width: 100px !important;
+    margin-top: 0px !important;
+    margin-left: 65px !important;
+    color: white !important;
+}
+
+.clicked-report-task {
+    background-color: grey !important;
+    width: 100px !important;
+    margin-bottom: 0px !important;
+    margin-right: 0px !important;
+    margin-top: 20px !important;
+    margin-left: -20px !important;
+}
+
+.delete-task {
+    background-color: #e70d0d !important;
+    position: absolute !important;
+    margin-bottom: 0px !important;
+    margin-right: -400px !important;
+    margin-top: 20px !important;
+    margin-left: 65px !important;
+    color: white !important;
+}
+
+.extra-middle-spacing {
+    margin-bottom: 100px !important;
+}
+
+.input-description-sizing {
+    width: 100%;
+    height: 100px;
+}
+
+.input-title-sizing {
+    width: 345px;
+}
+
+.input-image-sizing {
+    width: 330px;
+}
+
+.input-hours-sizing {
+    width: 335px;
+}
+
+.input-volunteers-sizing {
+    width: 170px;
+}
+
+.input-price-sizing {
+    width: 340px;
+}
+
+.done-editing {
+    background-color: #1E90FF !important;
+    color: white !important;
+}
+
+.bottom-spacing {
+    padding-bottom: 10px;
+}
+
+.link-color {
+    color: black;
+}
+
+.link-color:hover {
+    color: blue !important;
+    text-decoration: underline;
 }

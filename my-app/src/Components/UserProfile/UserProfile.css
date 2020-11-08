@@ -4,7 +4,11 @@
 
 }
 .links{
-    float: left;
+    width: 400px;
+    height: 400px;
+    overflow:auto;
+    margin:0 auto;
+    text-align: justify;
 }
 .Heading{
 
@@ -16,11 +20,11 @@
 
 }
 #UserInfo {
-     float:left;
+     
      align-items: center; /*horizontal centering*/
 }
 #ProfilePicture {
-    float:left;
+    
     margin-right: 50px;
     align-items: center; /*horizontal centering*/
 }
@@ -36,7 +40,7 @@
     background-color: seagreen;
     
 }
-#b1{
+#b3{
     background-color: salmon;
     font-size: 25px;
     }
@@ -44,16 +48,14 @@
     background-color: salmon;
     font-size: 25px;
     }   
-#Edit{
-float: left;
-margin-left: 10px;
-position: absolute;
-left: 350px;
+#Edit_b{
+    float: left;
+    margin:15px
 
 }
 
 #SeeRatings{
     float: left;
-    position: absolute;
-    right: 400px;
+    margin:15px
+    
     }

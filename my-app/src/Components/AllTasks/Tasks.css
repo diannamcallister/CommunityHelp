@@ -37,20 +37,9 @@
     margin-bottom: 20px;
 }
 
-.payment {
-    color: green;
-    align-content: left;
-}
-
 .description {
     font-size: 20px;
     padding-left: 0px !important;
-}
-
-.status {
-    height: 40px;
-    width: 40px;
-    float: right;
 }
 
 .new-job {
@@ -74,7 +63,20 @@
     background-color: #32BD32 !important;
     position: fixed !important;
     bottom: 10px !important;
-    right: 200px !important;
+    right: 400px !important;
+    z-index: 100 !important;
+    color: white !important;
+}
+
+.your-jobs {
+    padding-top: 25px !important;
+    padding-bottom: 25px !important;
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+    background-color: #32BD32 !important;
+    position: fixed !important;
+    bottom: 10px !important;
+    right: 190px !important;
     z-index: 100 !important;
     color: white !important;
 }
@@ -87,18 +89,22 @@
     background-color: #31AD32 !important;
 }
 
-  .reported-text {
-      color: red;
-      display: inline-block;
-  }
+.your-jobs:hover {
+    background-color: #31AD32 !important;
+}
 
-  .row-button {
-    flex-direction: 'row' !important;
-  }
+.reported-text {
+    color: red;
+    display: inline-block;
+}
 
-  .reported-button {
-      background-color: #ff4747 !important;
-      position: relative !important;
-      right: -50px;
-      top: -5px;
-  }
+.row-button {
+flex-direction: 'row' !important;
+}
+
+.reported-button {
+    background-color: #ff4747 !important;
+    position: relative !important;
+    right: -50px;
+    top: -5px;
+}

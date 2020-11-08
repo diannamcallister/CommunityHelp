@@ -23,3 +23,10 @@
 .form-padding {
     padding-bottom: 30px !important;
 }
+
+.error-msg {
+    text-align: center;
+}
+.header {
+    padding-bottom: 30px !important;
+}

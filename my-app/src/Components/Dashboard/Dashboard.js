@@ -2,12 +2,15 @@ import React, { Component } from 'react'
 import { Menu, Button } from 'semantic-ui-react'
 import { Link } from "react-router-dom";
 
+import "./Dashboard.css";
+
 class Dashboard extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            isAdmin: this.props.isAdmin
+            isAdmin: this.props.isAdmin,
+            username: this.props.username
         };
     }
 
@@ -19,26 +22,26 @@ class Dashboard extends Component {
         const { activeItem } = this.state
 
     return (
-        <Menu color={"green"} inverted widths={5}>
+        <Menu id='menu' inverted widths={5}>
             {this.state.isAdmin ? 
-                <Menu.Item as={Link} to={{pathname:'/AdminUserPage', state:{isAdmin:this.state.isAdmin}}}
+                <Menu.Item as={Link} to={{pathname:'/AdminUserPage', state:{isAdmin:this.state.isAdmin, username:this.props.username}}}
                 name='Users'
                 active={activeItem === 'Users'}
                 onClick={this.handleItemClick}
                 />
                 : 
-                <Menu.Item as={Link} to={{pathname:'/UserPage', state:{isAdmin:this.state.isAdmin}}}
+                <Menu.Item as={Link} to={{pathname:'/UserPage', state:{isAdmin:this.state.isAdmin, username:this.props.username}}}
                 name='Users'
                 active={activeItem === 'Users'}
                 onClick={this.handleItemClick}
                 />
             }
-            <Menu.Item as={Link} to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin}}}
+            <Menu.Item as={Link} to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin, username:this.props.username}}}
             name='Job Board'
             active={activeItem === 'JobBoard'}
             onClick={this.handleItemClick}
             />
-            <Menu.Item as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin}}}
+            <Menu.Item as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.props.username}}}
             name='Profile'
             active={activeItem === 'Profile'}
             onClick={this.handleItemClick}
