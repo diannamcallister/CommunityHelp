@@ -3,8 +3,6 @@ import './Authentication.css';
 import { Button, Input, Icon } from 'semantic-ui-react'
 import { Redirect } from "react-router-dom";
 
-// create login and register component, figure out how onclicks will work
-
 class Login extends React.Component {
 
     constructor(props) {
@@ -24,22 +22,23 @@ class Login extends React.Component {
         this.checkLogin = this.checkLogin.bind(this);
     }
 
+    //sets isLogin value to true of Login form should show and false if Register form should be shown.
     switchPage(isLogin) {
-        let bar = document.getElementsByClassName(this.state.barClass);
-        if (!isLogin) {
-            bar.className = 'selector-reg';
-        } else {
-            bar.className = 'selector';
-        }
-        console.log(this.state.barClass);
+        // let bar = document.getElementsByClassName(this.state.barClass);
+        // finish for phase2
+        //if (!isLogin) {
+        //     bar.className = 'selector-reg';
+        // } else {
+        //     bar.className = 'selector';
+        // }
         const curr = isLogin;
         const name = bar.className;
         this.setState({isLogin: curr, barClass: name});
-        console.log(this.state.barClass);
     }
 
+    //hardcoded username and password for either admin login or regular login
     checkLogin() {
-        if (this.state.username === 'user' && this.state.password === 'user') {
+        if (this.state.username === 'user' && this.state.password === 'password') {
             this.setState({loginWorked: true});
         } else if (this.state.username === "admin" && this.state.password === "admin") {
             this.setState({isAdmin: true, loginWorked: true});
@@ -54,6 +53,7 @@ class Login extends React.Component {
         this.setState({[name]: value})
     }
 
+    //returns login form
     showLogin() {
         return (
             <div className="page">
@@ -71,6 +71,7 @@ class Login extends React.Component {
         )
     }
 
+    //returns register form (when isLogin is false)
     showRegister() {
         return (
             <div className="page">
@@ -96,7 +97,7 @@ class Login extends React.Component {
     render() {
         return (
             <div>
-                {this.state.loginWorked ? <Redirect push to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin, username:this.state.username}}} /> : null}
+                {this.state.loginWorked ? <Redirect push to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin}}} /> : null}
                 <div className="block1"/>
                 <div className="block2"/>
         <div className="AboutUs">
