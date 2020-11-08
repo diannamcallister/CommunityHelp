@@ -2,8 +2,7 @@
 
 
 ### Login/Signup Page ###
-<img src=https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/Authentication/authentication.png"
-width="400" height="250">
+<img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/Authentication/authentication.png" width="400" height="250">
 
 * Login page shows up at the initial start of the webapp
 * To login as an admin user, under the login form username: admin, password: admin
