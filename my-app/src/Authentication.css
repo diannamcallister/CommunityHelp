@@ -103,16 +103,16 @@
     background-color: seagreen;
 }
 
-#selector {
+.selector {
     background: salmon;
     height: 5px;
     width: 165px;
     margin-left: 15px;
 }
 
-#selector-reg {
+.selector-reg {
     background: salmon;
     height: 5px;
-    width: 165px;
+    width: 16px;
     margin-left: 55px;
 }
