@@ -79,10 +79,10 @@ class AdminUserPage extends Component {
                   <List.Content>
                     <Button circular className='remove' id={item.name} onClick={(e) => this.handleClick(e)}>x</Button>
                   </List.Content >
-                  <List.Content as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin}}}>
+                  <List.Content as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>
                   <Image avatar src={item.image} />
                   </List.Content>
-                  <List.Content as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin}}} >{item.name}</List.Content>
+                  <List.Content as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}} >{item.name}</List.Content>
                   <Rating defaultRating={item.rating} maxRating={5} disabled  icon='star' id='rating' as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}} />
                   </List.Item>
     
