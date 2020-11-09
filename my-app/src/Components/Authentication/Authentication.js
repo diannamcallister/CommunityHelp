@@ -1,7 +1,7 @@
 import React from 'react';
 import './Authentication.css';
 import { Button, Input, Icon } from 'semantic-ui-react'
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 class Login extends React.Component {
 
@@ -83,12 +83,14 @@ class Login extends React.Component {
                 <Input className="RegisterInput" focus placeholder='Password' />
                 <strong className="Login-Label">LOCATION: </strong>
                 <Input className="RegisterInput" focus placeholder='Location' />
-                <Button className="Submit2" animated >
-                    <Button.Content visible>REGISTER</Button.Content>
-                    <Button.Content hidden>
-                     <Icon name='arrow right' />
-                    </Button.Content>
-                </Button>
+                <Link to={{pathname:'/alltasks', state:{isAdmin:false, username:'user'}}}>
+                    <Button className="Submit2" animated >
+                        <Button.Content visible>REGISTER</Button.Content>
+                        <Button.Content hidden>
+                        <Icon name='arrow right' />
+                        </Button.Content>
+                    </Button>
+                </Link>
             </div>
         )
 
