@@ -1,11 +1,11 @@
-#header{
+/* #header{
     text-align: center;
     font-size: 100px;
     border-bottom: 20px solid salmon;
     padding-bottom: 10px;
     color: seagreen;
     font-weight: bold;
-}
+} */
 
 #list {
     align-items: center !important;
@@ -34,9 +34,9 @@
     min-width: 0px !important;
 }
 
-.header {
+/* .header {
     padding-bottom: 5px;
-}
+} */
 
 .ui.cards>.card>.content>.header:not(.ui) {
     line-height: 2px;
