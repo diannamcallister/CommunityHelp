@@ -1,6 +1,5 @@
 /* Student mongoose model */
 const mongoose = require('mongoose')
-const UserSchema  = require("./user").schema;
 
 const CommentSchema = new mongoose.Schema({
     commenter: {

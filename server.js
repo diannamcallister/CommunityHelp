@@ -128,7 +128,11 @@ app.post('/api/users', mongoChecker, async (req, res) => {
     // Create a new user
     const user = new User({
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        location: req.body.location,
+        isAdmin: req.body.isAdmin
     })
 
     try {
