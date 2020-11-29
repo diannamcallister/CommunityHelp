@@ -26,11 +26,17 @@ class Login extends React.Component {
     switchPage(isLogin) {
         // let bar = document.getElementsByClassName(this.state.barClass);
         // finish for phase2*
-        //if (!isLogin) {
-        //     bar.className = 'selector-reg';
-        // } else {
-        //     bar.className = 'selector';
-        // }
+        if (!isLogin) {
+            const login = document.querySelector('#RegisterButton');
+            login.style.color = 'salmon';
+            const reg = document.querySelector('#LoginButton');
+            reg.style.color = 'green';
+        } else {
+            const reg = document.querySelector('#LoginButton');
+            reg.style.color = 'salmon';
+            const login = document.querySelector('#RegisterButton');
+            login.style.color = 'green';
+        }
         const curr = isLogin;
         // const name = bar.className;
         this.setState({isLogin: curr});
@@ -58,9 +64,9 @@ class Login extends React.Component {
         return (
             <div className="page">
                 <strong className="Login-Label">EMAIL: </strong>
-                <Input className="LoginInput" focus placeholder='Email' name='username' onChange={this.updateUserEntry} />
+                <input className="LoginInput" placeholder='Email' name='username' onChange={this.updateUserEntry} />
                 <strong className="Login-Label">PASSWORD: </strong>
-                <Input className="LoginInput" focus placeholder='Password' name='password' onChange={this.updateUserEntry} />
+                <input className="LoginInput" type = 'password' placeholder='Password' name='password' onChange={this.updateUserEntry} />
                 <Button className="Submit1" animated onClick={this.checkLogin}>
                     <Button.Content visible>LOGIN</Button.Content>
                     <Button.Content hidden>
@@ -97,6 +103,11 @@ class Login extends React.Component {
     render() {
         return (
             <div>
+                {/* <div class = "loader-wrapper">
+                    <span class = "loader">
+                        <span class = "loader-inner"></span>
+                    </span>
+                </div> */}
                 {this.state.loginWorked ? <Redirect push to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin, username:this.state.username}}} /> : null}
                 <div className="block1"/>
                 <div className="block2"/>

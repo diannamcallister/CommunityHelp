@@ -75,9 +75,12 @@
 }
 
 .LoginInput{
-    margin-left: 30px;
+    right: 10px;
     margin-top: 50px;
     width: 250px;
+    height: 50px;
+    float: right;
+    clear: both;
 }
 
 .RegisterInput{
@@ -117,4 +120,9 @@ finish for phase2
     height: 5px;
     width: 16px;
     margin-left: 55px;
+} */
+
+/* .form-input {
+    width: 200px;
+    height: 50px;
 } */
