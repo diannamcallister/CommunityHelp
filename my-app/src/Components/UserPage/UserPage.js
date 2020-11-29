@@ -28,7 +28,8 @@ class UserPage extends Component {
           {id: 6, image: OrangeUserLogo, name: 'Lui', rating: 2},
           {id: 7, image: PinkUserLogo, name: 'Hannah', rating: 1}
         ],
-
+        username: this.props.location.state === undefined ? '' : this.props.location.state.username,
+        isAdmin: this.props.location.state === undefined ? '' : this.props.location.state.admin
     }
 
   }
@@ -51,7 +52,7 @@ class UserPage extends Component {
             <Card.Content extra>
             <Rating defaultRating={5} maxRating={5} disabled  icon='star' id='rating'/> 
             </Card.Content>
-            <Card.Content extra> <Button basic  as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin}}} >Learn More</Button> </Card.Content>
+            <Card.Content extra> <Button basic  as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}} >Learn More</Button> </Card.Content>
             </Card>
           )}
         </Card.Group>
@@ -59,11 +60,11 @@ class UserPage extends Component {
 
             {this.state.allPlayers.map(item =>
               <List.Item key={item.name} >
-              <List.Content as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin}}}>
+              <List.Content as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>
               <Image avatar src={item.image} />
               </List.Content>
-              <List.Content as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin}}}>{item.id}{'.'} {item.name}</List.Content>
-              <Rating defaultRating={item.rating} maxRating={5} disabled  icon='star' id='rating' as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin}}}/>
+              <List.Content as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>{item.id}{'.'} {item.name}</List.Content>
+              <Rating defaultRating={item.rating} maxRating={5} disabled  icon='star' id='rating' as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}/>
               </List.Item>
 
             )}
