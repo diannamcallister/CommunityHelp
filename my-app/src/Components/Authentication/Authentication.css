@@ -77,10 +77,10 @@
 .LoginInput{
     right: 10px;
     margin-top: 50px;
-    width: 250px;
-    height: 50px;
-    float: right;
-    clear: both;
+    width: 250px; 
+    height: 40px;
+    /* float: right;
+    clear: both; */
 }
 
 .RegisterInput{
