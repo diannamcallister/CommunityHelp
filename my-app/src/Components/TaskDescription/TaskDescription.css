@@ -12,7 +12,7 @@
     margin-left: auto !important;
     margin-right: auto !important;
     margin-bottom: auto !important;
-    margin-top: 30px !important;
+    margin-top: 10px !important;
     padding-top: 30px !important;
     padding-bottom: 20px !important;
     padding-left: 50px !important;
@@ -38,36 +38,38 @@
 }
 
 .all-jobs {
-    margin: auto !important;
+    /* margin: auto !important; */
     padding-top: 25px !important;
     padding-bottom: 25px !important;
     padding-right: 40px !important;
-    background-color: paleturquoise !important;
+    /* background-color: paleturquoise !important; */
     z-index: 100 !important;
     margin-bottom: 10px !important;
+    margin-top: 10px !important;
     margin-left: 58px !important;
-    background-color: #1E90FF !important;
-    color: white !important;
+    /* background-color: #1E90FF !important; */
+    /* color: white !important; */
+    background-color: salmon !important;
 }
 
 .comment {
     padding-top: 25px !important;
     padding-bottom: 25px !important;
     padding-right: 20px !important;
-    background-color: paleturquoise !important;
     z-index: 100 !important;
     margin-bottom: 10px !important;
     margin-left: 10px !important;
-    background-color: #32BD32 !important;
-    color: white !important;
+    /* background-color: #32BD32 !important; */
+    background-color: salmon !important;
+    /* color: white !important; */
 }
 
-.comment:hover {
+/* .comment:hover {
     background-color: #31AD32 !important;
-}
+} */
 
 .comment-title {
-    color: green;
+    color: #32BD32 !important;
 }
 
 .header-new {
@@ -85,6 +87,7 @@
 .input-box {
     width: 500px;
     height: 65px;
+    resize: none;
 }
 
 .report-task {
@@ -98,11 +101,12 @@
 }
 
 .edit-task {
-    background-color: #1E90FF !important;
+    /* background-color: #1E90FF !important; */
+    background-color: salmon !important;
     width: 100px !important;
     margin-top: 0px !important;
     margin-left: 65px !important;
-    color: white !important;
+    /* color: white !important; */
 }
 
 .clicked-report-task {
@@ -131,6 +135,7 @@
 .input-description-sizing {
     width: 100%;
     height: 100px;
+    resize: none;
 }
 
 .input-title-sizing {
@@ -154,8 +159,9 @@
 }
 
 .done-editing {
-    background-color: #1E90FF !important;
-    color: white !important;
+    background-color: salmon !important;
+    /* background-color: #1E90FF !important;
+    color: white !important; */
 }
 
 .bottom-spacing {

@@ -1,15 +1,15 @@
 .add-job {
     align-items: center !important;
-    padding: 30px !important;
+    padding: 27px !important;
     left: 50% !important;
     margin: auto !important;
-    background-color: #32BD32 !important;
-    color: white !important;
+    background-color: salmon !important;
+    /* color: white !important; */
 }
 
-.add-job:hover {
+/* .add-job:hover {
     background-color: #31AD32 !important;
-}
+} */
 
 .exit-button {
     background-color: #32BD32 !important;
@@ -22,6 +22,7 @@
 
 .form-padding {
     padding-bottom: 30px !important;
+    padding-top: 30px !important;
 }
 
 .error-msg {

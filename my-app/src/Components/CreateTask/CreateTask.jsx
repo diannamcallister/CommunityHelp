@@ -38,6 +38,9 @@ class CreateTask extends React.Component {
         if (this.state.formError) {
             const formError = !this.state.formError;
             this.setState({formError: formError});
+
+            const errorMsg = "You must fill out all the fields.";
+            this.setState({errorMsg: errorMsg});
         }
         if (name === 'title' && this.state.missingTitle) {
             this.setState({missingTitle: false});
@@ -63,7 +66,36 @@ class CreateTask extends React.Component {
     }
 
     addJob = () => {
-        if (this.state.title && this.state.description && this.state.price && this.state.hours && this.state.volunteerNum && this.state.image) {
+        if (this.state.price !== undefined && (isNaN(this.state.price) || !Number.isInteger(parseFloat(this.state.price)))) {
+            const errorMsg = "Price must be an integer value.";
+
+            const formError = !this.state.formError;
+            this.setState({formError: formError});
+
+            this.setState({errorMsg: errorMsg});
+            this.setState({missingPrice: true});
+            return;
+        }
+        if (this.state.hours !== undefined && (isNaN(this.state.hours) || !Number.isInteger(parseFloat(this.state.hours)))) {
+            const errorMsg = "Hours must be an integer value.";
+
+            const formError = !this.state.formError;
+            this.setState({formError: formError});
+
+            this.setState({errorMsg: errorMsg});
+            this.setState({missingHours: true});
+            return;
+        }
+        if (this.state.volunteerNum !== undefined && (isNaN(this.state.volunteerNum) || !Number.isInteger(parseFloat(this.state.volunteerNum)))) {
+            const errorMsg = "Number of Volunteers must be an integer value.";
+
+            const formError = !this.state.formError;
+            this.setState({formError: formError});
+
+            this.setState({errorMsg: errorMsg});
+            this.setState({missingVolunteers: true});
+            return;
+        } else if (this.state.title && this.state.description && this.state.price && this.state.hours && this.state.volunteerNum && this.state.image) {
             const newJob = {
                 title: this.state.title,
                 description: this.state.description,
@@ -101,12 +133,12 @@ class CreateTask extends React.Component {
     render() {
         return (
             <div>
-                <Button className='exit-button' onClick={this.props.closeModal}>
+                <Button id='buttons' onClick={this.props.closeModal}>
                     <Button.Content visible> X</Button.Content>
                 </Button>
 
                 <header>
-                    <h1 className='header'>ADD JOB</h1>
+                    <h1 className='Header'>ADD JOB</h1>
                 </header>
 
                 <Form className='form-padding' error={this.state.formError}>
@@ -114,7 +146,7 @@ class CreateTask extends React.Component {
                 <Message
                     error
                     className='error-msg'
-                    header="One or more fields were left blank."
+                    header="One or more fields had errors."
                     content={this.state.errorMsg}
                 /> 
                 : null}
