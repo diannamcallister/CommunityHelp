@@ -195,22 +195,187 @@ app.get('/UserProfile/:profile_id', async (req, res) => {
 
 })
 
-// /*** Webpage routes below **********************************/
-// // Serve the build
-// app.use(express.static(path.join(__dirname, "/client/build")));
+// a POST route to create a task
+app.post('/api/tasks', async (req, res) => {
 
-// // All routes other than above will go to index.html
-// app.get("*", (req, res) => {
-//     // check for page routes that we expect in the frontend to provide correct status code.
-//     const goodPageRoutes = ["/", "/login", "/dashboard"]; //TODO change "good" routes
-//     if (!goodPageRoutes.includes(req.url)) {
-//         // if url not in expected page routes, set status to 404.
-//         res.status(404);
-//     }
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}  
 
-//     // send index.html
-//     res.sendFile(path.join(__dirname, "/client/build/index.html")); //TODO add index.html to client
-// });
+	// Create a new task using the Task mongoose model
+	const task = new Task({
+		owner: req.body.owner,
+        location: req.body.location,
+        title: req.body.title,
+        description: req.body.description,
+        numVolunteers: req.body.numVolunteers,
+        numHours: req.body.numHours,
+        price: req.body.price,
+        isReported: false,
+        comments: []
+	})
+
+
+	// Save task to the database
+	// async-await version:
+	try {
+		const result = await task.save()	
+		res.send(result)
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+})
+
+//get all tasks from a specific location
+app.get('/api/tasks/:location', async (req, res) => {
+
+    const location = req.params.location;
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	} 
+
+	// Get the tasks
+	try {
+		const tasks = await Task.find({location: location});
+		res.send(tasks) // can wrap students in object if want to add more properties
+	} catch(error) {
+		log(error)
+		res.status(500).send("Internal Server Error")
+	}
+})
+// example of what should be sent from UI: [{ "op": "replace", "path": "/nameOfFieldToChange", "value": }]
+app.patch('/api/tasks/:id', async (req, res) => {
+	const id = req.params.id
+
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send()
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+    }
+
+    // Find the fields to update and their values.
+	const fieldsToUpdate = {}
+	req.body.map((change) => {
+		const propertyToChange = change.path.substr(1) // getting rid of the '/' character
+		fieldsToUpdate[propertyToChange] = change.value
+	})
+	// const fieldsToUpdate = {isReported: req.body.isReported};
+
+	// Update the student by their id.
+	try {
+		const task = await Task.findOneAndUpdate({_id: id}, {$set: fieldsToUpdate}, {new: true, useFindAndModify: false})
+		if (!task) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(task)
+		}
+	} catch (error) {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
+
+app.put('/api/tasks/:id', async (req, res) => {
+	const id = req.params.id
+
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Resource not found')
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	} 
+
+	// Replace the student by their id using req.body
+	try {
+		const task = await Task.findOneAndReplace({_id: id}, req.body, {new: true, useFindAndModify: false})
+		if (!task) {
+			res.status(404).send()
+		} else {   
+			res.send(task)
+		}
+	} catch (error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
+
+/// a DELETE route to remove a student by their id.
+app.delete('/api/tasks/:id', async (req, res) => {
+	const id = req.params.id
+
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Resource not found')
+		return;
+	}
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	} 
+
+	// Delete a student by their id
+	try {
+		const task = await Task.findByIdAndRemove(id)
+		if (!task) {
+			res.status(404).send()
+		} else {   
+			res.send(task)
+		}
+	} catch(error) {
+		log(error)
+		res.status(500).send() // server error, could not delete.
+	}
+})
+
+/*** Webpage routes below **********************************/
+// Serve the build
+app.use(express.static(path.join(__dirname, "/my-app/build")));
+
+// All routes other than above will go to index.html
+app.get("*", (req, res) => {
+    // check for page routes that we expect in the frontend to provide correct status code.
+    // const goodPageRoutes = ["/", "/login", "/dashboard"]; //TODO change "good" routes
+    // if (!goodPageRoutes.includes(req.url)) {
+    //     // if url not in expected page routes, set status to 404.
+    //     res.status(404);
+    // }
+
+    // send index.html
+    res.sendFile(path.join(__dirname, "/my-app/build/index.html")); //TODO add index.html to client
+});
 
 /*************************************************/
 // Express server listening...
