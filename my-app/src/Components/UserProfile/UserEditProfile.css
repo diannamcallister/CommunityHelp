@@ -26,7 +26,21 @@
     margin-right: 50px;
     align-items: center; /*horizontal centering*/
 }
-.UserHeadings {
+.UserHeadings_name {
+    font-size: 50px;
+    margin: 100px 100px 35px 120px;
+    color:  #32BD32;
+    text-align: center;
+    
+}
+.UserHeadings_location {
+    font-size: 50px;
+    margin: 100px 100px 35px 60px;
+    color:  #32BD32;
+    text-align: center;
+    
+}
+.UserHeadings_who {
     font-size: 50px;
     margin: 100px 100px 35px 0px;
     color:  #32BD32;

@@ -8,7 +8,7 @@
     height: 400px;
     overflow:auto;
     margin:0 auto;
-    text-align: justify;
+    text-align: center;
 }
 .Heading{
 
@@ -17,7 +17,6 @@
     padding-bottom: 20px;
     color: #32BD32;
     font-weight: bold;
-    text-align: center;
 
 }
 #UserInfo {
@@ -33,6 +32,7 @@
     font-size: 50px;
     margin: 100px 100px 35px 0px;
     color:  #32BD32;
+    text-align: center;
     
 }
 .UserHeadingContent {
@@ -51,7 +51,8 @@
     }   
 #Edit_b{
     float: left;
-    margin:15px
+    margin:15px;
+    margin-left:25%
 
 }
 
