@@ -43,13 +43,13 @@ class UserProfile extends React.Component {
        <div id="UserInfo"> 
            <div className="Heading"> USER PROFILE </div>
            <form>
-               <div className="UserHeadings"> NAME:
+               <div className="UserHeadings_name"> NAME:
                    <input type='text'className="small_text"></input>
                </div>
-               <div className="UserHeadings"> LOCATION:
+               <div className="UserHeadings_location"> LOCATION:
                    <input type='text'className="small_text"></input>
                </div>
-               <div className="UserHeadings"> WHO ARE YOU: 
+               <div className="UserHeadings_who"> WHO ARE YOU: 
                    <input className="small_text" type='text'></input>
                </div>
            </form>
