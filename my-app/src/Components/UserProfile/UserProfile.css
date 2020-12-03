@@ -13,10 +13,11 @@
 .Heading{
 
     font-size: 100px;
-    border-bottom: 30px solid salmon;
-    padding-bottom: 100px;
-    color: seagreen;
+    border-bottom: 25px solid salmon;
+    padding-bottom: 20px;
+    color: #32BD32;
     font-weight: bold;
+    text-align: center;
 
 }
 #UserInfo {
@@ -31,13 +32,13 @@
 .UserHeadings {
     font-size: 50px;
     margin: 100px 100px 35px 0px;
-    color: seagreen;
+    color:  #32BD32;
     
 }
 .UserHeadingContent {
     font-size: 50px;
     color: white;
-    background-color: seagreen;
+    background-color:  #32BD32;
     
 }
 #b3{
