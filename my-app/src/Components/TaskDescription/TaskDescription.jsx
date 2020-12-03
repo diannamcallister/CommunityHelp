@@ -7,6 +7,7 @@ import './TaskDescription.css';
 import Dashboard from '../Dashboard/Dashboard';
 import TaskCardDescription from './TaskCardDescription';
 import TaskCardEditDescription from './TaskCardEditDescription';
+import '../../basics-stylesheet.css';
 
 class TaskDescription extends React.Component {
 
@@ -104,11 +105,11 @@ class TaskDescription extends React.Component {
                 />
                 {this.state.editMode ? 
                     <header>
-                        <h1 className='header-new'>Editing Task</h1>
+                        <h1 className='Header'>Editing Task</h1>
                     </header>
                     :
                     <header>
-                        <h1 className='header-new'>{this.state.task.title}</h1>
+                        <h1 className='Header'>{this.state.task.title}</h1>
                     </header>
                 }
 

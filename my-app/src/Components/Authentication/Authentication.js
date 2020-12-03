@@ -102,6 +102,10 @@ class Login extends React.Component {
 
     }
 
+    componentDidMount() {
+        this.switchPage(true);
+    }
+
     render() {
         return (
             <div>

@@ -207,7 +207,7 @@ class Tasks extends React.Component {
                     username = {this.state.username}
                 />
                 <header>
-                    <h1 className='header'>JOB BOARD</h1>
+                    <h1 className='Header'>JOB BOARD</h1>
                 </header>
 
                 {this.state.isAdmin ? 

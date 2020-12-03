@@ -47,12 +47,13 @@
     padding-bottom: 25px !important;
     padding-left: 40px !important;
     padding-right: 40px !important;
-    background-color: #32BD32 !important;
+    /* background-color: #32BD32 !important; */
+    background-color: salmon !important;
     position: fixed !important;
     bottom: 10px !important;
     right: 10px !important;
     z-index: 100 !important;
-    color: white !important;
+    /* color: white !important; */
 }
 
 .reported {
@@ -60,12 +61,13 @@
     padding-bottom: 25px !important;
     padding-left: 40px !important;
     padding-right: 40px !important;
-    background-color: #32BD32 !important;
+    /* background-color: #32BD32 !important; */
+    background-color: salmon !important;
     position: fixed !important;
     bottom: 10px !important;
     right: 400px !important;
     z-index: 100 !important;
-    color: white !important;
+    /* color: white !important; */
 }
 
 .your-jobs {
@@ -73,15 +75,16 @@
     padding-bottom: 25px !important;
     padding-left: 40px !important;
     padding-right: 40px !important;
-    background-color: #32BD32 !important;
+    /* background-color: #32BD32 !important; */
+    background-color: salmon !important;
     position: fixed !important;
     bottom: 10px !important;
     right: 190px !important;
     z-index: 100 !important;
-    color: white !important;
+    /* color: white !important; */
 }
 
-.reported:hover {
+/* .reported:hover {
     background-color: #31AD32 !important;
 }
 
@@ -91,7 +94,7 @@
 
 .your-jobs:hover {
     background-color: #31AD32 !important;
-}
+} */
 
 .reported-text {
     color: red;
