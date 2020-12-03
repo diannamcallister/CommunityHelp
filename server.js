@@ -63,7 +63,7 @@ const authenticate = (req, res, next) => {
 
 
 /*** Session handling **************************************/
-// Create a session and session cookie
+//Create a session and session cookie
 app.use(
     session({
         secret: "our hardcoded secret",
@@ -135,6 +135,8 @@ app.post('/api/users', mongoChecker, async (req, res) => {
         isAdmin: req.body.isAdmin
     })
 
+    console.log(user.email)
+
     try {
         // Save the user
         const newUser = await user.save()
@@ -177,20 +179,21 @@ app.post('/api/users', mongoChecker, async (req, res) => {
 //     }
 // })
 
-// // a GET route to get all students
-// app.get('/api/students', mongoChecker, authenticate, async (req, res) => {
+// a GET route to get a User
+app.get('/UserProfile/:profile_id', async (req, res) => {
 
-//     // Get the students
-//     try {
-//         const students = await Student.find({creator: req.user._id})
-//         // res.send(students) // just the array
-//         res.send({ students }) // can wrap students in object if want to add more properties
-//     } catch(error) {
-//         log(error)
-//         res.status(500).send("Internal Server Error")
-//     }
+    // Get the User
+    try {
+        console.log(req.params.profile_id)
+        const U = await User.find({email: req.params.profile_id})
+        // res.send(students) // just the array
+        res.send(U) // can wrap students in object if want to add more properties
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
 
-// })
+})
 
 // /*** Webpage routes below **********************************/
 // // Serve the build
