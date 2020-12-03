@@ -1,0 +1,25 @@
+.Header{
+
+    font-size: 100px;
+    border-bottom: 25px solid salmon;
+    padding-bottom: 20px;
+    color: #32BD32;
+    font-weight: bold;
+    text-align: center;
+
+}
+
+#buttons{
+    background-color: salmon !important;
+    font-size: 15px;
+}
+
+#textinputs {
+    background-color: salmon;
+}
+
+#subtitles {
+    color: #32BD32;
+    padding: 25px;
+    font-size: 45px;
+}
