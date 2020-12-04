@@ -1,6 +1,7 @@
 import React from 'react';
 import "semantic-ui-css/semantic.min.css";
 import { Form, Button, Grid, Message } from 'semantic-ui-react';
+import { postTask } from '../../actions/tasks.js';
 
 import './CreateTasks.css';
 
@@ -11,6 +12,7 @@ class CreateTask extends React.Component {
         super(props);
         this.updateField = this.updateField.bind(this);
         this.addJob = this.addJob.bind(this);
+        this.postTask = postTask.bind(this);
         this.state = {
             title: undefined,
             description: undefined,
@@ -65,7 +67,7 @@ class CreateTask extends React.Component {
         this.setState({[name]: value});
     }
 
-    addJob = () => {
+    async addJob() {
         if (this.state.price !== undefined && (isNaN(this.state.price) || !Number.isInteger(parseFloat(this.state.price)))) {
             const errorMsg = "Price must be an integer value.";
 
@@ -99,12 +101,14 @@ class CreateTask extends React.Component {
             const newJob = {
                 title: this.state.title,
                 description: this.state.description,
-                image: this.state.image,
-                hours: this.state.hours,
-                volunteerNum: this.state.volunteerNum,
-                price: this.state.price
+                // image: this.state.image,
+                numHours: this.state.hours,
+                numVolunteers: this.state.volunteerNum,
+                price: this.state.price,
+                location: "toronto"
             }
             //FUTURE TODO: add a POST call to add the new job to the db
+            await this.postTask(newJob);
             this.props.addJob(newJob);
         } else {
             const formError = !this.state.formError;

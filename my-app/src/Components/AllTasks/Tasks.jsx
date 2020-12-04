@@ -4,6 +4,8 @@ import { Grid, Button } from 'semantic-ui-react';
 import Modal from 'react-modal';
 import Dashboard from '../Dashboard/Dashboard';
 
+import { getAllTasks } from '../../actions/tasks.js';
+
 import './Tasks.css';
 import Task from './Task.jsx';
 import CreateTask from '../CreateTask/CreateTask.jsx';
@@ -74,12 +76,17 @@ class Tasks extends React.Component {
         this.addJob = this.addJob.bind(this);
         this.showReportedJobs = this.showReportedJobs.bind(this);
         this.deleteJob = this.deleteJob.bind(this);
+        this.getAllTasks = getAllTasks.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         // FUTURE TODOS:
             // 1. fetch all tasks from db, save them in this.state.jobs so that they are displayed 
             // 2. fetch all REPORTED tasks from db, save them in this.state.reportedJobs so that they are displayed (if the user is an admin)
+        let jobs = await this.getAllTasks("toronto"); //TODO: don't hardcode TO
+        let reportedJobs = jobs.filter((job) => job.isReported === true);
+        this.setState({jobs: jobs});
+        this.setState({reportedJobs: reportedJobs});
         if (this.props.location.state && this.props.location.state.deletedTask) {
             this.deleteJob(this.props.location.state.deletedTask)
         }

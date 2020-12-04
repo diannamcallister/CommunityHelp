@@ -6,6 +6,8 @@ const express = require("express");
 // starting the express server
 const app = express();
 const path = require('path')
+const cors = require("cors")
+app.use(cors());
 
 // mongoose and mongo connection
 const { mongoose } = require("./db/mongoose");
