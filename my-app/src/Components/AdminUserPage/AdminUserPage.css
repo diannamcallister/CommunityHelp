@@ -34,9 +34,9 @@
     min-width: 0px !important;
 }
 
-.header {
+/* .header {
     padding-bottom: 5px;
-}
+} */
 
 .ui.cards>.card>.content>.header:not(.ui) {
     line-height: 2px;
@@ -52,5 +52,5 @@
 
 .remove {
     float: right !important;
-    background-color: tomato !important;
+    background-color: red !important;
 }

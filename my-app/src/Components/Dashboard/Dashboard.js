@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu, Button } from 'semantic-ui-react'
+import { Menu } from 'semantic-ui-react'
 import { Link } from "react-router-dom";
 
 import "./Dashboard.css";
@@ -49,9 +49,6 @@ class Dashboard extends Component {
             <Menu.Item name='Logout' as={Link} to={{pathname:'/'}}
             active={activeItem === 'Logout'}
             onClick={this.handleItemClick}>
-                <Button primary>
-                    Logout
-                </Button>
             </Menu.Item>
             
         </Menu>
