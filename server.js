@@ -390,7 +390,7 @@ app.put('/api/tasks/:id', async (req, res) => {
 	}
 })
 
-/// a DELETE route to remove a student by their id.
+/// a DELETE route to remove a task by their id.
 app.delete('/api/tasks/:id', async (req, res) => {
 	const id = req.params.id
 
@@ -510,6 +510,53 @@ app.get('/api/users/:location', mongoChecker, async (req, res) => {
 		}
 	}
 })
+
+app.delete('/api/users/:id/:review_id', async (req, res) => {
+	// Add code here
+
+	const id = req.params.id;
+	const review_id = req.params.review_id;
+
+	// Good practise: Validate id immediately.
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send()  // if invalid id, definitely can't find resource, 404.
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const user = await User.findById(id)
+		if (!user) {
+			res.status(404).send('Resource not found')  // could not find this student
+		} else {
+			/// sometimes we might wrap returned object in another object:
+			let reviews = user.reviews.filter((review) => review.id !== review_id);
+			const fieldsToUpdate = {reviews: reviews};
+
+			const updatedUser = await User.findOneAndUpdate({_id: id}, {$set: fieldsToUpdate}, {new: true, useFindAndModify: false})
+			if (!updatedUser) {
+				res.status(404).send('Resource not found')
+			} else {   
+				res.send(updatedUser);
+			}
+		}
+	} catch(error) {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
+
 
 /*** Webpage routes below **********************************/
 // Serve the build
