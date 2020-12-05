@@ -59,8 +59,12 @@ class CreateTask extends React.Component {
         if (name === 'volunteerNum' && this.state.missingVolunteers) {
             this.setState({missingVolunteers: false});
         }
-        if (name === 'image' && this.state.missingImage) {
-            this.setState({missingImage: false});
+        if (name === 'image') {
+            this.setState({image: target.files[0]});
+            if (this.statemissingImage) {
+                this.setState({missingImage: false});
+            }
+            return;
         }
 
 
@@ -97,8 +101,9 @@ class CreateTask extends React.Component {
             this.setState({errorMsg: errorMsg});
             this.setState({missingVolunteers: true});
             return;
-        } else if (this.state.title && this.state.description && this.state.price && this.state.hours && this.state.volunteerNum && this.state.image) {
+        } else if (this.state.title && this.state.description && this.state.price && this.state.hours && this.state.volunteerNum) {
             const newJob = {
+
                 title: this.state.title,
                 description: this.state.description,
                 // image: this.state.image,
@@ -107,9 +112,12 @@ class CreateTask extends React.Component {
                 price: this.state.price,
                 location: "toronto"
             }
+            if (this.state.image) {
+                newJob.image = this.state.image
+            }
             //FUTURE TODO: add a POST call to add the new job to the db
-            await this.postTask(newJob);
-            this.props.addJob(newJob);
+            const newJobSaved = await this.postTask(newJob);
+            this.props.addJob(newJobSaved);
         } else {
             const formError = !this.state.formError;
             this.setState({formError: formError});
@@ -206,6 +214,7 @@ class CreateTask extends React.Component {
                         name="image"
                         label='IMAGE (ONLY URL ACCEPTED):'
                         placholder='Image'
+                        type="file"
                         onChange={this.updateField}
                         error={this.state.missingImage} >
                     </Form.Input>

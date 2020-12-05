@@ -9,6 +9,16 @@ const path = require('path')
 const cors = require("cors")
 app.use(cors());
 
+const cloudinary = require('cloudinary');
+cloudinary.config({
+    cloud_name: 'djqheeaw6',
+    api_key: '825943769215489',
+    api_secret: 'q8awLZPApBt8nqRWYMAjQHPKvPM'
+});
+
+const multipart = require('connect-multiparty');
+const multipartMiddleware = multipart();
+
 // mongoose and mongo connection
 const { mongoose } = require("./db/mongoose");
 mongoose.set('useFindAndModify', false); // for some deprecation issues
@@ -198,46 +208,94 @@ app.get('/UserProfile/:profile_id', async (req, res) => {
 })
 
 // a POST route to create a task
-app.post('/api/tasks', async (req, res) => {
+app.post('/api/tasks', multipartMiddleware, async (req, res) => {
+
+    console.log(req.files.image !== undefined);
+    console.log(req.body);
 
 	// check mongoose connection established.
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
 		res.status(500).send('Internal server error')
 		return;
-	}  
+    } 
+    
+    if (req.files.image !== undefined) {
+        console.log("adding w image");
+        cloudinary.uploader.upload(
+            req.files.image.path, // req.files contains uploaded files
+            async function (result) {
 
-	// Create a new task using the Task mongoose model
-	const task = new Task({
-		owner: req.body.owner,
-        location: req.body.location,
-        title: req.body.title,
-        description: req.body.description,
-        numVolunteers: req.body.numVolunteers,
-        numHours: req.body.numHours,
-        price: req.body.price,
-        isReported: false,
-        comments: []
-	})
+                const user = JSON.parse(req.body.owner);
+                const owner = await User.findById({"_id": user._id});
+
+                const task = new Task({
+                    owner: owner,
+                    image: result.url,
+                    location: req.body.location,
+                    title: req.body.title,
+                    description: req.body.description,
+                    numVolunteers: req.body.numVolunteers,
+                    numHours: req.body.numHours,
+                    price: req.body.price,
+                    isReported: false,
+                    comments: []
+                })
+        
+        
+                // Save task to the database
+                // async-await version:
+                try {
+                    const result = await task.save()	
+                    res.send(result)
+                } catch(error) {
+                    log(error) // log server error to the console, not to the client.
+                    if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+                        res.status(500).send('Internal server error')
+                    } else {
+                        res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+                    }
+                }
+        });
+    } else {
+        // Create a new task using the Task mongoose model
+
+        const user = JSON.parse(req.body.owner);
+        const owner = await User.findById({"_id": user._id});
+
+        const task = new Task({
+            owner: owner,
+            location: req.body.location,
+            title: req.body.title,
+            description: req.body.description,
+            numVolunteers: req.body.numVolunteers,
+            numHours: req.body.numHours,
+            price: req.body.price,
+            isReported: false,
+            comments: []
+        })
 
 
-	// Save task to the database
-	// async-await version:
-	try {
-		const result = await task.save()	
-		res.send(result)
-	} catch(error) {
-		log(error) // log server error to the console, not to the client.
-		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
-			res.status(500).send('Internal server error')
-		} else {
-			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
-		}
-	}
+        // Save task to the database
+        // async-await version:
+        try {
+            const result = await task.save()	
+            res.send(result)
+        } catch(error) {
+            log(error) // log server error to the console, not to the client.
+            if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+                res.status(500).send('Internal server error')
+            } else {
+                res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+            }
+        }
+    }
 })
 
 //get all tasks from a specific location
 app.get('/api/tasks/:location', async (req, res) => {
+
+    console.log("in get");
 
     const location = req.params.location;
 	// check mongoose connection established.
@@ -258,6 +316,7 @@ app.get('/api/tasks/:location', async (req, res) => {
 })
 // example of what should be sent from UI: [{ "op": "replace", "path": "/nameOfFieldToChange", "value": }]
 app.patch('/api/tasks/:id', async (req, res) => {
+    console.log("in pathc!");
 	const id = req.params.id
 
 	if (!ObjectID.isValid(id)) {

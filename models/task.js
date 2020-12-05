@@ -15,8 +15,7 @@ const Task = mongoose.model('Task', {
 		ref: 'user' 
 	},
 	image: {
-		data: Buffer, 
-		contentType: String
+		type: String
 	},
 	location: {
 		type: String,
