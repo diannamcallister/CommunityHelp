@@ -378,31 +378,32 @@ app.get('/api/users/:location', mongoChecker, async (req, res) => {
         //finding all users in database with location = user_location
         const users = await User.find({location: user_location})
 
-        // let users = [{ user1: 4, avgRating: 23}, { user1: 4, avgRating: 123.7}, { user1: 4, avgRating: 23.32}, { user1: 4, avgRating: 0.3}]
+        
         //getting the average ratings of each user in users at the same location as user_location
         let user_to_sort = []
 
-        // Iterating through each users review to find avgerage of all their ratings
+        // Iterating through each users review to find average of all their ratings
         users.map((user) => {
             let total_reviews = 0
             let curr_total = 0
             user.reviews.map((review) => {
+
                 total_reviews ++
                 curr_total += review.rating
+                
             })
            
             if (curr_total !== 0) {
-                let avg_rate = Math.floor(curr_total/total_reviews)
+                let avg_rate = Number(Math.floor(curr_total/total_reviews))
                 user_to_sort.push({"user": user, "avgRating": avg_rate})
             } else {
-                user_to_sort.push({"user": user, "avgRating": 0})
+                user_to_sort.push({"user": user, "avgRating": Number(0)})
             }
         })
      
         // Sorting all the users in decending order of avgRating
         let sorted_users = user_to_sort.sort(function(a, b) {return b.avgRating - a.avgRating})
         
-        console.log(sorted_users)
         res.send( sorted_users )
     } catch(error) {
         log(error)
@@ -411,6 +412,7 @@ app.get('/api/users/:location', mongoChecker, async (req, res) => {
   
  })
  
+ //patch method to add new review to a specific user
  app.patch('/api/users/:id', mongoChecker, async (req, res) => {
 	
     //Getting the current user id from the parameter
@@ -428,18 +430,13 @@ app.get('/api/users/:location', mongoChecker, async (req, res) => {
 		return;
     }
     
-    //creating a new review obect from the req.body
-    const review = new User ({
-		reviewer: req.body.reviewer,
-        reviewee: req.body.reviewee,
-        comment: req.body.comment,
-        rating: req.body.rating,
-        time: req.body.time
-	})
-
 	try {
         // push new review to user.reviews
-        const user = await User.findOneAndUpdate({_id: user_id}, {$push: {'reviews': review}}, {new: true, useFindAndModify: false})
+        const user = await User.findOneAndUpdate({_id: user_id}, {$push: {'reviews': {reviewer: req.body.reviewer,
+            reviewee: req.body.reviewee,
+            comment: req.body.comment,
+            rating: Number(req.body.rating),
+            time: req.body.time}}}, {new: true, useFindAndModify: false})
 		if (!user) {
 			res.status(404).send('Resource not found')
 		} else {   
