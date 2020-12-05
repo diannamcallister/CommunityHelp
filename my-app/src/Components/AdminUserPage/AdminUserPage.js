@@ -9,6 +9,7 @@ import GreenUserLogo from '../../Images/GreenUserLogo.png';
 import OrangeUserLogo from '../../Images/OrangeUserLogo.png';
 import { Link } from "react-router-dom";
 import "./AdminUserPage.css";
+import '../../basics-stylesheet.css';
 
 class AdminUserPage extends Component {
     constructor(props) {
@@ -56,18 +57,18 @@ class AdminUserPage extends Component {
                 isAdmin = {this.state.isAdmin}
                 username = {this.state.username}
             />
-            <h1 id='header'> Users </h1>
+            <h1 className='Header'> Users </h1>
             <Card.Group className='card_group' itemsPerRow={3} centered>
               {this.state.topThree.map(item => 
                 <Card className='topThree' fluid raised key={item.name} id={item.name}>
                 <Image src={item.image} wrapped ui={false} className='topThreeImage' />
                 <Card.Content>
-                  <Card.Header>{item.name} </Card.Header>
+                  <Card.Header id='subtitles'>{item.name} </Card.Header>
                 </Card.Content>
                 <Card.Content extra>
                 <Rating defaultRating={5} maxRating={5} disabled  icon='star' id='rating'/> 
                 </Card.Content>
-                <Card.Content extra> <Button basic as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>Learn More</Button> <Button circular className='remove' id={item.name} onClick={(e) => this.handleCardClick(e)}>x</Button> </Card.Content>
+                <Card.Content extra> <Button id='buttons' basic as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>Learn More</Button> <Button circular className='remove' id={item.name} onClick={(e) => this.handleCardClick(e)}>x</Button> </Card.Content>
                 </Card>
                 
               )}
