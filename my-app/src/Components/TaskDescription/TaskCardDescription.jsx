@@ -4,6 +4,7 @@ import { Button, Image, Card } from 'semantic-ui-react';
 import { Link, Redirect } from "react-router-dom";
 
 import './TaskDescription.css';
+import { reportTask } from '../../actions/tasks.js'
 
 class TaskCardDescription extends React.Component {
 
@@ -19,14 +20,17 @@ class TaskCardDescription extends React.Component {
         };
         this.addReportedJob = this.addReportedJob.bind(this);
         this.deleteJob = this.deleteJob.bind(this);
+        this.reportTask = reportTask.bind(this);
     }
 
-    addReportedJob(job) {
+    async addReportedJob(job) {
+        console.log("report job");
         // FUTURE TODO: perform a POST call to add this job to the reported jobs table, or a PATCH call to update this job as reported -
         //  whichever is used is dependant on how the database is set up
 
         // change the color of the button to indicate that it has been clicked
         const isReported = !this.state.isReported;
+        await this.reportTask(job, isReported);
         this.setState({isReported: isReported});
     }
 
@@ -64,7 +68,8 @@ class TaskCardDescription extends React.Component {
                     { this.state.task.username === this.state.username ?
                     <Button className='edit-task' onClick={() => this.props.changeEditTaskMode()}>Edit Task</Button>
                     : null}
-                    { this.state.task.username === this.state.username ?
+                    {/* { this.state.task.username === this.state.username ? */}
+                    { this.state.task.owner === "5fc3e5a1bd841ef02aeebc34" ?
                     <Button className='delete-task' onClick={() => this.deleteJob(this.state.task)}>Delete Job</Button>
                     : null}
                     </div>

@@ -4,7 +4,7 @@ import { Grid, Button } from 'semantic-ui-react';
 import Modal from 'react-modal';
 import Dashboard from '../Dashboard/Dashboard';
 
-import { getAllTasks } from '../../actions/tasks.js';
+import { getAllTasks, deleteTask } from '../../actions/tasks.js';
 
 import './Tasks.css';
 import Task from './Task.jsx';
@@ -19,47 +19,6 @@ class Tasks extends React.Component {
     constructor(props) {
         super(props);
 
-        // FUTURE TODO: all of the hardcoded jobs (job# = {}) will be removed when db is created, as they will be fetched from the db instead.
-        let job1 = {
-            image: gardening,
-            title: 'Plant New Flowers',
-            description: 'Come help me plant new flowers!',
-            price: '$5/hour',
-            hours: 3,
-            volunteerNum: 1,
-            username: 'user'
-        };
-
-        let job2 = {
-            image: fixing_tire,
-            title: 'Change Tires',
-            description: 'I could use help changing my tires.',
-            price: '$25/hour',
-            hours: 2,
-            volunteerNum: 3,
-            username: 'admin'
-        };
-
-        let job3 = {
-            image: painting_house,
-            title: 'Help Paint House',
-            description: 'Come paint my house with me!',
-            price: '$15/hour',
-            hours: 10,
-            volunteerNum: 2,
-            username: 'admin'
-        };
-
-        let job4 = {
-            image: email,
-            title: 'Sending Emails',
-            description: 'Please teach me to send emails.',
-            price: '$5/hour',
-            hours: 1,
-            volunteerNum: 1,
-            username: 'user'
-        };
-
         this.state = {
             modal_is_open: false,
             showReportedOnly: false,
@@ -68,8 +27,8 @@ class Tasks extends React.Component {
             isAdmin: this.props.location.state === undefined ? false : this.props.location.state.isAdmin,
             reportedButtonText: 'See Reported',
             personalJobsButtonText: 'See Your Postings',
-            jobs: [job1, job2, job3, job4], // FUTURE TODO: this will be initialized as an empty array, and populated from GET call to backend -> db
-            reportedJobs: [job2, job3], // FUTURE TODO: this will be initiaalized as an empty array, and populated from GET call to backend -> db
+            jobs: [], // FUTURE TODO: this will be initialized as an empty array, and populated from GET call to backend -> db
+            reportedJobs: [], // FUTURE TODO: this will be initiaalized as an empty array, and populated from GET call to backend -> db
             personalJobs: []
         };
         this.changeModalPosition = this.changeModalPosition.bind(this);
@@ -77,6 +36,7 @@ class Tasks extends React.Component {
         this.showReportedJobs = this.showReportedJobs.bind(this);
         this.deleteJob = this.deleteJob.bind(this);
         this.getAllTasks = getAllTasks.bind(this);
+        this.deleteTask = deleteTask.bind(this);
     }
 
     async componentDidMount() {
@@ -84,8 +44,8 @@ class Tasks extends React.Component {
             // 1. fetch all tasks from db, save them in this.state.jobs so that they are displayed 
             // 2. fetch all REPORTED tasks from db, save them in this.state.reportedJobs so that they are displayed (if the user is an admin)
         let jobs = await this.getAllTasks("toronto"); //TODO: don't hardcode TO
-        let reportedJobs = jobs.filter((job) => job.isReported === true);
         this.setState({jobs: jobs});
+        let reportedJobs = jobs.filter((job) => job.isReported === true);
         this.setState({reportedJobs: reportedJobs});
         if (this.props.location.state && this.props.location.state.deletedTask) {
             this.deleteJob(this.props.location.state.deletedTask)
@@ -150,11 +110,12 @@ class Tasks extends React.Component {
         this.setState({showReportedOnly: isReported});
     }
 
-    deleteJob(job) {
+    async deleteJob(job) {
         //FUTURE TODOS:
             // 1. add a DELETE call to the backend to delete the job from the db
             // 2. compare jobs by IDs instead of titles, since each job will have a unique ID and this will avoid the issue of tasks with
             //      identical titles being removed
+        await deleteTask(job);
         const nonDeletedJobs = this.state.jobs.filter(cur_job => cur_job.title !== job.title);
         this.setState({jobs: nonDeletedJobs});
 
