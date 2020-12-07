@@ -8,6 +8,7 @@ import Dashboard from '../Dashboard/Dashboard';
 import TaskCardDescription from './TaskCardDescription';
 import TaskCardEditDescription from './TaskCardEditDescription';
 import '../../basics-stylesheet.css';
+import { addCommentDB, updateTask } from '../../actions/tasks.js';
 
 class TaskDescription extends React.Component {
 
@@ -27,7 +28,7 @@ class TaskDescription extends React.Component {
 ;
         this.state = {
             task: this.props.location.state === undefined ? <Redirect push to={{pathname:'/alltasks'}} />  : this.props.location.state.task,
-            comments: [comment1, comment2], // FUTURE TODO: this will be initialized as an empty array, and populated from GET call to backend -> db
+            comments: this.props.location.state.task.comments, // FUTURE TODO: this will be initialized as an empty array, and populated from GET call to backend -> db
             newComment: '',
             isAdmin: this.props.location.state === undefined ? false : this.props.location.state.isAdmin,
             username: this.props.location.state === undefined ? '' : this.props.location.state.username,
@@ -41,18 +42,21 @@ class TaskDescription extends React.Component {
         this.deleteJob = this.deleteJob.bind(this);
         this.changeEditTaskMode = this.changeEditTaskMode.bind(this);
         this.doneEditingTask = this.doneEditingTask.bind(this);
+        this.addCommentDB = addCommentDB.bind(this);
+        this.updateTask = updateTask.bind(this);
     }
 
     componentDidMount() {
         //FUTURE TODO: make a GET call to the backend to get all comments associated to the current task
     }
 
-    addComment() {
+    async addComment() {
         const newComment = {
-            user: this.state.username,
+            user: this.state.username, //TODO: change the user to what it needs to be!!!
             comment: this.state.newComment
         };
-        //FUTURE TODO: make a POST call to the backend to add a new comment associated with the current task
+        
+        await this.addCommentDB(this.state.task, newComment);
 
         const allComments = this.state.comments;
         allComments.push(newComment);
@@ -88,8 +92,9 @@ class TaskDescription extends React.Component {
         this.setState({editMode: editMode});
     }
 
-    doneEditingTask(task) {
+    async doneEditingTask(task) {
         // FUTURE TODO: perform a PUT call to update the information of this job in the db
+        await this.updateTask(task);
         this.setState({task: task});
         this.changeEditTaskMode();
     }
@@ -153,7 +158,7 @@ class TaskDescription extends React.Component {
                                     name and comment, their comment won't get the same key - every comment will have a unique ID instead
                                 2. send the commented user's name to the UserProfile page so that the correct user's information can be displayed */}
                         { this.state.comments.map(comment => (
-                            <p key={comment.user + comment.comment}> <b className='subtitles'><Link className='link-color' to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>{comment.user}</Link>: </b>{comment.comment}</p>
+                            <p key={comment._id}> <b className='subtitles'><Link className='link-color' to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>{comment.commenter.firstName} {comment.commenter.lastName}</Link>: </b>{comment.comment}</p>
                         ))
                         }
                         <div className='extra-middle-spacing'></div>

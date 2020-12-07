@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const CommentSchema = new mongoose.Schema({
     commenter: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'user'
+		ref: 'User'
 	},
 	comment: String
 });
@@ -12,7 +12,7 @@ const CommentSchema = new mongoose.Schema({
 const Task = mongoose.model('Task', {
 	owner: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'user' 
+		ref: 'User' 
 	},
 	image: {
 		type: String

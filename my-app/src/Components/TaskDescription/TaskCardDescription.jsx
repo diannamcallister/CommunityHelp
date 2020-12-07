@@ -16,7 +16,7 @@ class TaskCardDescription extends React.Component {
             isAdmin: this.props.isAdmin,
             username: this.props.username,
             isDeleted: false,
-            isReported: false
+            isReported: this.props.task.isReported
         };
         this.addReportedJob = this.addReportedJob.bind(this);
         this.deleteJob = this.deleteJob.bind(this);
@@ -52,10 +52,10 @@ class TaskCardDescription extends React.Component {
                     <Image className='task-image' src={this.state.task.image} />
                     <h2 className='text-center description'>{this.state.task.description}</h2>
 
-                    <p className='text-center'><b className='subtitles'>Hours: </b>{this.state.task.hours}</p>
-                    <p className='text-center'><b className='subtitles'>Num Volunteers Needed: </b>{this.state.task.volunteerNum}</p>
+                    <p className='text-center'><b className='subtitles'>Hours: </b>{this.state.task.numHours}</p>
+                    <p className='text-center'><b className='subtitles'>Num Volunteers Needed: </b>{this.state.task.numVolunteers}</p>
                     <p className='text-center'><b className='subtitles'>Price: </b>{this.state.task.price}</p>
-                    <p className='text-center'><b className='subtitles'>Posted By: <Link className='link-color description' to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>{this.state.task.username}</Link></b></p>
+                    <p className='text-center'><b className='subtitles'>Posted By: <Link className='link-color description' to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>{this.state.task.owner.firstName} {this.state.task.owner.lastName}</Link></b></p>
 
                     <div>
                     {this.state.isReported ?
@@ -65,11 +65,12 @@ class TaskCardDescription extends React.Component {
                     }
                     {/* FUTURE TODO: this will be updated to compare the user's IDs so that users with the same name
                             won't be confused as being the same user - every user will have a unique ID instead */}
-                    { this.state.task.username === this.state.username ?
+                    {/* { this.state.task.username === this.state.username ? */}
+                    { this.state.task.owner._id === "5fc3e5a1bd841ef02aeebc34" ?
                     <Button className='edit-task' onClick={() => this.props.changeEditTaskMode()}>Edit Task</Button>
                     : null}
                     {/* { this.state.task.username === this.state.username ? */}
-                    { this.state.task.owner === "5fc3e5a1bd841ef02aeebc34" ?
+                    { this.state.task.owner._id === "5fc3e5a1bd841ef02aeebc34" ?
                     <Button className='delete-task' onClick={() => this.deleteJob(this.state.task)}>Delete Job</Button>
                     : null}
                     </div>
