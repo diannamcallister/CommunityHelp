@@ -75,18 +75,56 @@
 }
 
 .LoginInput{
-    right: 10px;
+    margin-left: 25px;
     margin-top: 50px;
-    width: 250px; 
+    /* width: 250px;  */
     height: 40px;
-    /* float: right;
-    clear: both; */
 }
+
+.emailWidth {
+    width: 270px;
+    margin-left: 25px;
+    margin-top: 50px;
+    /* width: 250px;  */
+    height: 40px;
+}
+.passwordWidth {
+    width: 220px;
+    margin-left: 25px;
+    margin-top: 50px;
+    /* width: 250px;  */
+    height: 40px;
+}
+
 
 .RegisterInput{
     margin-left: 30px;
     margin-top: 30px;
     width: 250px;
+}
+
+.nameInput{
+    margin-left: 30px;
+    margin-top: 30px;
+    width: 270px;
+}
+
+.emailInput{
+    margin-left: 30px;
+    margin-top: 30px;
+    width: 270px;
+}
+
+.passwordInput{
+    margin-left: 30px;
+    margin-top: 30px;
+    width: 220px;
+}
+
+.locationInput{
+    margin-left: 30px;
+    margin-top: 30px;
+    width: 232px;
 }
 
 .Submit1 {

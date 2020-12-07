@@ -63,10 +63,8 @@ class Login extends React.Component {
     showLogin() {
         return (
             <div className="page">
-                <strong className="Login-Label">EMAIL: </strong>
-                <input className="LoginInput" placeholder='Email' name='username' onChange={this.updateUserEntry} />
-                <strong className="Login-Label">PASSWORD: </strong>
-                <input className="LoginInput" type = 'password' placeholder='Password' name='password' onChange={this.updateUserEntry} />
+                <span><strong className="Login-Label">EMAIL: </strong><Input className="emailWidth" name='username' focus onChange={this.updateUserEntry} /></span><br></br>
+                <span><strong className="Login-Label">PASSWORD: </strong><Input className="passwordWidth" type='password' name='password' focus onChange={this.updateUserEntry} /></span>
                 <Button className="Submit1" animated onClick={this.checkLogin}>
                     <Button.Content visible>LOGIN</Button.Content>
                     <Button.Content hidden>
@@ -82,21 +80,19 @@ class Login extends React.Component {
         return (
             <div className="page">
                 <strong className="Login-Label">NAME: </strong>
-                <Input className="RegisterInput" focus placeholder='Name' />
+                <Input className="nameInput" focus placeholder='Name' />
                 <strong className="Login-Label">EMAIL: </strong>
-                <Input className="RegisterInput" focus placeholder='Email' />
+                <Input className="emailInput" focus placeholder='Email' />
                 <strong className="Login-Label">PASSWORD: </strong>
-                <Input className="RegisterInput" focus placeholder='Password' />
+                <Input className="passwordInput" focus placeholder='Password' />
                 <strong className="Login-Label">LOCATION: </strong>
-                <Input className="RegisterInput" focus placeholder='Location' />
-                <Link to={{pathname:'/alltasks', state:{isAdmin:false, username:'user'}}}>
-                    <Button className="Submit2" animated >
-                        <Button.Content visible>REGISTER</Button.Content>
-                        <Button.Content hidden>
-                        <Icon name='arrow right' />
-                        </Button.Content>
-                    </Button>
-                </Link>
+                <Input className="locationInput" focus placeholder='Location' />
+                <Button className="Submit2" animated >
+                    <Button.Content visible>REGISTER</Button.Content>
+                    <Button.Content hidden>
+                     <Icon name='arrow right' />
+                    </Button.Content>
+                </Button>
             </div>
         )
 
@@ -109,29 +105,21 @@ class Login extends React.Component {
     render() {
         return (
             <div>
-                {/* <div class = "loader-wrapper">
-                    <span class = "loader">
-                        <span class = "loader-inner"></span>
-                    </span>
-                </div> */}
                 {this.state.loginWorked ? <Redirect push to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin, username:this.state.username}}} /> : null}
-                <div className="block1"/>
-                <div className="block2"/>
-        <div className="AboutUs">
-            <h1 className="AboutUsTitle">
-                ABOUT US:
-                <div className="rectangle"/>
-                <p className="AboutUsP">
+                <div className="block1"/><div className="block2"/>
+                <div className="AboutUs">
+                    <h1 className="AboutUsTitle">ABOUT US:
+                    <div className="rectangle"/>
+                    <p className="AboutUsP">
                     This is a site for the community! If you have a task you need extra assistance with
                     put up a job post! If you are looking to help people out in your neighbourhood, 
                     take a look at the posted jobs.
-                </p>
+                    </p>
             </h1>
         </div>
         <div className="Login-Box">
             <Button id="LoginButton" onClick= {() => this.switchPage(true)} primary>LOG IN</Button>
             <Button id= "RegisterButton" onClick= {() => this.switchPage(false)} secondary>REGISTER</Button>
-            {/* finish for phase 2 <div className="selector"/> */}
             {this.state.isLogin ? this.showLogin() : this.showRegister()}
         </div>
         
