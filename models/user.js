@@ -54,6 +54,11 @@ const UserSchema = new mongoose.Schema({
 		minlegth: 1,
 		trim: true
 	},
+	profession: {
+		type: String,
+		minlegth: 1,
+		trim: true
+	},
 	isAdmin: {
 		type: Boolean,
 		required: true,
