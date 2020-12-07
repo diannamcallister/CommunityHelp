@@ -1,6 +1,7 @@
 import React from 'react';
 import "semantic-ui-css/semantic.min.css";
 import { Form, Button, Grid, Message } from 'semantic-ui-react';
+import { postTask } from '../../actions/tasks.js';
 
 import './CreateTasks.css';
 
@@ -11,6 +12,7 @@ class CreateTask extends React.Component {
         super(props);
         this.updateField = this.updateField.bind(this);
         this.addJob = this.addJob.bind(this);
+        this.postTask = postTask.bind(this);
         this.state = {
             title: undefined,
             description: undefined,
@@ -57,15 +59,19 @@ class CreateTask extends React.Component {
         if (name === 'volunteerNum' && this.state.missingVolunteers) {
             this.setState({missingVolunteers: false});
         }
-        if (name === 'image' && this.state.missingImage) {
-            this.setState({missingImage: false});
+        if (name === 'image') {
+            this.setState({image: target.files[0]});
+            if (this.statemissingImage) {
+                this.setState({missingImage: false});
+            }
+            return;
         }
 
 
         this.setState({[name]: value});
     }
 
-    addJob = () => {
+    async addJob() {
         if (this.state.price !== undefined && (isNaN(this.state.price) || !Number.isInteger(parseFloat(this.state.price)))) {
             const errorMsg = "Price must be an integer value.";
 
@@ -95,17 +101,23 @@ class CreateTask extends React.Component {
             this.setState({errorMsg: errorMsg});
             this.setState({missingVolunteers: true});
             return;
-        } else if (this.state.title && this.state.description && this.state.price && this.state.hours && this.state.volunteerNum && this.state.image) {
+        } else if (this.state.title && this.state.description && this.state.price && this.state.hours && this.state.volunteerNum) {
             const newJob = {
+
                 title: this.state.title,
                 description: this.state.description,
-                image: this.state.image,
-                hours: this.state.hours,
-                volunteerNum: this.state.volunteerNum,
-                price: this.state.price
+                // image: this.state.image,
+                numHours: this.state.hours,
+                numVolunteers: this.state.volunteerNum,
+                price: this.state.price,
+                location: "toronto"
+            }
+            if (this.state.image) {
+                newJob.image = this.state.image
             }
             //FUTURE TODO: add a POST call to add the new job to the db
-            this.props.addJob(newJob);
+            const newJobSaved = await this.postTask(newJob);
+            this.props.addJob(newJobSaved);
         } else {
             const formError = !this.state.formError;
             this.setState({formError: formError});
@@ -202,6 +214,7 @@ class CreateTask extends React.Component {
                         name="image"
                         label='IMAGE (ONLY URL ACCEPTED):'
                         placholder='Image'
+                        type="file"
                         onChange={this.updateField}
                         error={this.state.missingImage} >
                     </Form.Input>

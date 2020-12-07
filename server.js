@@ -6,6 +6,18 @@ const express = require("express");
 // starting the express server
 const app = express();
 const path = require('path')
+const cors = require("cors")
+app.use(cors());
+
+const cloudinary = require('cloudinary');
+cloudinary.config({
+    cloud_name: 'djqheeaw6',
+    api_key: '825943769215489',
+    api_secret: 'q8awLZPApBt8nqRWYMAjQHPKvPM'
+});
+
+const multipart = require('connect-multiparty');
+const multipartMiddleware = multipart();
 
 // mongoose and mongo connection
 const { mongoose } = require("./db/mongoose");
@@ -132,7 +144,9 @@ app.post('/api/users', mongoChecker, async (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         location: req.body.location,
-        isAdmin: req.body.isAdmin
+        profession: req.body.profession,
+        isAdmin: req.body.isAdmin,
+        profession: req.body.profession
     })
 
     console.log(user.email)
@@ -178,14 +192,13 @@ app.post('/api/users', mongoChecker, async (req, res) => {
 //         }
 //     }
 // })
-
-// a GET route to get a User
-app.get('/UserProfile/:profile_id', async (req, res) => {
+// a GET route to get all Users
+app.get('/UserProfileAll/', async (req, res) => {
 
     // Get the User
     try {
-        console.log(req.params.profile_id)
-        const U = await User.find({email: req.params.profile_id})
+        
+        const U = await User.find()
         // res.send(students) // just the array
         res.send(U) // can wrap students in object if want to add more properties
     } catch(error) {
@@ -194,23 +207,440 @@ app.get('/UserProfile/:profile_id', async (req, res) => {
     }
 
 })
+// a GET route to get a User
+app.get('/UserProfile/:profile_id', async (req, res) => {
 
-// /*** Webpage routes below **********************************/
-// // Serve the build
-// app.use(express.static(path.join(__dirname, "/client/build")));
+    // Get the User
+    try {
+        console.log(req.params.profile_id)
+        const U = await User.find({email: req.params.profile_id})
+       
+        res.send(U) 
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
 
-// // All routes other than above will go to index.html
-// app.get("*", (req, res) => {
-//     // check for page routes that we expect in the frontend to provide correct status code.
-//     const goodPageRoutes = ["/", "/login", "/dashboard"]; //TODO change "good" routes
-//     if (!goodPageRoutes.includes(req.url)) {
-//         // if url not in expected page routes, set status to 404.
-//         res.status(404);
-//     }
+})
 
-//     // send index.html
-//     res.sendFile(path.join(__dirname, "/client/build/index.html")); //TODO add index.html to client
-// });
+// a PATCH route to edit a User
+app.patch('/UserEditProfile', async (req, res) => {
+
+    // Get the User
+    try {
+        
+        
+        const user_edited = await User.findOneAndUpdate({email: req.body.email}, {firstName: req.body.firstName, lastName: req.body.lastName, location: req.body.location, profession: req.body.profession},{new: true})
+        
+        //send edited profile
+        res.send(user_edited) 
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
+
+// a DELETE route to remove a User not sure what route
+app.delete('/UserProfile/:delete_id', async (req, res) => {
+
+    const id = req.params.delete_id
+
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Resource not found')
+		return;
+	}
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	} 
+
+	// Delete a User by their id
+	try {
+		const user = await User.findByIdAndRemove(id)
+		if (!user) {
+			res.status(404).send()
+		} else {   
+			res.send(user)
+		}
+	} catch(error) {
+		log(error)
+		res.status(500).send() // server error, could not delete.
+	}
+
+})
+
+// a POST route to create a task
+app.post('/api/tasks', multipartMiddleware, async (req, res) => {
+
+    console.log(req.files.image !== undefined);
+    console.log(req.body);
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+    } 
+    
+    if (req.files.image !== undefined) {
+        console.log("adding w image");
+        cloudinary.uploader.upload(
+            req.files.image.path, // req.files contains uploaded files
+            async function (result) {
+
+                const user = JSON.parse(req.body.owner);
+                const owner = await User.findById({"_id": user._id});
+
+                const task = new Task({
+                    owner: owner,
+                    image: result.url,
+                    location: req.body.location,
+                    title: req.body.title,
+                    description: req.body.description,
+                    numVolunteers: req.body.numVolunteers,
+                    numHours: req.body.numHours,
+                    price: req.body.price,
+                    isReported: false,
+                    comments: []
+                })
+        
+        
+                // Save task to the database
+                // async-await version:
+                try {
+                    const result = await task.save()	
+                    res.send(result)
+                } catch(error) {
+                    log(error) // log server error to the console, not to the client.
+                    if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+                        res.status(500).send('Internal server error')
+                    } else {
+                        res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+                    }
+                }
+        });
+    } else {
+        // Create a new task using the Task mongoose model
+
+        const user = JSON.parse(req.body.owner);
+        const owner = await User.findById({"_id": user._id});
+
+        const task = new Task({
+            owner: owner,
+            location: req.body.location,
+            title: req.body.title,
+            description: req.body.description,
+            numVolunteers: req.body.numVolunteers,
+            numHours: req.body.numHours,
+            price: req.body.price,
+            isReported: false,
+            comments: []
+        })
+
+
+        // Save task to the database
+        // async-await version:
+        try {
+            const result = await task.save()	
+            res.send(result)
+        } catch(error) {
+            log(error) // log server error to the console, not to the client.
+            if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+                res.status(500).send('Internal server error')
+            } else {
+                res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+            }
+        }
+    }
+})
+
+//get all tasks from a specific location
+app.get('/api/tasks/:location', async (req, res) => {
+
+    console.log("in get");
+
+    const location = req.params.location;
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	} 
+
+	// Get the tasks
+	try {
+		const tasks = await Task.find({location: location});
+		res.send(tasks) // can wrap students in object if want to add more properties
+	} catch(error) {
+		log(error)
+		res.status(500).send("Internal Server Error")
+	}
+})
+// example of what should be sent from UI: [{ "op": "replace", "path": "/nameOfFieldToChange", "value": }]
+app.patch('/api/tasks/:id', async (req, res) => {
+    console.log("in pathc!");
+	const id = req.params.id
+
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send()
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+    }
+
+    // Find the fields to update and their values.
+	const fieldsToUpdate = {}
+	req.body.map((change) => {
+		const propertyToChange = change.path.substr(1) // getting rid of the '/' character
+		fieldsToUpdate[propertyToChange] = change.value
+	})
+	// const fieldsToUpdate = {isReported: req.body.isReported};
+
+	// Update the student by their id.
+	try {
+		const task = await Task.findOneAndUpdate({_id: id}, {$set: fieldsToUpdate}, {new: true, useFindAndModify: false})
+		if (!task) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(task)
+		}
+	} catch (error) {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
+
+app.put('/api/tasks/:id', async (req, res) => {
+	const id = req.params.id
+
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Resource not found')
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	} 
+
+	// Replace the student by their id using req.body
+	try {
+		const task = await Task.findOneAndReplace({_id: id}, req.body, {new: true, useFindAndModify: false})
+		if (!task) {
+			res.status(404).send()
+		} else {   
+			res.send(task)
+		}
+	} catch (error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
+
+/// a DELETE route to remove a task by their id.
+app.delete('/api/tasks/:id', async (req, res) => {
+	const id = req.params.id
+
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Resource not found')
+		return;
+	}
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	} 
+
+	// Delete a student by their id
+	try {
+		const task = await Task.findByIdAndRemove(id)
+		if (!task) {
+			res.status(404).send()
+		} else {   
+			res.send(task)
+		}
+	} catch(error) {
+		log(error)
+		res.status(500).send() // server error, could not delete.
+	}
+})
+
+//get all users that are within a specific location and return sorted object in 
+//decending order of ratings
+app.get('/api/users/:location', mongoChecker, async (req, res) => {
+ 
+    const user_location = req.params.location
+  
+    if (mongoose.connection.readyState != 1) {
+        log('Issue with mongoose connection')
+        res.status(500).send('Internal server error')
+        return;
+    }
+  
+    try {
+        //finding all users in database with location = user_location
+        const users = await User.find({location: user_location})
+
+        
+        //getting the average ratings of each user in users at the same location as user_location
+        let user_to_sort = []
+
+        // Iterating through each users review to find average of all their ratings
+        users.map((user) => {
+            let total_reviews = 0
+            let curr_total = 0
+            user.reviews.map((review) => {
+
+                total_reviews ++
+                curr_total += review.rating
+                
+            })
+           
+            if (curr_total !== 0) {
+                let avg_rate = Number(Math.floor(curr_total/total_reviews))
+                user_to_sort.push({"user": user, "avgRating": avg_rate})
+            } else {
+                user_to_sort.push({"user": user, "avgRating": Number(0)})
+            }
+        })
+     
+        // Sorting all the users in decending order of avgRating
+        let sorted_users = user_to_sort.sort(function(a, b) {return b.avgRating - a.avgRating})
+        
+        res.send( sorted_users )
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+  
+ })
+ 
+ //patch method to add new review to a specific user
+ app.patch('/api/users/:id', mongoChecker, async (req, res) => {
+	
+    //Getting the current user id from the parameter
+	const user_id = req.params.id
+
+	if (!ObjectID.isValid(user_id)) {
+		res.status(404).send()
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+    }
+    
+	try {
+        // push new review to user.reviews
+        const user = await User.findOneAndUpdate({_id: user_id}, {$push: {'reviews': {reviewer: req.body.reviewer,
+            reviewee: req.body.reviewee,
+            comment: req.body.comment,
+            rating: Number(req.body.rating),
+            time: req.body.time}}}, {new: true, useFindAndModify: false})
+		if (!user) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(user)
+		}
+	} catch (error) {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
+
+app.delete('/api/users/:id/:review_id', async (req, res) => {
+	// Add code here
+
+	const id = req.params.id;
+	const review_id = req.params.review_id;
+
+	// Good practise: Validate id immediately.
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send()  // if invalid id, definitely can't find resource, 404.
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const user = await User.findById(id)
+		if (!user) {
+			res.status(404).send('Resource not found')  // could not find this student
+		} else {
+			/// sometimes we might wrap returned object in another object:
+			let reviews = user.reviews.filter((review) => review.id !== review_id);
+			const fieldsToUpdate = {reviews: reviews};
+
+			const updatedUser = await User.findOneAndUpdate({_id: id}, {$set: fieldsToUpdate}, {new: true, useFindAndModify: false})
+			if (!updatedUser) {
+				res.status(404).send('Resource not found')
+			} else {   
+				res.send(updatedUser);
+			}
+		}
+	} catch(error) {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
+
+
+/*** Webpage routes below **********************************/
+// Serve the build
+app.use(express.static(path.join(__dirname, "/my-app/build")));
+
+// All routes other than above will go to index.html
+app.get("*", (req, res) => {
+    // check for page routes that we expect in the frontend to provide correct status code.
+    // const goodPageRoutes = ["/", "/login", "/dashboard"]; //TODO change "good" routes
+    // if (!goodPageRoutes.includes(req.url)) {
+    //     // if url not in expected page routes, set status to 404.
+    //     res.status(404);
+    // }
+
+    // send index.html
+    res.sendFile(path.join(__dirname, "/my-app/build/index.html")); //TODO add index.html to client
+});
 
 /*************************************************/
 // Express server listening...
