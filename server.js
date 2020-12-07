@@ -102,7 +102,7 @@ app.post("/users/login", (req, res) => {
             // We can check later if this exists to ensure we are logged in.
             req.session.user = user._id;
             req.session.email = user.email; // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
-            res.send({ currentUser: user.email });
+            res.send({ currentUser: user });
         })
         .catch(error => {
             res.status(400).send()
@@ -374,7 +374,7 @@ app.get('/api/tasks/:location', async (req, res) => {
 		res.send(tasks) // can wrap students in object if want to add more properties
 	} catch(error) {
 		log(error)
-		res.status(500).send("Internal Server Error")
+		res.status(500).send("Internal Server Error - after try")
 	}
 })
 // example of what should be sent from UI: [{ "op": "replace", "path": "/nameOfFieldToChange", "value": }]
