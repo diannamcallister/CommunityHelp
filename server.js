@@ -144,7 +144,9 @@ app.post('/api/users', mongoChecker, async (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         location: req.body.location,
-        isAdmin: req.body.isAdmin
+        profession: req.body.profession,
+        isAdmin: req.body.isAdmin,
+        profession: req.body.profession
     })
 
     try {
@@ -188,7 +190,21 @@ app.post('/api/users', mongoChecker, async (req, res) => {
 //         }
 //     }
 // })
+// a GET route to get all Users
+app.get('/UserProfileAll/', async (req, res) => {
 
+    // Get the User
+    try {
+        
+        const U = await User.find()
+        // res.send(students) // just the array
+        res.send(U) // can wrap students in object if want to add more properties
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
 // a GET route to get a User
 app.get('/UserProfile/:profile_id', async (req, res) => {
 
@@ -196,12 +212,63 @@ app.get('/UserProfile/:profile_id', async (req, res) => {
     try {
         console.log(req.params.profile_id)
         const U = await User.find({email: req.params.profile_id})
-        // res.send(students) // just the array
-        res.send(U) // can wrap students in object if want to add more properties
+       
+        res.send(U) 
     } catch(error) {
         log(error)
         res.status(500).send("Internal Server Error")
     }
+
+})
+
+// a PATCH route to edit a User
+app.patch('/UserEditProfile', async (req, res) => {
+
+    // Get the User
+    try {
+        
+        
+        const user_edited = await User.findOneAndUpdate({email: req.body.email}, {firstName: req.body.firstName, lastName: req.body.lastName, location: req.body.location, profession: req.body.profession},{new: true})
+        
+        //send edited profile
+        res.send(user_edited) 
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
+
+// a DELETE route to remove a User not sure what route
+app.delete('/UserProfile/:delete_id', async (req, res) => {
+
+    const id = req.params.delete_id
+
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send('Resource not found')
+		return;
+	}
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	} 
+
+	// Delete a User by their id
+	try {
+		const user = await User.findByIdAndRemove(id)
+		if (!user) {
+			res.status(404).send()
+		} else {   
+			res.send(user)
+		}
+	} catch(error) {
+		log(error)
+		res.status(500).send() // server error, could not delete.
+	}
 
 })
 
