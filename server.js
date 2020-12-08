@@ -23,7 +23,7 @@ const multipartMiddleware = multipart();
 const { mongoose } = require("./db/mongoose");
 mongoose.set('useFindAndModify', false); // for some deprecation issues
 
-// import the mongoose models -TODO CHANGE
+// import the mongoose models
 const { User } = require("./models/user.js");
 const { Task } = require("./models/task.js");
 
@@ -148,8 +148,6 @@ app.post('/api/users', mongoChecker, async (req, res) => {
         isAdmin: req.body.isAdmin,
         profession: req.body.profession
     })
-
-    console.log(user.email)
 
     try {
         // Save the user
@@ -276,9 +274,6 @@ app.delete('/UserProfile/:delete_id', async (req, res) => {
 // a POST route to create a task
 app.post('/api/tasks', multipartMiddleware, async (req, res) => {
 
-    console.log(req.files.image !== undefined);
-    console.log(req.body);
-
 	// check mongoose connection established.
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
@@ -287,7 +282,6 @@ app.post('/api/tasks', multipartMiddleware, async (req, res) => {
     } 
     
     if (req.files.image !== undefined) {
-        console.log("adding w image");
         cloudinary.uploader.upload(
             req.files.image.path, // req.files contains uploaded files
             async function (result) {
@@ -361,8 +355,6 @@ app.post('/api/tasks', multipartMiddleware, async (req, res) => {
 //get all tasks from a specific location
 app.get('/api/tasks/:location', async (req, res) => {
 
-    console.log("in get");
-
     const location = req.params.location;
 	// check mongoose connection established.
 	if (mongoose.connection.readyState != 1) {
@@ -373,16 +365,20 @@ app.get('/api/tasks/:location', async (req, res) => {
 
 	// Get the tasks
 	try {
-		const tasks = await Task.find({location: location});
+        const tasks = await Task.find({location: location}).populate({ path: 'comments',
+        populate: {
+            path: 'commenter',
+        }
+    }).populate({path: 'owner'});
 		res.send(tasks) // can wrap students in object if want to add more properties
 	} catch(error) {
 		log(error)
-		res.status(500).send("Internal Server Error")
+		res.status(500).send("Internal Server Error - after try")
 	}
 })
 // example of what should be sent from UI: [{ "op": "replace", "path": "/nameOfFieldToChange", "value": }]
 app.patch('/api/tasks/:id', async (req, res) => {
-    console.log("in pathc!");
+
 	const id = req.params.id
 
 	if (!ObjectID.isValid(id)) {
@@ -456,6 +452,57 @@ app.put('/api/tasks/:id', async (req, res) => {
 	}
 })
 
+app.put('/api/tasks/:id/comments', async (req, res) => {
+    // Add code here
+
+    const id = req.params.id;
+
+    // Good practise: Validate id immediately.
+    if (!ObjectID.isValid(id)) {
+        res.status(404).send()  // if invalid id, definitely can't find resource, 404.
+        return;  // so that we don't run the rest of the handler.
+    }
+
+    // check mongoose connection established.
+    if (mongoose.connection.readyState != 1) {
+        log('Issue with mongoose connection')
+        res.status(500).send('Internal server error')
+        return;
+    }
+
+    const newComment = {
+        commenter: req.body.commenter,
+        comment: req.body.comment
+    };
+
+    // If id valid, findById
+    try {
+        const task = await Task.findById(id)
+        if (!task) {
+            res.status(404).send('Resource not found')  // could not find this student
+        } else {
+            /// sometimes we might wrap returned object in another object:
+            let comments = task.comments;
+            comments.push(newComment);
+
+            const fieldsToUpdate = {comments: comments};
+            const updatedTask = await Task.findOneAndUpdate({_id: id}, {$set: fieldsToUpdate}, {new: true, useFindAndModify: false})
+            if (!updatedTask) {
+                res.status(404).send('Resource not found')
+            } else {   
+                res.send(updatedTask);
+            }
+        }
+    } catch(error) {
+        log(error)
+        if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+            res.status(500).send('Internal server error')
+        } else {
+            res.status(400).send('Bad Request') // bad request for changing the student.
+        }
+    }
+})
+
 /// a DELETE route to remove a task by their id.
 app.delete('/api/tasks/:id', async (req, res) => {
 	const id = req.params.id
@@ -503,7 +550,6 @@ app.get('/api/users/:location', mongoChecker, async (req, res) => {
         //finding all users in database with location = user_location
         const users = await User.find({location: user_location})
 
-        
         //getting the average ratings of each user in users at the same location as user_location
         let user_to_sort = []
 
@@ -578,7 +624,6 @@ app.get('/api/users/:location', mongoChecker, async (req, res) => {
 })
 
 app.delete('/api/users/:id/:review_id', async (req, res) => {
-	// Add code here
 
 	const id = req.params.id;
 	const review_id = req.params.review_id;
