@@ -1,14 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Notable&display=swap');
 .AboutUs {
     float: left;
     width: 405px;
-    margin-top: 180px;
+    margin-top: 140px;
     margin-left: 270px;
 }
 
+/* @font-face {
+    font-family: 'Montserrat', sans-serif;
+    src: url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+  } */
+
 .AboutUsTitle {
     font-size: 50px;
-    color: green;
+    color: #32BD32;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.header{
+    width: 100%;
+    height: 77px;
+    display: block;
+    background-color: salmon;
+}
+
+.logoContainer {
+    height: 100%;
+    display: table;
+    float: left;
+    margin-left: 110px;
+}
+
+.CHTitle {
+    font-size: 47px;
+    font-family: 'Notable';
+    color: white;
+    display: table-cell;
+    font-weight: 200;
+    /* margin-left: 40px; */
+    /* width: 600px; */
+    /* height: 100%; */
+    /* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
+}
+
+.diff {
+    color: green
 }
 
 .rectangle {
@@ -21,7 +57,7 @@
   .block1 {
       width: 110px;
       height: 40px;
-      background: green;
+      background: #32BD32;
       bottom:0;
       position: absolute;
       margin-bottom: 30px;
@@ -30,7 +66,7 @@
   .block2 {
     width: 40px;
     height: 110px;
-    background: green;
+    background: #32BD32;
     bottom:0;
     position: absolute;
     margin-bottom: 30px;
@@ -38,18 +74,27 @@
 }
 
 .AboutUsP {
-    color: green;
+    color: #32BD32;
     font-size: medium;
     margin-top: 15px;
   }
 
-  .Login-Box {
+.Login-Box {
     float: right;
-    border: 10px solid salmon;
+    border: 11px solid salmon;
     width: 450px;
-    height: 450px;
+    height: 425px;
     margin-right: 180px;
-    margin-top: 130px
+    margin-top: 60px
+}
+
+  .Register-Box {
+    float: right;
+    border: 11px solid salmon;
+    width: 450px;
+    height: 537px;
+    margin-right: 180px;
+    margin-top: 60px
   }
 
   #LoginButton {
@@ -60,18 +105,18 @@
   }
 
   #RegisterButton {
-    color: seagreen;
+    color: #32BD32;
     background-color:white;
     width: 200px;
     height: 80px;
 }
 
-.Login-Label {
-    color: green;
+.FormLabel {
+    color: #32BD32;
     size: 100px;
     font-size: 20px;
     margin-left: 20px;
-    margin-top: 50px;
+    margin-top: 45px;
 }
 
 .LoginInput{
@@ -81,12 +126,19 @@
     height: 40px;
 }
 
+.RegisterInput{
+    margin-left: 30px;
+    margin-top: 30px;
+    width: 250px;
+}
+
 .emailWidth {
     width: 270px;
     margin-left: 25px;
     margin-top: 50px;
     /* width: 250px;  */
     height: 40px;
+    background-color: salmon !important;
 }
 .passwordWidth {
     width: 220px;
@@ -94,54 +146,65 @@
     margin-top: 50px;
     /* width: 250px;  */
     height: 40px;
-}
-
-
-.RegisterInput{
-    margin-left: 30px;
-    margin-top: 30px;
-    width: 250px;
+    background-color: salmon !important;
 }
 
 .nameInput{
     margin-left: 30px;
     margin-top: 30px;
     width: 270px;
+    height: 40px;
+    background: salmon !important;
 }
 
 .emailInput{
     margin-left: 30px;
     margin-top: 30px;
     width: 270px;
+    height: 40px;
+    background: salmon !important;
+    
 }
 
 .passwordInput{
     margin-left: 30px;
     margin-top: 30px;
     width: 220px;
+    height: 40px;
+    background: salmon !important;
 }
 
 .locationInput{
     margin-left: 30px;
     margin-top: 30px;
     width: 232px;
+    height: 40px;
+    background: salmon !important;
+}
+
+.professionInput{
+    margin-left: 30px;
+    margin-top: 30px;
+    width: 213px;
+    height: 40px;
+    background: salmon !important;
 }
 
 .Submit1 {
-    top: 120px;
+    top: 90px;
     left: 140px;
     align-content: center;
     width: 150px;
-    background-color: seagreen;
+    background-color: #32BD32 !important;
 }
 
 .Submit2 {
-    top: 26px;
+    top: 31px;
     left: 140px;
     align-content: center;
     width: 150px;
-    color: seagreen;
-    background-color: seagreen;
+    background-color: #32BD32 !important;
+    
 }
 
 .selector {
@@ -149,6 +212,7 @@
     height: 5px;
     width: 165px;
     margin-left: 15px;
+    
 }
 
 /* 
