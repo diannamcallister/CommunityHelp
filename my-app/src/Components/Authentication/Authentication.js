@@ -1,7 +1,9 @@
 import React from 'react';
 import './Authentication.css';
-import { Button, Input, Icon } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react'
 import { Redirect, Link } from "react-router-dom";
+
+import { checkUser, registerUser } from '../../actions/checkUserValid.js';
 
 class Login extends React.Component {
 
@@ -9,10 +11,11 @@ class Login extends React.Component {
         super(props);
         this.state = {
             isLogin: true,
-            username: '',
+            email: '',
             password: '',
             location: '',
             name: '',
+            profession: '',
             errorMsg: 'One or more fields has an error.',
             validUsername: false,
             validPasswork: false,
@@ -29,6 +32,9 @@ class Login extends React.Component {
         this.showRegister = this.showRegister.bind(this);
         this.updateUserEntry = this.updateUserEntry.bind(this);
         this.checkLogin = this.checkLogin.bind(this);
+        this.checkRegister = this.checkRegister.bind(this);
+        this.checkUser = checkUser.bind(this);
+        this.registerUser = registerUser.bind(this);
     }
 
     //sets isLogin value to true of Login form should show and false if Register form should be shown.
@@ -51,14 +57,26 @@ class Login extends React.Component {
 
     //hardcoded username and password for either admin login or regular login
     checkLogin() {
-        // if (this.state.username === 'user' && this.state.password === 'user') {
-        //     this.setState({loginWorked: true});
-        // } else if (this.state.username === "admin" && this.state.password === "admin") {
-        //     this.setState({isAdmin: true, loginWorked: true});
-        // }
+        if (this.state.username === 'user' && this.state.password === 'user') {
+            this.setState({loginWorked: true});
+        } else if (this.state.username === "admin" && this.state.password === "admin") {
+            this.setState({isAdmin: true, loginWorked: true});
+        }
 
         //get user with email, if error -> FormError: true, errorMsg: email or password is invalid, loginWorked: false
         // no error -> loginWorked: true, formError: false
+        // const creds = {
+        //     email: this.state.email,
+        //     password: this.state.password
+        // }
+
+        // try {
+        //     let user = checkUser(creds);
+
+        // } catch(error) {
+
+        // }
+
     }
 
     checkRegister() {
@@ -81,7 +99,7 @@ class Login extends React.Component {
             <div className="Login-Box">
                 <Button id="LoginButton" onClick= {() => this.switchPage(true)} primary>LOG IN</Button>
                 <Button id= "RegisterButton" onClick= {() => this.switchPage(false)} secondary>REGISTER</Button>
-                <span><strong className="FormLabel">EMAIL: </strong><input className="emailWidth" name='username' onChange={this.updateUserEntry} /></span><br></br>
+                <span><strong className="FormLabel">EMAIL: </strong><input className="emailWidth" name='email' onChange={this.updateUserEntry} /></span><br></br>
                 <span><strong className="FormLabel">PASSWORD: </strong><input className="passwordWidth" type='password' name='password' focus onChange={this.updateUserEntry} /></span>
                 <Button className="Submit1" animated onClick={this.checkLogin}>
                     <Button.Content visible>LOGIN</Button.Content>
@@ -100,16 +118,16 @@ class Login extends React.Component {
                 <Button id="LoginButton" onClick= {() => this.switchPage(true)} primary>LOG IN</Button>
                 <Button id= "RegisterButton" onClick= {() => this.switchPage(false)} secondary>REGISTER</Button>
                 <strong className="FormLabel">NAME: </strong>
-                <input className="nameInput" focus/>
+                <input className="nameInput" focus onChange={this.updateUserEntry}/>
                 <strong className="FormLabel">EMAIL: </strong>
-                <input className="emailInput" focus/>
+                <input className="emailInput" focus onChange={this.updateUserEntry}/>
                 <strong className="FormLabel">PASSWORD: </strong>
-                <input className="passwordInput" focus/>
+                <input className="passwordInput" focus onChange={this.updateUserEntry}/>
                 <strong className="FormLabel">LOCATION: </strong>
-                <input className="locationInput" focus/>
+                <input className="locationInput" focus onChange={this.updateUserEntry}/>
                 <strong className="FormLabel">PROFESSION: </strong>
-                <input className="professionInput" focus/>
-                <Button className="Submit2" animated >
+                <input className="professionInput" focus onChange={this.updateUserEntry}/>
+                <Button className="Submit2" animated onClick={this.checkRegister}>
                     <Button.Content visible>REGISTER</Button.Content>
                     <Button.Content hidden>
                      <Icon name='arrow right' />
@@ -127,7 +145,7 @@ class Login extends React.Component {
     render() {
         return (
             <div>
-                {this.state.loginWorked || this.state.registerWorked ? <Redirect push to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin, username:this.state.username}}} /> : null}
+                {this.state.loginWorked || this.state.registerWorked ? <Redirect push to={{user:this.state.user}} /> : null}
                 <div className="block1"/><div className="block2"/>
                 <div className="header">
                     <div className='logoContainer'>
@@ -136,8 +154,6 @@ class Login extends React.Component {
                 </div>
                 <div className="AboutUs">
                     <h1 className="AboutUsTitle">ABOUT US:
-                        {/* <br/> */}
-                        {/* <h1 className="AboutUsTitle">ABOUT US:</h1> */}
                         <div className="rectangle"/>
                         <p className="AboutUsP">
                         This is a site for the community! If you have a task you need extra assistance with
