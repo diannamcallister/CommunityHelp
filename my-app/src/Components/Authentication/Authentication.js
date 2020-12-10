@@ -57,9 +57,9 @@ class Login extends React.Component {
 
     //hardcoded username and password for either admin login or regular login
     checkLogin() {
-        if (this.state.username === 'user' && this.state.password === 'user') {
+        if (this.state.email === 'user' && this.state.password === 'user') {
             this.setState({loginWorked: true});
-        } else if (this.state.username === "admin" && this.state.password === "admin") {
+        } else if (this.state.email === "admin" && this.state.password === "admin") {
             this.setState({isAdmin: true, loginWorked: true});
         }
 
@@ -145,7 +145,7 @@ class Login extends React.Component {
     render() {
         return (
             <div>
-                {this.state.loginWorked || this.state.registerWorked ? <Redirect push to={{user:this.state.user}} /> : null}
+                {this.state.loginWorked || this.state.registerWorked ? <Redirect push to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin, username:this.state.name}}} />: null}
                 <div className="block1"/><div className="block2"/>
                 <div className="header">
                     <div className='logoContainer'>

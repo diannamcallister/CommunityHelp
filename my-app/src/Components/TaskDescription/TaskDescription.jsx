@@ -31,7 +31,7 @@ class TaskDescription extends React.Component {
             comments: this.props.location.state.task.comments, // FUTURE TODO: this will be initialized as an empty array, and populated from GET call to backend -> db
             newComment: '',
             isAdmin: this.props.location.state === undefined ? false : this.props.location.state.isAdmin,
-            username: this.props.location.state === undefined ? '' : this.props.location.state.username,
+            username: this.props.location.state === undefined ? '' : this.props.location.state.name,
             isDeleted: false,
             isReported: false,
             editMode: false

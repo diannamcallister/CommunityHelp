@@ -141,8 +141,7 @@ app.post('/api/users', mongoChecker, async (req, res) => {
     const user = new User({
         email: req.body.email,
         password: req.body.password,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
+        name: req.body.name,
         location: req.body.location,
         profession: req.body.profession,
         isAdmin: req.body.isAdmin,
@@ -281,16 +280,16 @@ app.post('/api/tasks', multipartMiddleware, async (req, res) => {
 		return;
     } 
     
-    if (req.files.image !== undefined) {
+    if (req.files !== undefined && req.files.image !== undefined) {
         cloudinary.uploader.upload(
             req.files.image.path, // req.files contains uploaded files
             async function (result) {
 
-                const user = JSON.parse(req.body.owner);
-                const owner = await User.findById({"_id": user._id});
+                // const user = req.body.owner;
+                // const owner = await User.findById({"_id": user._id});
 
                 const task = new Task({
-                    owner: owner,
+                    owner: req.body.owner,
                     image: result.url,
                     location: req.body.location,
                     title: req.body.title,
@@ -319,8 +318,7 @@ app.post('/api/tasks', multipartMiddleware, async (req, res) => {
         });
     } else {
         // Create a new task using the Task mongoose model
-
-        const user = JSON.parse(req.body.owner);
+        const user = req.body.owner;
         const owner = await User.findById({"_id": user._id});
 
         const task = new Task({
@@ -419,8 +417,10 @@ app.patch('/api/tasks/:id', async (req, res) => {
 	}
 })
 
-app.put('/api/tasks/:id', async (req, res) => {
-	const id = req.params.id
+app.put('/api/tasks/:id', multipartMiddleware, async (req, res) => {
+    const id = req.params.id
+    
+    console.log(id);
 
 	if (!ObjectID.isValid(id)) {
 		res.status(404).send('Resource not found')
@@ -432,16 +432,57 @@ app.put('/api/tasks/:id', async (req, res) => {
 		log('Issue with mongoose connection')
 		res.status(500).send('Internal server error')
 		return;
-	} 
+    }
 
 	// Replace the student by their id using req.body
 	try {
-		const task = await Task.findOneAndReplace({_id: id}, req.body, {new: true, useFindAndModify: false})
-		if (!task) {
-			res.status(404).send()
-		} else {   
-			res.send(task)
-		}
+        if (req.files !== undefined && req.files.image !== undefined) {
+
+            console.log("in first if")
+            cloudinary.uploader.upload(
+                req.files.image.path, // req.files contains uploaded files
+                async function (result) {
+
+                    console.log(req.body);
+    
+                    const user = JSON.parse(req.body.owner);
+                    const owner = await User.findById({"_id": user._id});
+    
+                    const task = {
+                        owner: owner,
+                        image: result.url,
+                        location: req.body.location,
+                        title: req.body.title,
+                        description: req.body.description,
+                        numVolunteers: req.body.numVolunteers,
+                        numHours: req.body.numHours,
+                        price: req.body.price,
+                        isReported: req.body.isReported,
+                    }
+
+                    if (req.body.comments === '') {
+                        task.comments = []
+                    } else {
+                        task.comments = req.body.comments
+                    }
+            
+                const newTask = await Task.findOneAndReplace({_id: id}, task, {new: true, useFindAndModify: false})
+                if (!newTask) {
+                    res.status(404).send()
+                } else {   
+                    res.send(newTask)
+                }
+            });
+        } else {
+
+            // usual stuff 
+            const task = await Task.findOneAndReplace({_id: id}, req.body, {new: true, useFindAndModify: false})
+            if (!task) {
+                res.status(404).send()
+            } else {   
+                res.send(task)
+            }
+        }
 	} catch (error) {
 		log(error) // log server error to the console, not to the client.
 		if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
