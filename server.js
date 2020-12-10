@@ -646,7 +646,6 @@ app.get('/api/users/:location', mongoChecker, async (req, res) => {
 	try {
         // push new review to user.reviews
         const user = await User.findOneAndUpdate({_id: user_id}, {$push: {'reviews': {reviewer: req.body.reviewer,
-            reviewee: req.body.reviewee,
             comment: req.body.comment,
             rating: Number(req.body.rating),
             time: req.body.time}}}, {new: true, useFindAndModify: false})
