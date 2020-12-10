@@ -16,7 +16,8 @@ class Login extends React.Component {
             location: '',
             name: '',
             profession: '',
-            errorMsg: 'One or more fields has an error.',
+            errorMsgLogin: 'One or more fields has an error.',
+            errorMsgRegister: 'One or more fields has an error.',
             validEmail: true,
             validPassword: true,
             validName: true,
@@ -24,7 +25,8 @@ class Login extends React.Component {
             validProfession: true,
             loginWorked: false,
             registerWorked: false,
-            formError: true,
+            formErrorLogin: false,
+            formErrorRegister: false,
             isAdmin: false,
             user: {} 
             
@@ -76,12 +78,12 @@ class Login extends React.Component {
                 this.setState({loginWorked: true});
                 this.setState({formError: false});
             } else {
-                this.setState({errorMsg: 'Email or Password is incorrect.'});
-                this.setState({formError: true});
+                this.setState({errorMsgLogin: 'Email or Password is incorrect.'});
+                this.setState({formErrorLogin: true});
             }
         } catch(error) {
-            this.setState({errorMsg: 'There is a problem with our server. Please try again.'});
-            this.setState({formError: true});
+            this.setState({errorMsgLogin: 'There is a problem with our server. Please try again.'});
+            this.setState({formErrorLogin: true});
         }
     }
 
@@ -136,16 +138,14 @@ class Login extends React.Component {
                 const user = await registerUser(newUser);
                 this.setState({user: user});
                 this.setState({registerWorked: true});
-                console.log(this.state.registerWorked + ' worked');
             } catch(error) {
-                this.setState({formError: true});
-                this.setState({errorMsg: 'Something is wrong with our server. Please try again.'});
+                this.setState({formErrorRegister: true});
+                this.setState({errorMsgRegister: 'Something is wrong with our server. Please try again.'});
                 console.log('server error');
             }
         } else {
-            this.setState({formError: true});
-            this.setState({errorMsg: 'One or more fields has an error.'});
-            console.log('invalid user');
+            this.setState({formErrorRegister: true});
+            this.setState({errorMsgRegister: 'One or more fields has an error.'});
         }
             console.log(this.state.validEmail);
             console.log(this.state.validName);
@@ -168,7 +168,7 @@ class Login extends React.Component {
             <div className="Login-Box">
                 <Button id="LoginButton" onClick= {() => this.switchPage(true)} primary>LOG IN</Button>
                 <Button id= "RegisterButton" onClick= {() => this.switchPage(false)} secondary>REGISTER</Button>
-                {/* <strong>yo</strong> */}
+                {this.state.formErrorLogin ? <div className='formError'>{this.state.errorMsgLogin}</div> : null}
                 <span><strong className="FormLabel">EMAIL: </strong><input className="emailWidth" name='email' onChange={this.updateUserEntry} /></span><br></br>
                 <span><strong className="FormLabel">PASSWORD: </strong><input className="passwordWidth" type='password' name='password' focus onChange={this.updateUserEntry} /></span>
                 <Button className="Submit1" animated onClick={this.checkLogin}>
@@ -187,7 +187,7 @@ class Login extends React.Component {
             <div className="Register-Box">
                 <Button id="LoginButton" onClick= {() => this.switchPage(true)} primary>LOG IN</Button>
                 <Button id= "RegisterButton" onClick= {() => this.switchPage(false)} secondary>REGISTER</Button>
-                {/* <strong>yo</strong> */}
+                {this.state.formErrorRegister ? <div className='formError'>{this.state.errorMsgRegister}</div> : null}
                 <strong className="FormLabel">NAME: </strong>
                 <input className="nameInput" focus name ='name' onChange={this.updateUserEntry}/>
                 <strong className="FormLabel">EMAIL: </strong>
@@ -216,7 +216,6 @@ class Login extends React.Component {
     render() {
         return (
             <div>
-
                 {this.state.loginWorked ? <Redirect push to={{pathname:'/alltasks', state: {user:this.state.user}}} /> : null}
                 {this.state.registerWorked ? <Redirect push to={{pathname:'/alltasks', state: {user:this.state.user}}} /> : null}
                 <div className="block1"/><div className="block2"/>
