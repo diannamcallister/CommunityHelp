@@ -8,25 +8,18 @@ export async function checkUser(credentials) {
             'Content-Type': 'application/json'
         }
     });
-    fetch(request)
-    .then(res => {
+    try {
+        const res = await fetch(request);
         if (res.status === 200) {
             let user = res.json();
-            user.then(resolved => {
-                user = resolved;
-            }, rejected => {
-                console.log(rejected);
-            });
             console.log('user is found');
             return user;
         } else if (res.status === 400) {
             return {};
         }
-    })
-    .catch((error) => {
-        console.log(error);
-        console.log('error in fetch');
-    })
+    } catch(error) {
+    console.log(error);
+    }   
 }
 
 export async function registerUser(newUser) {
@@ -39,15 +32,15 @@ export async function registerUser(newUser) {
             'Content-Type': 'application/json'
         }
     });
-    fetch(request)
-    .then(res => {
+    try {
+        const res = await fetch(request);
         if (res.status === 200) {
-            //new user was created
             const user = res.json();
+            console.log('call to backend api worked');
             return user;
-        } //duplicate email?
-    })
-    .catch((error) => {
+        } 
+    } catch(error) {
+        console.log('also reached in registerUser');
         console.log(error);
-    })
+    }
 }
