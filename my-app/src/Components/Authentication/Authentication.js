@@ -59,16 +59,7 @@ class Login extends React.Component {
     }
 
     //hardcoded username and password for either admin login or regular login
-<<<<<<< HEAD
-    checkLogin() {
-        if (this.state.email === 'user' && this.state.password === 'user') {
-            this.setState({loginWorked: true});
-        } else if (this.state.email === "admin" && this.state.password === "admin") {
-            this.setState({isAdmin: true, loginWorked: true});
-        }
-=======
     async checkLogin() {
->>>>>>> 1855b97f750d297166d4e16f7502a507c138bd3d
 
         //get user with email, if error -> FormError: true, errorMsg: email or password is invalid, loginWorked: false
         // no error -> loginWorked: true, 
