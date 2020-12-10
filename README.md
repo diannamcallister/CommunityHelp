@@ -1,5 +1,22 @@
-# team17
+# team17 - Community Help Application
 
+### Link to deployed Site ###
+* https://community-help-page.herokuapp.com/
+
+
+### Structure of Code ###
+* All of our API routes for the backend are in the "team17/server.js" file 
+* In "team17/src/actions" there are seperate JS files for each page. These files contain the fetch calls needed for each page.
+* In "team17/src/Components", there is a seperate folder for each page. 
+* "team17/src/images" contains any images used for the application.
+* "team17/src/basics-stylesheets.css" contains styling for any common elements within the application such as buttons, text inputs and headers.
+
+# Overview for a normal user
+
+* Login username: user
+* Login Password: user
+
+In this section we will go through all the pages a normal user for the application will see/interact with. We will also be explaining the API endpoints/routes we have created.
 
 ### Login/Signup Page ###
 <img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/Authentication/authentication.png" width="400" height="250">
@@ -10,16 +27,18 @@
 * Upon logging in, user will be taken to tasks page (tasks shows up differently depending on admin or regular user)
 
 
-### User Profile Page ###
-
-
-
 ### Users Page ###
 <img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/UsersPage/user_users_page.png" width="400" height="250" />
 
-* Access User Page by "/UserPage" or by clicking on User in the navigation bar
-* If you click on the "learn more" button on the user cards, you will be taken to that users profile page
-* If you click on the user icon, username or user rating (stars) in the users list, you will also be taken to the users profile page
+* Access User Page by "/UserPage" or by clicking on User in the navigation bar.
+* If you click on the "learn more" button on the user cards, you will be taken to that users profile page.
+* If you click on the user icon, username or user rating (stars) in the users list, you will also be taken to the users profile page.
+* Thus, users can view the people in their location that are contributing the most to their community. They can also look at their own contribution to their community based on their rank in the users page.
+
+#### User Page Routes ####
+* In the user page, we recieve the current user that is using the application. We then extract the location of the current user and call the backend route "/api/users/:location" to get a list of users. This list object will contain users, as well as a "avgRating" field associated with each user which is the average rating of the user based on all the reviews that user has. The returned object is ordered in decending order of avgRating. 
+* The frontend recieves the ordered object and populates the top three users (i.e. the top three users with the highest rating in that given location), and displays those users in the top three cards on the userpage. 
+* All other users of that location are listed in decending order of avgRating in the list underneath the top three cards on the user page.
 
 
 ### User Profile Page ###
@@ -52,7 +71,7 @@
 * If the task posting is that of another user (it is NOT your job posting), you will be able to view and add comments to the task, report the task if you believe it is inappropriate, click on the name of the person who posted it to route to their profile page, or click on the name of someome who commented and route to their profile page.
 * If the task posting IS yours, you will have all the same functionality as if the posting wasn't yours, with the addition of being able to delete or edit the task posting. You are able to edit any of the fields of the posting, or delete the posting completely so that it can no longer be viewed.
 
-# Admin Pages #
+# Overview for an Admin user
 
 ### Admin Users Page ###
 <img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/UsersPage/admin_users_page.png" width="400" height="250" />
@@ -61,6 +80,13 @@
 * If you click on the "learn more" button on the user cards, you will be taken to that users profile page
 * If you click on the user icon, username or user rating (stars) in the users list, you will also be taken to the users profile page
 * If you click on the "x" button you will remove that users from the list or that card from the page
+
+#### Admin User Page Routes ####
+
+* The admin user page populates the page with users from the admin users location in the same way as the User Page (see User Page Routes section). 
+* The other API route that is used in this page is the "/UserProfile/:delete_id" which takes in the ID of the user to delete and then deletes that user from the database. 
+* When the "x" button is clicked, the frontend will send the id of the user to be deleted to the backend. 
+* Thus, the admin user is able to deleted users from the database as they see fit. For example, if the admin see's that some user is always at the bottom of the list and that this user has consistantly low ratings, they can delete that user. 
 
 
 ### Admin All Tasks Page ###
