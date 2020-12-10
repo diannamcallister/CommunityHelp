@@ -66,11 +66,11 @@ class TaskCardDescription extends React.Component {
                     {/* FUTURE TODO: this will be updated to compare the user's IDs so that users with the same name
                             won't be confused as being the same user - every user will have a unique ID instead */}
                     {/* { this.state.task.username === this.state.username ? */}
-                    { this.state.task.owner._id === "5fc3e5a1bd841ef02aeebc34" ?
+                    { this.state.task.owner._id === "5fd170bb3d68f441e9ed4262" ?
                     <Button className='edit-task' onClick={() => this.props.changeEditTaskMode()}>Edit Task</Button>
                     : null}
                     {/* { this.state.task.username === this.state.username ? */}
-                    { this.state.task.owner._id === "5fc3e5a1bd841ef02aeebc34" ?
+                    { this.state.task.owner._id === "5fd170bb3d68f441e9ed4262" ?
                     <Button className='delete-task' onClick={() => this.deleteJob(this.state.task)}>Delete Job</Button>
                     : null}
                     </div>

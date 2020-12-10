@@ -106,7 +106,6 @@ class CreateTask extends React.Component {
 
                 title: this.state.title,
                 description: this.state.description,
-                // image: this.state.image,
                 numHours: this.state.hours,
                 numVolunteers: this.state.volunteerNum,
                 price: this.state.price,
