@@ -102,7 +102,7 @@ app.post("/users/login", (req, res) => {
             // We can check later if this exists to ensure we are logged in.
             req.session.user = user._id;
             req.session.email = user.email; // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
-            res.send({ currentUser: user });
+            res.send(user);
         })
         .catch(error => {
             res.status(400).send()
@@ -145,8 +145,8 @@ app.post('/api/users', mongoChecker, async (req, res) => {
         location: req.body.location,
         profession: req.body.profession,
         isAdmin: req.body.isAdmin,
-        profession: req.body.profession
     })
+    console.log(req);
 
     try {
         // Save the user
@@ -157,7 +157,7 @@ app.post('/api/users', mongoChecker, async (req, res) => {
             res.status(500).send('Internal server error')
         } else {
             log(error)
-            res.status(400).send('Bad Request') // bad request for changing the student.
+            res.status(400).send('Bad Request') 
         }
     }
 })
@@ -196,6 +196,7 @@ app.get('/UserProfileAll/', async (req, res) => {
     try {
         const U = await User.find()
         // res.send(students) // just the array
+        res.send("reached");
         res.send(U) // can wrap students in object if want to add more properties
     } catch(error) {
         log(error)
