@@ -196,7 +196,6 @@ app.get('/UserProfileAll/', async (req, res) => {
     try {
         const U = await User.find()
         // res.send(students) // just the array
-        res.send("reached");
         res.send(U) // can wrap students in object if want to add more properties
     } catch(error) {
         log(error)
