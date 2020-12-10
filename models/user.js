@@ -7,7 +7,6 @@ const bcrypt = require('bcryptjs')
 
 const ReviewSchema = new mongoose.Schema({
     reviewer: String,
-	reviewee: String,
 	comment: String,
 	rating: Number,
 	time: String
