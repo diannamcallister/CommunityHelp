@@ -27,11 +27,10 @@ class TaskDescription extends React.Component {
         };
 ;
         this.state = {
-            task: this.props.location.state === undefined ? <Redirect push to={{pathname:'/alltasks'}} />  : this.props.location.state.task,
-            comments: this.props.location.state.task.comments, // FUTURE TODO: this will be initialized as an empty array, and populated from GET call to backend -> db
+            task: this.props.location.state === undefined ? <Redirect push to={{pathname:'/'}} />  : this.props.location.state.task,
+            comments: this.props.location.state === undefined ? <Redirect push to={{pathname:'/'}} />  : this.props.location.state.task.comments,
             newComment: '',
-            isAdmin: this.props.location.state === undefined ? false : this.props.location.state.isAdmin,
-            username: this.props.location.state === undefined ? '' : this.props.location.state.name,
+            user: this.props.location.state === undefined ? <Redirect push to={{pathname:'/'}} /> : this.props.location.state.user,
             isDeleted: false,
             isReported: false,
             editMode: false
@@ -52,7 +51,7 @@ class TaskDescription extends React.Component {
 
     async addComment() {
         const newComment = {
-            user: this.state.username, //TODO: change the user to what it needs to be!!!
+            commenter: this.state.user, //TODO: change the user to what it needs to be!!!
             comment: this.state.newComment
         };
         
@@ -105,8 +104,7 @@ class TaskDescription extends React.Component {
         return (
             <div>
                 <Dashboard 
-                    isAdmin = {this.state.isAdmin}
-                    username = {this.state.username}
+                    user = {this.state.user}
                 />
                 {this.state.editMode ? 
                     <header>
@@ -118,7 +116,7 @@ class TaskDescription extends React.Component {
                     </header>
                 }
 
-                <Link to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>
+                <Link to={{pathname:'/alltasks', state:{user:this.state.user}}}>
                     <Button animated className='all-jobs'>
                         <Button.Content visible>
                             All Jobs
@@ -135,15 +133,13 @@ class TaskDescription extends React.Component {
                         {this.state.editMode ?                         
                         <TaskCardEditDescription 
                             task = {this.state.task}
-                            isAdmin = {this.state.isAdmin}
-                            username = {this.state.username}
+                            user = {this.state.user}
                             doneEditingTask = {this.doneEditingTask}
                         />
                         :
                         <TaskCardDescription 
                             task = {this.state.task}
-                            isAdmin = {this.state.isAdmin}
-                            username = {this.state.username}
+                            user = {this.state.user}
                             changeEditTaskMode = {this.changeEditTaskMode}
                         />
                         }
@@ -158,7 +154,7 @@ class TaskDescription extends React.Component {
                                     name and comment, their comment won't get the same key - every comment will have a unique ID instead
                                 2. send the commented user's name to the UserProfile page so that the correct user's information can be displayed */}
                         { this.state.comments.map(comment => (
-                            <p key={comment._id}> <b className='subtitles'><Link className='link-color' to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>{comment.commenter.firstName} {comment.commenter.lastName}</Link>: </b>{comment.comment}</p>
+                            <p key={comment._id}> <b className='subtitles'><Link className='link-color' to={{pathname:'/UserProfile', state:{user:comment.commenter._id}}}>{comment.commenter.name}</Link>: </b>{comment.comment}</p>
                         ))
                         }
                         <div className='extra-middle-spacing'></div>

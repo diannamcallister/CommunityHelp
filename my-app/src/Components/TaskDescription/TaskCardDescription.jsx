@@ -13,8 +13,7 @@ class TaskCardDescription extends React.Component {
 
         this.state = {
             task: this.props.task,
-            isAdmin: this.props.isAdmin,
-            username: this.props.username,
+            user: this.props.user,
             isDeleted: false,
             isReported: this.props.task.isReported
         };
@@ -24,7 +23,6 @@ class TaskCardDescription extends React.Component {
     }
 
     async addReportedJob(job) {
-        console.log("report job");
         // FUTURE TODO: perform a POST call to add this job to the reported jobs table, or a PATCH call to update this job as reported -
         //  whichever is used is dependant on how the database is set up
 
@@ -47,7 +45,7 @@ class TaskCardDescription extends React.Component {
             <div>
                 <Card className='task-card'>
                     {this.state.isDeleted ? 
-                    <Redirect push to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin, username:this.state.username, deletedTask:this.state.task}}} /> 
+                    <Redirect push to={{pathname:'/alltasks', state:{user:this.state.user, deletedTask:this.state.task}}} /> 
                     : null}
                     <Image className='task-image' src={this.state.task.image} />
                     <h2 className='text-center description'>{this.state.task.description}</h2>
@@ -55,7 +53,7 @@ class TaskCardDescription extends React.Component {
                     <p className='text-center'><b className='subtitles'>Hours: </b>{this.state.task.numHours}</p>
                     <p className='text-center'><b className='subtitles'>Num Volunteers Needed: </b>{this.state.task.numVolunteers}</p>
                     <p className='text-center'><b className='subtitles'>Price: </b>{this.state.task.price}</p>
-                    <p className='text-center'><b className='subtitles'>Posted By: <Link className='link-color description' to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>{this.state.task.owner.firstName} {this.state.task.owner.lastName}</Link></b></p>
+                    <p className='text-center'><b className='subtitles'>Posted By: <Link className='link-color description' to={{pathname:'/UserProfile', state:{user:this.state.task.owner.name}}}>{this.state.task.owner.name}</Link></b></p>
 
                     <div>
                     {this.state.isReported ?
@@ -65,12 +63,10 @@ class TaskCardDescription extends React.Component {
                     }
                     {/* FUTURE TODO: this will be updated to compare the user's IDs so that users with the same name
                             won't be confused as being the same user - every user will have a unique ID instead */}
-                    {/* { this.state.task.username === this.state.username ? */}
-                    { this.state.task.owner._id === "5fd170bb3d68f441e9ed4262" ?
+                    { this.state.task.owner._id === this.state.user._id ?
                     <Button className='edit-task' onClick={() => this.props.changeEditTaskMode()}>Edit Task</Button>
                     : null}
-                    {/* { this.state.task.username === this.state.username ? */}
-                    { this.state.task.owner._id === "5fd170bb3d68f441e9ed4262" ?
+                    { this.state.task.owner._id === this.state.user._id ?
                     <Button className='delete-task' onClick={() => this.deleteJob(this.state.task)}>Delete Job</Button>
                     : null}
                     </div>
