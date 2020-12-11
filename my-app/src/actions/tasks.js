@@ -1,8 +1,5 @@
 export async function postTask(task) {
 
-    console.log("hello!!"); 
-    console.log(task);
-
     // the URL for the request
     const url = `/api/tasks`;
 
@@ -32,6 +29,8 @@ export async function postTask(task) {
 
 export async function updateTask(task) {
 
+    console.log(task);
+
     const url = `/api/tasks/${task._id}`;
 
     const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
@@ -41,11 +40,7 @@ export async function updateTask(task) {
     '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
     '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
 
-    console.log("task!");
-    console.log(task);
-
     if (task.image === undefined || pattern.test(task.image)) {
-        console.log("image was not updated");
         const request = new Request(url, {
             method: 'put', 
             body: JSON.stringify(task),
@@ -55,32 +50,15 @@ export async function updateTask(task) {
             },
         });
 
-        fetch(request)
-        .then(function(res) {
-            // Handle response we get from the API.
-            // Usually check the error codes to see what happened.
-            if (res.status === 200) {
-                // If student was added successfully, tell the user.
-                console.log('updated task')
-            
-            } else {
-                // If server couldn't add the student, tell the user.
-                // Here we are adding a generic message, but you could be more specific in your app.
-        
-            }
-            console.log(res)  // log the result in the console for development purposes,
-                            //  users are not expected to see this.
-        }).catch((error) => {
-            console.log(error)
-        })
+        const res = await fetch(request);
+        const returning = res.json();
+        return returning;
+
     } else {
-        console.log("image was updated");
-        console.log(task.image);
         // the image was changed
         const formData = new FormData();
         formData.append("owner", JSON.stringify(task.owner));
         if (task.image !== undefined) {
-            console.log("image is present");
             formData.append("image", task.image);
         }
         formData.append("location", task.location);
@@ -92,32 +70,14 @@ export async function updateTask(task) {
         formData.append("isReported", task.isReported);
         formData.append("comments", []);
 
-        console.log("formData");
-        console.log(formData.entries);
-
         const request = new Request(url, {
             method: 'put', 
             body: formData
         });
 
-        fetch(request)
-        .then(function(res) {
-            // Handle response we get from the API.
-            // Usually check the error codes to see what happened.
-            if (res.status === 200) {
-                // If student was added successfully, tell the user.
-                console.log('updated task')
-            
-            } else {
-                // If server couldn't add the student, tell the user.
-                // Here we are adding a generic message, but you could be more specific in your app.
-        
-            }
-            console.log(res)  // log the result in the console for development purposes,
-                            //  users are not expected to see this.
-        }).catch((error) => {
-            console.log(error)
-        })
+        const res = await fetch(request);
+        const returning = res.json();
+        return returning;
     }
 }
 

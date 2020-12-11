@@ -33,8 +33,8 @@ class Task extends React.Component {
         return (
             <div>
                 {this.state.showTaskDetails ? <Redirect push to={{pathname:'/task', state:{ task:task, user:user, addReportedJob:addReportedJob}}} /> : null}
-                    <Button animated className='button-center' onClick={(e) => e.target.className!=="reported-text" ?
-                        this.openTaskDetails() : null}>
+                    <Button animated className='button-center' onClick={(e) => e.target.className !== "ui button reported-button" ?
+                        this.openTaskDetails() : console.log(e.target.className)}>
                         {seeReported ? 
                         <div>
                             <h1 className='reported-text'>REPORTED</h1>

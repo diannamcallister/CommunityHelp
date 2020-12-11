@@ -42,8 +42,8 @@ class TaskCardEditDescription extends React.Component {
                     <span className='bottom-spacing'><b className='subtitles'>Title: </b><Input name='title' className='input-title-sizing' focus onChange={this.updateUserEntry} defaultValue={this.props.task.title}/></span>
                     <span className='bottom-spacing'><b className='subtitles'>Image: </b><Input name='image' className='input-image-sizing' focus type="file" onChange={this.updateUserEntry}/></span>
                     <span className='bottom-spacing'><b className='subtitles'>Description: </b><TextArea name='description' className='input-description-sizing' onChange={this.updateUserEntry} defaultValue={this.props.task.description}/></span>
-                    <span className='bottom-spacing'><b className='subtitles'>Hours: </b><Input name='hours' className='input-hours-sizing' focus onChange={this.updateUserEntry} defaultValue={this.props.task.numHours}/></span>
-                    <span className='bottom-spacing'><b className='subtitles'>Num Volunteers Needed: </b><Input name='volunteerNum' className='input-volunteers-sizing' focus onChange={this.updateUserEntry} defaultValue={this.props.task.numVolunteers}/></span>
+                    <span className='bottom-spacing'><b className='subtitles'>Hours: </b><Input name='numHours' className='input-hours-sizing' focus onChange={this.updateUserEntry} defaultValue={this.props.task.numHours}/></span>
+                    <span className='bottom-spacing'><b className='subtitles'>Num Volunteers Needed: </b><Input name='numVolunteers' className='input-volunteers-sizing' focus onChange={this.updateUserEntry} defaultValue={this.props.task.numVolunteers}/></span>
                     <span className='bottom-spacing'><b className='subtitles'>Price: </b><Input name='price' className='input-price-sizing' focus onChange={this.updateUserEntry} defaultValue={this.props.task.price}/></span>
 
                     {/* FUTURE TODO: this will be updated to compare the user's IDs so that users with the same name

@@ -9,7 +9,6 @@ import TaskDescription from './Components/TaskDescription/TaskDescription.jsx';
 import Login from './Components/Authentication/Authentication';
 import UserPage from './Components/UserPage/UserPage.js'
 import UserProfile from './Components/UserProfile/UserProfile.jsx'
-import AdminUserPage from './Components/AdminUserPage/AdminUserPage.js'
 
 function App() {
   return (
@@ -21,7 +20,6 @@ function App() {
           <Route exact path='/task' component={ TaskDescription } />
 		      <Route exact path='/UserProfile' component={ UserProfile } />
           <Route exact path='/UserPage' component={ UserPage } />
-		      <Route exact path='/AdminUserPage' component={ AdminUserPage } />
           <Route exact path='/' component={ Login } />
         </Switch>
       </BrowserRouter>
