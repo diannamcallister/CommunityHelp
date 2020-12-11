@@ -18,7 +18,7 @@
 
 # Overview for a normal user
 
-* Login email: user123@gmail.com
+* Login email: user@gmail.com
 * Login Password: user123
 (this user is located in toronto so you will only see users that are in toronto once you login. For more information on different users, please look at the google doc above.)
 
@@ -85,7 +85,7 @@ In this section we will go through all the pages a normal user for the applicati
 # Overview for an Admin user
 
 
-* Login email: admin123@gmail.com
+* Login email: admin@gmail.com
 * Login Password: admin123
 (this admin user is located in toronto so you will only see users that are in toronto once you login. For more information on different users, please look at the google doc above.)
 
