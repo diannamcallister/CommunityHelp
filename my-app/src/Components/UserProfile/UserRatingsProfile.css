@@ -31,6 +31,7 @@
     font-weight: bold;
 
 }
+
 .r_size{
     font-size: 10px;
 }
@@ -38,11 +39,7 @@
      float:left;
      align-items: center; /*horizontal centering*/
 }
-#r_ProfilePicture {
-    float:left;
-    margin-right: 50px;
-    align-items: center; /*horizontal centering*/
-}
+
 .r_UserPost {
     font-size: 30px;
     margin: 0px 10px 35px 0px;

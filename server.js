@@ -135,7 +135,7 @@ app.get("/users/check-session", (req, res) => {
 /*** API Routes below ************************************/
 // User API Route
 app.post('/api/users', mongoChecker, async (req, res) => {
-    log(req.body)
+    
 
     // Create a new user
     const user = new User({
@@ -146,7 +146,7 @@ app.post('/api/users', mongoChecker, async (req, res) => {
         profession: req.body.profession,
         isAdmin: req.body.isAdmin,
     })
-    console.log(req);
+
 
     try {
         // Save the user
@@ -208,7 +208,6 @@ app.get('/UserProfile/:profile_id', async (req, res) => {
 
     // Get the User
     try {
-        console.log(req.params.profile_id)
         const U = await User.find({email: req.params.profile_id})
        
         res.send(U) 
@@ -257,7 +256,21 @@ app.delete('/UserProfile/:delete_id', async (req, res) => {
 
 	// Delete a User by their id
 	try {
-		const user = await User.findByIdAndRemove(id)
+        const getUser = await User.find({_id: id})
+        const allTasks = await Task.find({location: getUser[0].location}).populate({path: 'owner'});;
+        console.log("all tasks!");
+        console.log(allTasks);
+        for (let i=0; i < allTasks.length; i++) {
+            console.log("before if");
+            console.log(allTasks[i].owner._id);
+            console.log(allTasks[i].owner._id === id);
+            if (allTasks[i].owner._id == id) {
+                console.log("in if!");
+                console.log(allTasks[i]);
+                await Task.findByIdAndRemove(allTasks[i]._id);
+            }
+        }
+        const user = await User.findByIdAndRemove(id)
 		if (!user) {
 			res.status(404).send()
 		} else {   
@@ -271,21 +284,19 @@ app.delete('/UserProfile/:delete_id', async (req, res) => {
 })
 // A Patch route to upload an image
 app.patch('/UserImage/:user_id', multipartMiddleware, async (req, res) => {
-    console.log("in server")
 	// check mongoose connection established.
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
 		res.status(500).send('Internal server error')
 		return;
     } 
-    console.log(req.files.image.path)
+
     if (req.files.image !== undefined) {
         cloudinary.uploader.upload(
             req.files.image.path, // req.files contains uploaded files
             async function (result) {
 
                 const id = req.params.user_id
-                console.log(result.url)
                 // Save task to the database
                 // async-await version:
                 try {
@@ -349,8 +360,15 @@ app.post('/api/tasks', multipartMiddleware, async (req, res) => {
     } else {
         // Create a new task using the Task mongoose model
 
+        let owner = {}
+        try {
+            owner = JSON.parse(req.body.owner)
+        } catch (error) {
+            owner = req.body.owner;
+        }
+
         const task = new Task({
-            owner: JSON.parse(req.body.owner),
+            owner: owner,
             location: req.body.location,
             title: req.body.title,
             description: req.body.description,
@@ -448,7 +466,6 @@ app.patch('/api/tasks/:id', async (req, res) => {
 app.put('/api/tasks/:id', multipartMiddleware, async (req, res) => {
     const id = req.params.id
     
-    console.log(id);
 
 	if (!ObjectID.isValid(id)) {
 		res.status(404).send('Resource not found')
@@ -466,12 +483,10 @@ app.put('/api/tasks/:id', multipartMiddleware, async (req, res) => {
 	try {
         if (req.files !== undefined && req.files.image !== undefined) {
 
-            console.log("in first if")
             cloudinary.uploader.upload(
                 req.files.image.path, // req.files contains uploaded files
                 async function (result) {
 
-                    console.log(req.body);
     
                     const user = JSON.parse(req.body.owner);
                     const owner = await User.findById({"_id": user._id});

@@ -34,8 +34,7 @@ export async function deleteUser(user) {
            
         } else {
             console.log('Could not delete user')
-        }
-        console.log(res)  
+        } 
     }).catch((error) => {
         console.log(error)
     })
