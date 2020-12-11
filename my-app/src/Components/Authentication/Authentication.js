@@ -16,8 +16,8 @@ class Login extends React.Component {
             location: '',
             name: '',
             profession: '',
-            errorMsgLogin: 'One or more fields has an error.',
-            errorMsgRegister: 'One or more fields has an error.',
+            errorMsgLogin: 'One or more fields has an error',
+            errorMsgRegister: 'One or more fields has an error',
             validEmail: true,
             validPassword: true,
             validName: true,
@@ -74,11 +74,11 @@ class Login extends React.Component {
                 this.setState({loginWorked: true});
                 this.setState({formErrorLogin: false});
             } else {
-                this.setState({errorMsgLogin: 'Email or Password is incorrect.'});
+                this.setState({errorMsgLogin: 'Email or Password is incorrect'});
                 this.setState({formErrorLogin: true});
             }
         } catch(error) {
-            this.setState({errorMsgLogin: 'There is a problem with our server. Please try again.'});
+            this.setState({errorMsgLogin: 'There is a problem with our server. Please try again'});
             this.setState({formErrorLogin: true});
         }
     }
@@ -131,11 +131,11 @@ class Login extends React.Component {
                 this.setState({registerWorked: true});
             } catch(error) {
                 this.setState({formErrorRegister: true});
-                this.setState({errorMsgRegister: 'Something is wrong with our server. Please try again.'});
+                this.setState({errorMsgRegister: 'Something is wrong with our server. Please try again'});
             }
         } else {
             this.setState({formErrorRegister: true});
-            this.setState({errorMsgRegister: 'One or more fields has an error.'});
+            this.setState({errorMsgRegister: 'One or more fields has an error'});
         }
     }
 
