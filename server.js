@@ -269,7 +269,40 @@ app.delete('/UserProfile/:delete_id', async (req, res) => {
 	}
 
 })
+// A Patch route to upload an image
+app.patch('/UserImage/:user_id', multipartMiddleware, async (req, res) => {
+    console.log("in server")
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+    } 
+    console.log(req.files.image.path)
+    if (req.files.image !== undefined) {
+        cloudinary.uploader.upload(
+            req.files.image.path, // req.files contains uploaded files
+            async function (result) {
 
+                const id = req.params.user_id
+                console.log(result.url)
+                // Save task to the database
+                // async-await version:
+                try {
+                    const new_user = await User.findOneAndUpdate({"_id": id},{$set:{image: result.url}},{new: true});
+                    res.send(new_user)
+
+                } catch(error) {
+                    log(error) // log server error to the console, not to the client.
+                    if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+                        res.status(500).send('Internal server error')
+                    } else {
+                        res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+                    }
+                }
+        });
+    } 
+})
 // a POST route to create a task
 app.post('/api/tasks', multipartMiddleware, async (req, res) => {
 
