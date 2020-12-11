@@ -32,7 +32,7 @@ class UserPage extends Component {
     let topThreeArr = []
     let allPlayersArr = []
     await users.map((curr, index) => {
-      if (!curr.isAdmin) {
+      if (!curr.user.isAdmin) {
         if (index < 3){
           let top_image = null
           if (index === 0) {
