@@ -362,8 +362,6 @@ app.post('/api/tasks', multipartMiddleware, async (req, res) => {
 //get all tasks from a specific location
 app.get('/api/tasks/:location', async (req, res) => {
 
-    console.log("in get");
-
     const location = req.params.location;
 	// check mongoose connection established.
 	if (mongoose.connection.readyState != 1) {
