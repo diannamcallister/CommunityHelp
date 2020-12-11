@@ -15,7 +15,8 @@ class CreateTask extends React.Component {
         this.addJob = this.addJob.bind(this);
         this.postTask = postTask.bind(this);
         this.state = {
-            user: this.props.user === undefined ? <Redirect push to={{pathname:'/'}} /> : this.props.user,
+            noSession: this.props.location.state === undefined ? true : false,
+            user: this.props.user === undefined ? {} : this.props.user,
             title: undefined,
             description: undefined,
             price: undefined,
@@ -147,6 +148,7 @@ class CreateTask extends React.Component {
     render() {
         return (
             <div>
+                { this.state.noSession ? <Redirect to={{pathname:'/'}} /> : null}
                 <Button id='buttons' onClick={this.props.closeModal}>
                     <Button.Content visible> X</Button.Content>
                 </Button>

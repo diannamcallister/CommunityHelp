@@ -15,22 +15,12 @@ class TaskDescription extends React.Component {
     constructor(props) {
         super(props);
 
-        // FUTURE TODO: all of the hardcoded comments (comment# = {}) will be removed when db is created, as they will be fetched from the db instead.
-        const comment1 = {
-            user: 'Dianna McAllister',
-            comment: 'I can help!!'
-        };
-
-        const comment2 = {
-            user: 'Qasim Ali',
-            comment: 'I can help too'
-        };
-;
         this.state = {
-            task: this.props.location.state === undefined ? <Redirect push to={{pathname:'/'}} />  : this.props.location.state.task,
-            comments: this.props.location.state === undefined ? <Redirect push to={{pathname:'/'}} />  : this.props.location.state.task.comments,
+            noSession: this.props.location.state === undefined ? true : false,
+            task: this.props.location.state === undefined ? {}  : this.props.location.state.task,
+            comments: this.props.location.state === undefined ? [] : this.props.location.state.task.comments,
             newComment: '',
-            user: this.props.location.state === undefined ? <Redirect push to={{pathname:'/'}} /> : this.props.location.state.user,
+            user: this.props.location.state === undefined ? {} : this.props.location.state.user,
             isDeleted: false,
             isReported: false,
             editMode: false
@@ -43,10 +33,6 @@ class TaskDescription extends React.Component {
         this.doneEditingTask = this.doneEditingTask.bind(this);
         this.addCommentDB = addCommentDB.bind(this);
         this.updateTask = updateTask.bind(this);
-    }
-
-    componentDidMount() {
-        //FUTURE TODO: make a GET call to the backend to get all comments associated to the current task
     }
 
     async addComment() {
@@ -104,6 +90,7 @@ class TaskDescription extends React.Component {
 
         return (
             <div>
+                { this.state.noSession ? <Redirect to={{pathname:'/'}} /> : console.log("login!") }
                 <Dashboard 
                     user = {this.state.user}
                 />
@@ -150,10 +137,6 @@ class TaskDescription extends React.Component {
                     <Grid.Column width={8}>
                         <h1 className='comment-title'>COMMENTS</h1>
                         <Divider className='divider' />
-                        {/* FUTURE TODOS: 
-                                1. this will be updated to use the comments's IDs so if there are users with the same
-                                    name and comment, their comment won't get the same key - every comment will have a unique ID instead
-                                2. send the commented user's name to the UserProfile page so that the correct user's information can be displayed */}
                         { this.state.comments.map(comment => (
                             <p key={comment._id}> <b className='subtitles'><Link className='link-color' to={{pathname:'/UserProfile', state:{user: this.state.user, userToView:comment.commenter._id}}}>{comment.commenter.name}</Link>: </b>{comment.comment}</p>
                         ))

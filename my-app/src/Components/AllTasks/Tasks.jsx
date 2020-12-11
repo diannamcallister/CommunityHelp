@@ -1,7 +1,7 @@
 import React from 'react';
 import "semantic-ui-css/semantic.min.css";
 import { Grid, Button } from 'semantic-ui-react';
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Modal from 'react-modal';
 import Dashboard from '../Dashboard/Dashboard';
 
@@ -41,7 +41,6 @@ class Tasks extends React.Component {
             // 1. fetch all tasks from db, save them in this.state.jobs so that they are displayed 
             // 2. fetch all REPORTED tasks from db, save them in this.state.reportedJobs so that they are displayed (if the user is an admin)
         let jobs = await this.getAllTasks(this.state.user.location); //TODO: don't hardcode TO
-        console.log(jobs);
         this.setState({jobs: jobs});
         let reportedJobs = jobs.filter((job) => job.isReported === true);
         this.setState({reportedJobs: reportedJobs});

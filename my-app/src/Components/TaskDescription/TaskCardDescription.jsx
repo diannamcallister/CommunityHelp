@@ -12,6 +12,7 @@ class TaskCardDescription extends React.Component {
         super(props);
 
         this.state = {
+            noSession: this.props.task.owner === undefined ? true : false,
             task: this.props.task,
             user: this.props.user,
             isDeleted: false,
@@ -45,6 +46,7 @@ class TaskCardDescription extends React.Component {
 
         return (
             <div>
+                { this.state.noSession ? <Redirect to={{pathname:'/'}} /> :
                 <Card className='task-card'>
                     {this.state.isDeleted ? 
                     <Redirect push to={{pathname:'/alltasks', state:{user:this.state.user, deletedTask:this.state.task}}} /> 
@@ -73,6 +75,7 @@ class TaskCardDescription extends React.Component {
                     : null}
                     </div>
                 </Card>
+                }
             </div>
         )
     }

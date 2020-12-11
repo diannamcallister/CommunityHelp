@@ -258,15 +258,8 @@ app.delete('/UserProfile/:delete_id', async (req, res) => {
 	try {
         const getUser = await User.find({_id: id})
         const allTasks = await Task.find({location: getUser[0].location}).populate({path: 'owner'});;
-        console.log("all tasks!");
-        console.log(allTasks);
         for (let i=0; i < allTasks.length; i++) {
-            console.log("before if");
-            console.log(allTasks[i].owner._id);
-            console.log(allTasks[i].owner._id === id);
             if (allTasks[i].owner._id == id) {
-                console.log("in if!");
-                console.log(allTasks[i]);
                 await Task.findByIdAndRemove(allTasks[i]._id);
             }
         }
@@ -490,6 +483,8 @@ app.put('/api/tasks/:id', multipartMiddleware, async (req, res) => {
     
                     const user = JSON.parse(req.body.owner);
                     const owner = await User.findById({"_id": user._id});
+
+                    const comments = JSON.parse(req.body.comments);
     
                     const task = {
                         owner: owner,
@@ -501,12 +496,7 @@ app.put('/api/tasks/:id', multipartMiddleware, async (req, res) => {
                         numHours: req.body.numHours,
                         price: req.body.price,
                         isReported: req.body.isReported,
-                    }
-
-                    if (req.body.comments === '') {
-                        task.comments = []
-                    } else {
-                        task.comments = req.body.comments
+                        comments: comments
                     }
             
                 const newTask = await Task.findOneAndReplace({_id: id}, task, {new: true, useFindAndModify: false})

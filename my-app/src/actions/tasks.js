@@ -29,8 +29,6 @@ export async function postTask(task) {
 
 export async function updateTask(task) {
 
-    console.log(task);
-
     const url = `/api/tasks/${task._id}`;
 
     const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
@@ -68,7 +66,9 @@ export async function updateTask(task) {
         formData.append("numHours", task.numHours);
         formData.append("price", task.price);
         formData.append("isReported", task.isReported);
-        formData.append("comments", []);
+        formData.append("comments", JSON.stringify(task.comments));
+
+        console.log(task.comments);
 
         const request = new Request(url, {
             method: 'put', 
