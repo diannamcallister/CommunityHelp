@@ -6,6 +6,10 @@
 .links{
     float: left;
 }
+#image_input{
+    display: block;
+    align-items: center;
+}
 .Heading{
 
     padding-bottom: 100px;
