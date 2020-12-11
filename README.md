@@ -18,9 +18,17 @@
 
 # Overview for a normal user
 
+Toronto Location:
 * Login email: user@gmail.com
 * Login Password: user123
+
 (this user is located in toronto so you will only see users that are in toronto once you login. For more information on different users, please look at the google doc above.)
+
+London Location:
+* Login email: user2@gmail.com
+* Login Password: user123
+
+(this user is located in london so you will only see users that are in london once you login. For more information on different users, please look at the google doc above.)
 
 In this section we will go through all the pages a normal user for the application will see/interact with. We will also be explaining the API endpoints/routes we have created.
 
@@ -84,10 +92,17 @@ In this section we will go through all the pages a normal user for the applicati
 
 # Overview for an Admin user
 
-
+Toronto Location Admin:
 * Login email: admin@gmail.com
 * Login Password: admin123
+
 (this admin user is located in toronto so you will only see users that are in toronto once you login. For more information on different users, please look at the google doc above.)
+
+London Location Admin:
+* Login email: admin2@gmail.com
+* Login Password: admin123
+
+(this admin user is located in london so you will only see users that are in london once you login. For more information on different users, please look at the google doc above.)
 
 ### Admin Users Page ###
 <img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/UsersPage/admin_users_page.png" width="400" height="250" />
