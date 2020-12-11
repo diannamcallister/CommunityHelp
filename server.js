@@ -257,7 +257,21 @@ app.delete('/UserProfile/:delete_id', async (req, res) => {
 
 	// Delete a User by their id
 	try {
-		const user = await User.findByIdAndRemove(id)
+        const getUser = await User.find({_id: id})
+        const allTasks = await Task.find({location: getUser[0].location}).populate({path: 'owner'});;
+        console.log("all tasks!");
+        console.log(allTasks);
+        for (let i=0; i < allTasks.length; i++) {
+            console.log("before if");
+            console.log(allTasks[i].owner._id);
+            console.log(allTasks[i].owner._id === id);
+            if (allTasks[i].owner._id == id) {
+                console.log("in if!");
+                console.log(allTasks[i]);
+                await Task.findByIdAndRemove(allTasks[i]._id);
+            }
+        }
+        const user = await User.findByIdAndRemove(id)
 		if (!user) {
 			res.status(404).send()
 		} else {   
@@ -349,8 +363,15 @@ app.post('/api/tasks', multipartMiddleware, async (req, res) => {
     } else {
         // Create a new task using the Task mongoose model
 
+        let owner = {}
+        try {
+            owner = JSON.parse(req.body.owner)
+        } catch (error) {
+            owner = req.body.owner;
+        }
+
         const task = new Task({
-            owner: JSON.parse(req.body.owner),
+            owner: owner,
             location: req.body.location,
             title: req.body.title,
             description: req.body.description,
