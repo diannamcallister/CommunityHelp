@@ -30,6 +30,12 @@
     margin-right: 50px;
     align-items: center; /*horizontal centering*/
 }
+
+#ProfilePicture img{
+    width: 537px;
+    height: 576px;
+}
+
 .UserHeadings_name {
     font-size: 50px;
     margin: 100px 100px 35px 120px;

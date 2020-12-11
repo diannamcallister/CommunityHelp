@@ -1,5 +1,4 @@
 ﻿import React from 'react';
-import profile_picture from '../../Images/usr_profile_pic.jpg';
 import "semantic-ui-css/semantic.min.css";
 import {Button, Form, Rating} from 'semantic-ui-react';
 import './UserProfile.css'
@@ -41,8 +40,6 @@ class UserProfile extends React.Component {
             // 1. fetch all tasks from db, save them in this.state.jobs so that they are displayed 
             // 2. fetch all REPORTED tasks from db, save them in this.state.reportedJobs so that they are displayed (if the user is an admin)
         // let user = await this.getUserProfile("a123@gmail.com"); //TODO: don't hardcode TO
-        console.log(this.state.user)
-        console.log(this.state.userToView)
         let user = await this.getUserProfile(this.state.userToView.email); //TODO: don't hardcode TO
         user = user[0]
         this.setState({email:user.email})
@@ -50,7 +47,6 @@ class UserProfile extends React.Component {
         this.setState({location: user.location})
         this.setState({profession:user.profession})
         this.setState({image: user.image});
-        console.log(this.state.userToView)
         
     }
     async getAllReviews() {
@@ -172,8 +168,6 @@ class UserProfile extends React.Component {
 
 
     editPermission(){
-        console.log(this.state.user._id)
-        console.log(this.state.userToView._id)
         if (this.state.user._id === this.state.userToView._id){
             return (<div id="Edit_b"><Button id="b2" onClick= {() => this.switchProfile(1)}>Edit Profile</Button></div>)
         }
