@@ -1,3 +1,4 @@
+//call to backend to check if user is a valid user for login
 export async function checkUser(credentials) {
     const url = `/users/login`;
     const request = new Request(url, {
@@ -12,16 +13,16 @@ export async function checkUser(credentials) {
         const res = await fetch(request);
         if (res.status === 200) {
             let user = res.json();
-            console.log('user is found');
             return user;
         } else if (res.status === 400) {
             return {};
         }
     } catch(error) {
-    console.log(error);
+        console.log(error);
     }   
 }
 
+//backend call to register user
 export async function registerUser(newUser) {
     const url = `/api/users`;
     const request = new Request(url, {
@@ -36,11 +37,9 @@ export async function registerUser(newUser) {
         const res = await fetch(request);
         if (res.status === 200) {
             const user = res.json();
-            console.log('call to backend api worked');
             return user;
         } 
     } catch(error) {
-        console.log('also reached in registerUser');
         console.log(error);
     }
 }

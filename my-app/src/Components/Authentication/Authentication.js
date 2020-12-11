@@ -62,7 +62,6 @@ class Login extends React.Component {
     //hardcoded username and password for either admin login or regular login
     async checkLogin() {
         this.setState({formErrorLogin: false});
-        console.log(this.state);
         const creds = {
             email: this.state.email,
             password: this.state.password
@@ -83,6 +82,7 @@ class Login extends React.Component {
         }
     }
 
+    //check to see if user can register with their entered credentials
     async checkCredentials() {
         this.setState({formErrorRegister: false});
         const simpleEmailRegex = /^[ ]*([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})[ ]*$/i;
@@ -113,9 +113,9 @@ class Login extends React.Component {
         }
     }
 
+    // register user if their credentials are valid, show error if not valid or backend call fails
     async checkRegister() {
         await this.checkCredentials();
-        console.log(this.state);
         if (this.state.validEmail && this.state.validName && this.state.validPassword && this.state.validLocation && this.state.validProfession) {
             try {
                 let newUser = {
@@ -193,7 +193,6 @@ class Login extends React.Component {
         )
 
     }
-
     componentDidMount() {
         this.switchPage(true);
     }
