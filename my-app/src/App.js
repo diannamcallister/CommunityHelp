@@ -20,7 +20,6 @@ function App() {
           <Route exact path='/task' component={ TaskDescription } />
 		      <Route exact path='/UserProfile' component={ UserProfile } />
           <Route exact path='/UserPage' component={ UserPage } />
-		      <Route exact path='/AdminUserPage' component={ AdminUserPage } />
           <Route exact path='/' component={ Login } />
         </Switch>
       </BrowserRouter>
