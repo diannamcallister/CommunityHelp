@@ -4,7 +4,7 @@ import Dashboard from '../Dashboard/Dashboard.js';
 import firstPlaceImage from '../../Images/firstPlace.png';
 import secondPlaceImage from '../../Images/secondPlace.png';
 import thirdPlaceImage from '../../Images/thirdPlace.png';
-import { Link } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import './UserPage.css';
 import '../../basics-stylesheet.css'
 import { getAllUsers, deleteUser } from '../../actions/userpage.js';
@@ -14,13 +14,12 @@ class UserPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-        //is populated through the backend
+        //is populated through the backend in componentDidMount()
         topThree : [],
-        //is poulated through the backend
+        //is poulated through the backend in componentDidMount()
         allPlayers : [],
-        user: this.props.location.state === undefined ? '' : this.props.location.state.user,
-        // isAdmin: this.props.location.state === undefined ? '' : this.props.location.state.admin,
-        isAdmin: false
+        user: this.props.location.state === undefined ? '': this.props.location.state.user,
+        isAdmin: this.props.location.state === undefined ? '': this.props.location.state.user.isAdmin,
     }
     this.getAllUsers = getAllUsers.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
@@ -28,43 +27,41 @@ class UserPage extends Component {
   }
 
   async componentDidMount() {
-    let users = await this.getAllUsers("toronto"); //TODO: don't hardcode TO
+    let users = await this.getAllUsers(this.state.user.location); 
     let topThreeArr = []
     let allPlayersArr = []
     await users.map((curr, index) => {
-      console.log(curr)
-      if (index < 3){
-        let top_image = null
-        if (index === 0) {
-          top_image = firstPlaceImage
-        } else if (index === 1) {
-          top_image = secondPlaceImage
+      if (!curr.isAdmin) {
+        if (index < 3){
+          let top_image = null
+          if (index === 0) {
+            top_image = firstPlaceImage
+          } else if (index === 1) {
+            top_image = secondPlaceImage
+          } else {
+            top_image = thirdPlaceImage
+          }
+          let temp_obj = {id: curr.user._id, image: top_image, name: curr.user.firstName, rating: curr.avgRating, user: curr.user}
+          topThreeArr.push(temp_obj)
         } else {
-          top_image = thirdPlaceImage
+          let temp_obj = {id: curr.user._id, image: curr.user.image, name: curr.user.firstName, rating: curr.avgRating, user: curr.user}
+          allPlayersArr.push(temp_obj)
         }
-        let temp_obj = {id: curr.user._id, image: top_image, name: curr.user.firstName, rating: curr.avgRating, user: curr.user}
-        topThreeArr.push(temp_obj)
-      } else {
-        let temp_obj = {id: curr.user._id, image: curr.user.image, name: curr.user.firstName, rating: curr.avgRating, user: curr.user}
-        allPlayersArr.push(temp_obj)
+  
+        this.setState({topThree: topThreeArr});
+        this.setState({allPlayers: allPlayersArr});
       }
-
-      this.setState({topThree: topThreeArr});
-      this.setState({allPlayers: allPlayersArr});
-    })
-    console.log(this.state)
-
+      })
   }
 
   async deleteUser(user) {
     //deleting user from the backend
-    console.log('in async delete user func')
     await deleteUser(user);
   }
 
   handleClick(e) {
 
-      // Finding user to delete in allPlayers array in this.state
+      // Finding user to delete in allPlayers array in this.state.allPlayers
       let user_to_delete = null
       this.state.allPlayers.map((item) => {
         if (item.id === e.target.id) {
@@ -83,7 +80,7 @@ class UserPage extends Component {
 
   handleCardClick(e) {
       
-      // Finding user to delete in topThree array in this.state
+      // Finding user to delete in topThree array in this.state.topThree
       let user_to_delete = null
       this.state.topThree.map((item) => {
         if (item.id === e.target.id) {
@@ -96,7 +93,6 @@ class UserPage extends Component {
           return person.id !== e.target.id
       })});
 
-      console.log('user to delete', user_to_delete)
       this.deleteUser(user_to_delete)
 
   }
@@ -105,8 +101,7 @@ class UserPage extends Component {
     return (
         <div>
         <Dashboard
-          isAdmin = {this.props.location.state === undefined ? true : this.props.location.state.isAdmin}
-          username = {this.props.location.state === undefined ? '' : this.props.location.state.username}
+          user = {this.state.user}
         />
         <h1 className='Header'> Users </h1>
         <Card.Group className='card_group' itemsPerRow={3} centered>
@@ -120,7 +115,7 @@ class UserPage extends Component {
             <Rating defaultRating={item.rating} maxRating={5} disabled  icon='star' id='rating'/> 
             </Card.Content>
             <Card.Content extra> 
-                  <Button id='buttons' basic as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>Learn More</Button>
+                  <Button id='buttons' basic as={Link} to={{pathname:'/UserProfile', state:{user:this.state.user, userToView: item.user}}}>Learn More</Button>
                   {this.state.isAdmin ? 
                       <Button circular className='remove' id={item.id} onClick={(e) => this.handleCardClick(e)}>x</Button> 
                     : null
@@ -139,11 +134,11 @@ class UserPage extends Component {
                   </List.Content>
                   : null
                 }
-              <List.Content as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>
+              <List.Content as={Link} to={{pathname:'/UserProfile', state:{user:this.state.user, userToView: item.user}}}>
               <Image avatar src={item.image} />
               </List.Content>
-              <List.Content as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}>{item.name}</List.Content>
-              <Rating defaultRating={item.rating} maxRating={5} disabled  icon='star' id='rating' as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.state.username}}}/>
+              <List.Content as={Link} to={{pathname:'/UserProfile', state:{user:this.state.user, userToView: item.user}}}>{item.name}</List.Content>
+              <Rating defaultRating={item.rating} maxRating={5} disabled  icon='star' id='rating' as={Link} to={{pathname:'/UserProfile', state:{user:this.state.user, userToView: item.user}}}/>
               </List.Item>
 
             )}
