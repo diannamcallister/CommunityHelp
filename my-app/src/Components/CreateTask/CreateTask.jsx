@@ -118,6 +118,7 @@ class CreateTask extends React.Component {
             }
             //FUTURE TODO: add a POST call to add the new job to the db
             const newJobSaved = await this.postTask(newJob);
+            newJobSaved.owner = this.state.user;
             this.props.addJob(newJobSaved);
         } else {
             const formError = !this.state.formError;
@@ -213,7 +214,7 @@ class CreateTask extends React.Component {
                         instead of just using the image URLs instead */}
                     <Form.Input
                         name="image"
-                        label='IMAGE (ONLY URL ACCEPTED):'
+                        label='IMAGE:'
                         placholder='Image'
                         type="file"
                         onChange={this.updateField}

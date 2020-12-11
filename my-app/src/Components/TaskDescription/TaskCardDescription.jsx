@@ -4,7 +4,7 @@ import { Button, Image, Card } from 'semantic-ui-react';
 import { Link, Redirect } from "react-router-dom";
 
 import './TaskDescription.css';
-import { reportTask } from '../../actions/tasks.js'
+import { reportTask, deleteTask } from '../../actions/tasks.js'
 
 class TaskCardDescription extends React.Component {
 
@@ -20,6 +20,7 @@ class TaskCardDescription extends React.Component {
         this.addReportedJob = this.addReportedJob.bind(this);
         this.deleteJob = this.deleteJob.bind(this);
         this.reportTask = reportTask.bind(this);
+        this.deleteTask = deleteTask.bind(this);
     }
 
     async addReportedJob(job) {
@@ -32,8 +33,9 @@ class TaskCardDescription extends React.Component {
         this.setState({isReported: isReported});
     }
 
-    deleteJob(job) {
+    async deleteJob(job) {
         // FUTURE TODO: perform a DELETE call to delete this job from the database
+        await this.deleteTask(job);
         const isDeleted = !this.state.isDeleted;
         this.setState({isDeleted: isDeleted});
     }

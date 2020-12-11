@@ -45,9 +45,9 @@ class Tasks extends React.Component {
         this.setState({jobs: jobs});
         let reportedJobs = jobs.filter((job) => job.isReported === true);
         this.setState({reportedJobs: reportedJobs});
-        if (this.props.location.state && this.props.location.state.deletedTask) {
-            this.deleteJob(this.props.location.state.deletedTask)
-        }
+        // if (this.props.location.state && this.props.location.state.deletedTask) {
+        //     this.deleteJob(this.props.location.state.deletedTask)
+        // }
     }
 
     changeModalPosition() {
@@ -62,10 +62,6 @@ class Tasks extends React.Component {
             //  this can be done this way, or by performing a call to backend where only tasks from a specific user are returned
             let personalJobs = []
             this.state.jobs.forEach(job => {
-                console.log("user")
-                console.log(this.state.user);
-                console.log("job");
-                console.log(job);
                 if (job.owner._id === this.state.user._id) {
                     personalJobs.push(job);
                 }
