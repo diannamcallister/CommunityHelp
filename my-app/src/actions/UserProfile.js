@@ -24,14 +24,14 @@ export async function deleteUser(user) {
         // Usually check the error codes to see what happened.
         if (res.status === 200) {
             // If student was added successfully, tell the user.
-            console.log('Deleted task')
+            console.log('Deleted User')
            
         } else {
             // If server couldn't add the student, tell the user.
             // Here we are adding a generic message, but you could be more specific in your app.
      
         }
-        console.log(res)  // log the result in the console for development purposes,
+
                           //  users are not expected to see this.
     }).catch((error) => {
         console.log(error)
@@ -57,15 +57,15 @@ export async function EditUser(user) {
         // Handle response we get from the API.
         // Usually check the error codes to see what happened.
         if (res.status === 200) {
-            // If student was added successfully, tell the user.
-            console.log('Reported task')
+            // If user was added successfully, tell the user.
+            console.log('Edited User')
            
         } else {
             // If server couldn't add the student, tell the user.
             // Here we are adding a generic message, but you could be more specific in your app.
      
         }
-        console.log(res)  // log the result in the console for development purposes,
+
                           //  users are not expected to see this.
     }).catch((error) => {
         console.log(error)
@@ -80,7 +80,7 @@ export async function Addreview(id,review) {
         comment: review.comment,
         rating: Number(review.rating),
         time: review.time};
-    console.log(reqBody)
+
     const request = new Request(url, {
         method: 'PATCH', 
         body: JSON.stringify(reqBody),
@@ -96,14 +96,13 @@ export async function Addreview(id,review) {
         // Usually check the error codes to see what happened.
         if (res.status === 200) {
             // If student was added successfully, tell the user.
-            console.log('Reported task')
+            console.log('Added Review')
            
         } else {
             // If server couldn't add the student, tell the user.
             // Here we are adding a generic message, but you could be more specific in your app.
      
         }
-        console.log(res)  // log the result in the console for development purposes,
                           //  users are not expected to see this.
     }).catch((error) => {
         console.log(error)
