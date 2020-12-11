@@ -138,7 +138,7 @@ class TaskDescription extends React.Component {
                         <h1 className='comment-title'>COMMENTS</h1>
                         <Divider className='divider' />
                         { this.state.comments.map(comment => (
-                            <p key={comment._id}> <b className='subtitles'><Link className='link-color' to={{pathname:'/UserProfile', state:{user: this.state.user, userToView:comment.commenter._id}}}>{comment.commenter.name}</Link>: </b>{comment.comment}</p>
+                            <p key={comment._id}> <b className='subtitles'><Link className='link-color' to={{pathname:'/UserProfile', state:{user: this.state.user, userToView:comment.commenter}}}>{comment.commenter.name}</Link>: </b>{comment.comment}</p>
                         ))
                         }
                         <div className='extra-middle-spacing'></div>
