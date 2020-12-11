@@ -33,7 +33,7 @@ class Dashboard extends Component {
             active={activeItem === 'JobBoard'}
             onClick={this.handleItemClick}
             />
-            <Menu.Item as={Link} to={{pathname:'/UserProfile', state:{user:this.props.user}}}
+            <Menu.Item as={Link} to={{pathname:'/UserProfile', state:{user:this.props.user, userToView:this.props.user}}}
             name='Profile'
             active={activeItem === 'Profile'}
             onClick={this.handleItemClick}
