@@ -18,8 +18,9 @@
 
 # Overview for a normal user
 
-* Login username: user
-* Login Password: user
+* Login email: user123@gmail.com
+* Login Password: user123
+(this user is located in toronto so you will only see users that are in toronto once you login. For more information on different users, please look at the google doc above.)
 
 In this section we will go through all the pages a normal user for the application will see/interact with. We will also be explaining the API endpoints/routes we have created.
 
@@ -82,6 +83,11 @@ In this section we will go through all the pages a normal user for the applicati
 * If the task posting IS yours, you will have all the same functionality as if the posting wasn't yours, with the addition of being able to delete or edit the task posting. You are able to edit any of the fields of the posting, or delete the posting completely so that it can no longer be viewed.
 
 # Overview for an Admin user
+
+
+* Login email: admin123@gmail.com
+* Login Password: admin123
+(this admin user is located in toronto so you will only see users that are in toronto once you login. For more information on different users, please look at the google doc above.)
 
 ### Admin Users Page ###
 <img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/UsersPage/admin_users_page.png" width="400" height="250" />
