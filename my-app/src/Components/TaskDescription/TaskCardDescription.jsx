@@ -55,7 +55,7 @@ class TaskCardDescription extends React.Component {
                     <p className='text-center'><b className='subtitles'>Hours: </b>{this.state.task.numHours}</p>
                     <p className='text-center'><b className='subtitles'>Num Volunteers Needed: </b>{this.state.task.numVolunteers}</p>
                     <p className='text-center'><b className='subtitles'>Price: </b>{this.state.task.price}</p>
-                    <p className='text-center'><b className='subtitles'>Posted By: <Link className='link-color description' to={{pathname:'/UserProfile', state:{user:this.state.task.owner.name}}}>{this.state.task.owner.name}</Link></b></p>
+                    <p className='text-center'><b className='subtitles'>Posted By: <Link className='link-color description' to={{pathname:'/UserProfile', state:{user:this.state.task.owner.name, userToView: this.state.task.owner.name}}}>{this.state.task.owner.name}</Link></b></p>
 
                     <div>
                     {this.state.isReported ?
