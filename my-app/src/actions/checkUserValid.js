@@ -38,8 +38,11 @@ export async function registerUser(newUser) {
         if (res.status === 200) {
             const user = res.json();
             return user;
-        } 
+        } else {
+            return {};
+        }
     } catch(error) {
+        console.log("regUser reached");
         console.log(error);
     }
 }

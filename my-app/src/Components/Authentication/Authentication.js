@@ -127,8 +127,14 @@ class Login extends React.Component {
                     isAdmin: this.state.isAdmin,
                 }
                 const user = await registerUser(newUser);
-                this.setState({user: user});
-                this.setState({registerWorked: true});
+                if (Object.keys(user).length !== 0) {
+                    this.setState({user: user});
+                    this.setState({registerWorked: true});
+                    this.setState({formErrorLogin: false});
+                } else {
+                    this.setState({errorMsgRegister: 'One or more fields has an error'});
+                    this.setState({formErrorRegister: true});
+                }  
             } catch(error) {
                 this.setState({formErrorRegister: true});
                 this.setState({errorMsgRegister: 'Something is wrong with our server. Please try again'});
