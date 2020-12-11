@@ -14,6 +14,7 @@ class UserPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
+        noSession: this.props.location.state === undefined ? true : false,
         //is populated through the backend in componentDidMount()
         topThree : [],
         //is poulated through the backend in componentDidMount()
@@ -100,6 +101,7 @@ class UserPage extends Component {
   render() {
     return (
         <div>
+        { this.state.noSession ? <Redirect to={{pathname:'/'}} /> : null}
         <Dashboard
           user = {this.state.user}
         />
