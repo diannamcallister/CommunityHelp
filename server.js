@@ -208,7 +208,7 @@ app.get('/UserProfile/:profile_id', async (req, res) => {
 
     // Get the User
     try {
-        const U = await User.find({email: req.params.profile_id})
+        const U = await User.find({'_id': req.params.profile_id})
        
         res.send(U) 
     } catch(error) {
