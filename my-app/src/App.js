@@ -9,7 +9,6 @@ import TaskDescription from './Components/TaskDescription/TaskDescription.jsx';
 import Login from './Components/Authentication/Authentication';
 import UserPage from './Components/UserPage/UserPage.js'
 import UserProfile from './Components/UserProfile/UserProfile.jsx'
-import AdminUserPage from './Components/AdminUserPage/AdminUserPage.js'
 
 function App() {
   return (
