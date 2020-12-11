@@ -31,16 +31,20 @@ class UserPage extends Component {
     let users = await this.getAllUsers(this.state.user.location); 
     let topThreeArr = []
     let allPlayersArr = []
-    await users.map((curr, index) => {
+    let i = 0
+    await users.map((curr) => {
       if (!curr.user.isAdmin) {
-        if (index < 3){
+        if (i < 3){
           let top_image = null
-          if (index === 0) {
+          if (i === 0) {
             top_image = firstPlaceImage
-          } else if (index === 1) {
+            i++
+          } else if (i === 1) {
             top_image = secondPlaceImage
+            i++
           } else {
             top_image = thirdPlaceImage
+            i++
           }
           let temp_obj = {id: curr.user._id, image: top_image, name: curr.user.name, rating: curr.avgRating, user: curr.user}
           topThreeArr.push(temp_obj)
