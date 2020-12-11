@@ -3,6 +3,11 @@
 ### Link to deployed Site ###
 * https://community-help-page.herokuapp.com/
 
+### Link to Document about Backend ###
+* This link is to a google doc that contains much more detailed information about our backend, the endpoints we used and what the database currently looks like.
+* We have also explained in detail, in this README, what endpoints were used in which page.
+* https://docs.google.com/document/d/1aIwDBXRldGXVoEJD1dpXOCWvNExqAj2c0RZto9elAmM/edit?usp=sharing
+
 
 ### Structure of Code ###
 * All of our API routes for the backend are in the "team17/server.js" file 

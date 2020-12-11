@@ -285,11 +285,8 @@ app.post('/api/tasks', multipartMiddleware, async (req, res) => {
             req.files.image.path, // req.files contains uploaded files
             async function (result) {
 
-                // const user = req.body.owner;
-                // const owner = await User.findById({"_id": user._id});
-
                 const task = new Task({
-                    owner: req.body.owner,
+                    owner: JSON.parse(req.body.owner),
                     image: result.url,
                     location: req.body.location,
                     title: req.body.title,
@@ -318,11 +315,9 @@ app.post('/api/tasks', multipartMiddleware, async (req, res) => {
         });
     } else {
         // Create a new task using the Task mongoose model
-        const user = req.body.owner;
-        const owner = await User.findById({"_id": user._id});
 
         const task = new Task({
-            owner: owner,
+            owner: JSON.parse(req.body.owner),
             location: req.body.location,
             title: req.body.title,
             description: req.body.description,

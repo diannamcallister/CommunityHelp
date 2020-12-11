@@ -50,3 +50,7 @@
     height: 50px;
 }
 
+.remove {
+    float: right !important;
+    background-color: red !important;
+}

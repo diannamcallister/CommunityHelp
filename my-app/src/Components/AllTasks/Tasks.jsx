@@ -1,6 +1,7 @@
 import React from 'react';
 import "semantic-ui-css/semantic.min.css";
 import { Grid, Button } from 'semantic-ui-react';
+import { Redirect, Link } from "react-router-dom";
 import Modal from 'react-modal';
 import Dashboard from '../Dashboard/Dashboard';
 
@@ -9,10 +10,6 @@ import { getAllTasks, deleteTask } from '../../actions/tasks.js';
 import './Tasks.css';
 import Task from './Task.jsx';
 import CreateTask from '../CreateTask/CreateTask.jsx';
-import gardening from '../../Images/gardening.jpg';
-import fixing_tire from '../../Images/fixing_tire.jpg';
-import painting_house from '../../Images/painting_house.png';
-import email from '../../Images/email.png';
 
 class Tasks extends React.Component {
 
@@ -20,11 +17,11 @@ class Tasks extends React.Component {
         super(props);
 
         this.state = {
+            noSession: this.props.location.state === undefined ? true : false,
             modal_is_open: false,
             showReportedOnly: false,
             showPersonalJobs: false,
-            username: this.props.location.state === undefined ? '' : this.props.location.state.username,
-            isAdmin: this.props.location.state === undefined ? false : this.props.location.state.isAdmin,
+            user: this.props.location.state === undefined ? {} : this.props.location.state.user,
             reportedButtonText: 'See Reported',
             personalJobsButtonText: 'See Your Postings',
             jobs: [], // FUTURE TODO: this will be initialized as an empty array, and populated from GET call to backend -> db
@@ -43,7 +40,8 @@ class Tasks extends React.Component {
         // FUTURE TODOS:
             // 1. fetch all tasks from db, save them in this.state.jobs so that they are displayed 
             // 2. fetch all REPORTED tasks from db, save them in this.state.reportedJobs so that they are displayed (if the user is an admin)
-        let jobs = await this.getAllTasks("toronto"); //TODO: don't hardcode TO
+        let jobs = await this.getAllTasks(this.state.user.location); //TODO: don't hardcode TO
+        console.log(jobs);
         this.setState({jobs: jobs});
         let reportedJobs = jobs.filter((job) => job.isReported === true);
         this.setState({reportedJobs: reportedJobs});
@@ -60,11 +58,15 @@ class Tasks extends React.Component {
 
     seePersonalPostedJobs() {
         if (this.state.personalJobs) { // if the user has already looked at their personal jobs, no reason to loop through & filter all jobs again
-            // get all jobs for the certain user
+            // get all jobs for the certain users
             //  this can be done this way, or by performing a call to backend where only tasks from a specific user are returned
             let personalJobs = []
             this.state.jobs.forEach(job => {
-                if (job.username === this.state.username) {
+                console.log("user")
+                console.log(this.state.user);
+                console.log("job");
+                console.log(job);
+                if (job.owner._id === this.state.user._id) {
                     personalJobs.push(job);
                 }
             })
@@ -155,8 +157,7 @@ class Tasks extends React.Component {
                             <Grid.Column key={task.image}>
                                 <Task 
                                     task = {task}
-                                    username = {this.state.username}
-                                    isAdmin = {this.state.isAdmin}
+                                    user = {this.state.user}
                                     seeReported = {this.state.showReportedOnly}
                                     deleteReported = {this.deleteJob}
                                 />
@@ -170,15 +171,15 @@ class Tasks extends React.Component {
     render() {
         return (
             <div className='overall-padding'>
-                <Dashboard 
-                    isAdmin = {this.state.isAdmin}
-                    username = {this.state.username}
+                { this.state.noSession ? <Redirect to={{pathname:'/'}} /> : null}
+                <Dashboard
+                    user = {this.state.user}
                 />
                 <header>
                     <h1 className='Header'>JOB BOARD</h1>
                 </header>
 
-                {this.state.isAdmin ? 
+                {this.state.user.isAdmin ? 
                     <Button className='reported' onClick={() => this.showReportedJobs()}>
                             {this.state.reportedButtonText}
                     </Button>
@@ -198,7 +199,7 @@ class Tasks extends React.Component {
                 </Grid>
 
                 <Modal isOpen={this.state.modal_is_open} style={{overlay:{zIndex:1000}}} ariaHideApp={false} disableAutoFocus={true}>
-                     <CreateTask closeModal={this.changeModalPosition} addJob={this.addJob}/>
+                     <CreateTask closeModal={this.changeModalPosition} addJob={this.addJob} user={this.state.user}/>
                 </Modal>
 
             </div>

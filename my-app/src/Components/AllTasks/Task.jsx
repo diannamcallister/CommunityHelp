@@ -26,16 +26,15 @@ class Task extends React.Component {
         const {
             task,
             seeReported,
-            isAdmin,
-            username,
+            user,
             addReportedJob
         } = this.props;
 
         return (
             <div>
-                {this.state.showTaskDetails ? <Redirect push to={{pathname:'/task', state:{task:task, isAdmin:isAdmin, username:username, addReportedJob:addReportedJob}}} /> : null}
+                {this.state.showTaskDetails ? <Redirect push to={{pathname:'/task', state:{ task:task, user:user, addReportedJob:addReportedJob}}} /> : null}
                     <Button animated className='button-center' onClick={(e) => e.target.className!=="reported-text" ?
-                        this.openTaskDetails() : console.log(e.target.className)}>
+                        this.openTaskDetails() : null}>
                         {seeReported ? 
                         <div>
                             <h1 className='reported-text'>REPORTED</h1>
