@@ -26,6 +26,11 @@ In this section we will go through all the pages a normal user for the applicati
 * To login as regular user, username: user, password: password
 * Upon logging in, user will be taken to tasks page (tasks shows up differently depending on admin or regular user)
 
+### Login/Signup Page Routes
+* In order for a user to login, they must enter their correct email and password, which then are sent through a post call with endpoint /users/login to verify the user exists. If the user exists they are sent to the tasks page where they can see tasks in their location. If the user does not exist, an error message is shown and they cannot proceed to the tasks page and can try again.
+* In order for a user to register, they must enter their name, location, profession, password (atleast 6 characters) and an email which is not in use. Once they enter these, a new user is sent through the endpoint 
+/api/users and they are sent to the tasks page. If they do not enter all fields, if the user is invalid or inuse, or if their password is too short, an error message is shown and they can try again. 
+
 
 ### Users Page ###
 <img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/UsersPage/user_users_page.png" width="400" height="250" />
