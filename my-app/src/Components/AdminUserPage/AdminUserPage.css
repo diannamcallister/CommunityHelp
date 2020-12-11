@@ -38,7 +38,7 @@
     padding-bottom: 5px;
 } */
 
-.ui.cards>.card>.content>.header:not(.ui) {
+.ui.cards>.card>.content>.header:not(.ui) { 
     line-height: 2px;
 }
 .topThree{
