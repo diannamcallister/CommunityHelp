@@ -133,7 +133,9 @@ app.get("/users/check-session", (req, res) => {
 /*********************************************************/
 
 /*** API Routes below ************************************/
-// User API Route
+
+/*** User Routes below ************************************/
+
 app.post('/api/users', mongoChecker, async (req, res) => {
     
 
@@ -162,33 +164,7 @@ app.post('/api/users', mongoChecker, async (req, res) => {
     }
 })
 
-/** Student resource routes **/
-// a POST route to *create* a student
-// app.post('/api/students', mongoChecker, authenticate, async (req, res) => {
-//     log(`Adding student ${req.body.name}, created by user ${req.user._id}`)
 
-//     // Create a new student using the Student mongoose model
-//     const student = new Student({
-//         name: req.body.name,
-//         year: req.body.year,
-//         creator: req.user._id // creator id from the authenticate middleware
-//     })
-
-
-//     // Save student to the database
-//     // async-await version:
-//     try {
-//         const result = await student.save() 
-//         res.send(result)
-//     } catch(error) {
-//         log(error) // log server error to the console, not to the client.
-//         if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
-//             res.status(500).send('Internal server error')
-//         } else {
-//             res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
-//         }
-//     }
-// })
 // a GET route to get all Users
 app.get('/UserProfileAll/', async (req, res) => {
 
@@ -307,6 +283,11 @@ app.patch('/UserImage/:user_id', multipartMiddleware, async (req, res) => {
         });
     } 
 })
+
+
+
+/*** Task Routes below ************************************/
+
 // a POST route to create a task
 app.post('/api/tasks', multipartMiddleware, async (req, res) => {
 
@@ -318,6 +299,7 @@ app.post('/api/tasks', multipartMiddleware, async (req, res) => {
     } 
     
     if (req.files !== undefined && req.files.image !== undefined) {
+        // an image was passed in - this image must be uploaded to cloudinary then saved to db
         cloudinary.uploader.upload(
             req.files.image.path, // req.files contains uploaded files
             async function (result) {
@@ -337,12 +319,11 @@ app.post('/api/tasks', multipartMiddleware, async (req, res) => {
         
         
                 // Save task to the database
-                // async-await version:
                 try {
                     const result = await task.save()	
                     res.send(result)
                 } catch(error) {
-                    log(error) // log server error to the console, not to the client.
+                    log(error)
                     if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
                         res.status(500).send('Internal server error')
                     } else {
@@ -351,8 +332,7 @@ app.post('/api/tasks', multipartMiddleware, async (req, res) => {
                 }
         });
     } else {
-        // Create a new task using the Task mongoose model
-
+        // Create a new task without an image present
         let owner = {}
         try {
             owner = JSON.parse(req.body.owner)
@@ -374,12 +354,11 @@ app.post('/api/tasks', multipartMiddleware, async (req, res) => {
 
 
         // Save task to the database
-        // async-await version:
         try {
             const result = await task.save()	
             res.send(result)
         } catch(error) {
-            log(error) // log server error to the console, not to the client.
+            log(error)
             if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
                 res.status(500).send('Internal server error')
             } else {
@@ -407,12 +386,14 @@ app.get('/api/tasks/:location', async (req, res) => {
             path: 'commenter',
         }
     }).populate({path: 'owner'});
-		res.send(tasks) // can wrap students in object if want to add more properties
+		res.send(tasks)
 	} catch(error) {
 		log(error)
 		res.status(500).send("Internal Server Error - after try")
 	}
 })
+
+// update certain fields of a task - mostly just used to update isReported field of tasks
 // example of what should be sent from UI: [{ "op": "replace", "path": "/nameOfFieldToChange", "value": }]
 app.patch('/api/tasks/:id', async (req, res) => {
 
@@ -420,7 +401,7 @@ app.patch('/api/tasks/:id', async (req, res) => {
 
 	if (!ObjectID.isValid(id)) {
 		res.status(404).send()
-		return;  // so that we don't run the rest of the handler.
+		return;
 	}
 
 	// check mongoose connection established.
@@ -436,7 +417,6 @@ app.patch('/api/tasks/:id', async (req, res) => {
 		const propertyToChange = change.path.substr(1) // getting rid of the '/' character
 		fieldsToUpdate[propertyToChange] = change.value
 	})
-	// const fieldsToUpdate = {isReported: req.body.isReported};
 
 	// Update the student by their id.
 	try {
@@ -456,13 +436,15 @@ app.patch('/api/tasks/:id', async (req, res) => {
 	}
 })
 
+
+// replace ALL fields of a task with the given fields
 app.put('/api/tasks/:id', multipartMiddleware, async (req, res) => {
     const id = req.params.id
     
 
 	if (!ObjectID.isValid(id)) {
 		res.status(404).send('Resource not found')
-		return;  // so that we don't run the rest of the handler.
+		return;
 	}
 
 	// check mongoose connection established.
@@ -472,9 +454,9 @@ app.put('/api/tasks/:id', multipartMiddleware, async (req, res) => {
 		return;
     }
 
-	// Replace the student by their id using req.body
 	try {
         if (req.files !== undefined && req.files.image !== undefined) {
+            // an image was passed in - we need to upload the image to cloudinary then save the returned URL to our db
 
             cloudinary.uploader.upload(
                 req.files.image.path, // req.files contains uploaded files
@@ -508,7 +490,6 @@ app.put('/api/tasks/:id', multipartMiddleware, async (req, res) => {
             });
         } else {
 
-            // usual stuff 
             const task = await Task.findOneAndReplace({_id: id}, req.body, {new: true, useFindAndModify: false})
             if (!task) {
                 res.status(404).send()
@@ -517,7 +498,7 @@ app.put('/api/tasks/:id', multipartMiddleware, async (req, res) => {
             }
         }
 	} catch (error) {
-		log(error) // log server error to the console, not to the client.
+		log(error)
 		if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
 			res.status(500).send('Internal server error')
 		} else {
@@ -526,15 +507,16 @@ app.put('/api/tasks/:id', multipartMiddleware, async (req, res) => {
 	}
 })
 
+
+// add a new comment to a task
 app.put('/api/tasks/:id/comments', async (req, res) => {
     // Add code here
 
     const id = req.params.id;
 
-    // Good practise: Validate id immediately.
     if (!ObjectID.isValid(id)) {
         res.status(404).send()  // if invalid id, definitely can't find resource, 404.
-        return;  // so that we don't run the rest of the handler.
+        return;
     }
 
     // check mongoose connection established.
@@ -553,9 +535,8 @@ app.put('/api/tasks/:id/comments', async (req, res) => {
     try {
         const task = await Task.findById(id)
         if (!task) {
-            res.status(404).send('Resource not found')  // could not find this student
+            res.status(404).send('Resource not found')  // could not find this task
         } else {
-            /// sometimes we might wrap returned object in another object:
             let comments = task.comments;
             comments.push(newComment);
 
@@ -594,7 +575,7 @@ app.delete('/api/tasks/:id', async (req, res) => {
 		return;
 	} 
 
-	// Delete a student by their id
+	// Delete a task by their id
 	try {
 		const task = await Task.findByIdAndRemove(id)
 		if (!task) {
@@ -748,15 +729,10 @@ app.use(express.static(path.join(__dirname, "/my-app/build")));
 
 // All routes other than above will go to index.html
 app.get("*", (req, res) => {
-    // check for page routes that we expect in the frontend to provide correct status code.
-    // const goodPageRoutes = ["/", "/login", "/dashboard"]; //TODO change "good" routes
-    // if (!goodPageRoutes.includes(req.url)) {
-    //     // if url not in expected page routes, set status to 404.
-    //     res.status(404);
-    // }
+    // we check "good page routes" through caching in the UI instead!
 
     // send index.html
-    res.sendFile(path.join(__dirname, "/my-app/build/index.html")); //TODO add index.html to client
+    res.sendFile(path.join(__dirname, "/my-app/build/index.html"));
 });
 
 /*************************************************/

@@ -3,6 +3,7 @@ export async function postTask(task) {
     // the URL for the request
     const url = `/api/tasks`;
 
+    // create a form data object w all task fields to be sent to the db
     const formData = new FormData();
 
     formData.append("owner", JSON.stringify(task.owner));
@@ -22,6 +23,7 @@ export async function postTask(task) {
         body: formData
     });
 
+    // perform call to backend and get response
     const res = await fetch(request);
     const returning = res.json();
     return returning;
@@ -39,6 +41,8 @@ export async function updateTask(task) {
     '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
 
     if (task.image === undefined || pattern.test(task.image)) {
+        // a new image was not added, so can do an easier request body
+        // instead of the more complex one in the else
         const request = new Request(url, {
             method: 'put', 
             body: JSON.stringify(task),
@@ -53,7 +57,8 @@ export async function updateTask(task) {
         return returning;
 
     } else {
-        // the image was changed
+        // the image was changed was a FormData object is required to send
+        // information to the backend / db correctly
         const formData = new FormData();
         formData.append("owner", JSON.stringify(task.owner));
         if (task.image !== undefined) {
@@ -67,8 +72,6 @@ export async function updateTask(task) {
         formData.append("price", task.price);
         formData.append("isReported", task.isReported);
         formData.append("comments", JSON.stringify(task.comments));
-
-        console.log(task.comments);
 
         const request = new Request(url, {
             method: 'put', 
@@ -104,28 +107,21 @@ export async function deleteTask(task) {
 
     fetch(request)
     .then(function(res) {
-        // Handle response we get from the API.
-        // Usually check the error codes to see what happened.
         if (res.status === 200) {
-            // If student was added successfully, tell the user.
+            // If task was deleted successfully, tell the user.
             console.log('Deleted task')
-           
         } else {
-            // If server couldn't add the student, tell the user.
-            // Here we are adding a generic message, but you could be more specific in your app.
-     
+            console.log("Issue adding task");     
         }
-        console.log(res)  // log the result in the console for development purposes,
-                          //  users are not expected to see this.
     }).catch((error) => {
         console.log(error)
     })
 }
 
-// [{ "op": "replace", "path": "/isReported", "value": true}]
 export async function reportTask(task, newReportedVal) {
     const url = `/api/tasks/${task._id}`;
 
+    // format for the request body of this PATCH is very specific
     const reqBody = [{"op":"replace", "path":"/isReported", "value": newReportedVal}];
 
     const request = new Request(url, {
@@ -139,19 +135,11 @@ export async function reportTask(task, newReportedVal) {
 
     fetch(request)
     .then(function(res) {
-        // Handle response we get from the API.
-        // Usually check the error codes to see what happened.
         if (res.status === 200) {
-            // If student was added successfully, tell the user.
             console.log('Reported task')
-           
         } else {
-            // If server couldn't add the student, tell the user.
-            // Here we are adding a generic message, but you could be more specific in your app.
-     
+            console.log("Unable to change the report status of a task");
         }
-        console.log(res)  // log the result in the console for development purposes,
-                          //  users are not expected to see this.
     }).catch((error) => {
         console.log(error)
     })
@@ -171,19 +159,11 @@ export async function addCommentDB(task, comment) {
 
     fetch(request)
     .then(function(res) {
-        // Handle response we get from the API.
-        // Usually check the error codes to see what happened.
         if (res.status === 200) {
-            // If student was added successfully, tell the user.
             console.log('Added comment to task')
-           
         } else {
-            // If server couldn't add the student, tell the user.
-            // Here we are adding a generic message, but you could be more specific in your app.
-     
+            console.log("Unable to add a comment to a task");
         }
-        console.log(res)  // log the result in the console for development purposes,
-                          //  users are not expected to see this.
     }).catch((error) => {
         console.log(error)
     })

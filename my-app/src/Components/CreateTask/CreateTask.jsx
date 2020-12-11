@@ -75,6 +75,7 @@ class CreateTask extends React.Component {
 
     async addJob() {
         if (this.state.price !== undefined && (isNaN(this.state.price) || !Number.isInteger(parseFloat(this.state.price)))) {
+            // the price was not given in an integer value
             const errorMsg = "Price must be an integer value.";
 
             const formError = !this.state.formError;
@@ -85,6 +86,7 @@ class CreateTask extends React.Component {
             return;
         }
         if (this.state.hours !== undefined && (isNaN(this.state.hours) || !Number.isInteger(parseFloat(this.state.hours)))) {
+            // the number of hours was not given in an integer value
             const errorMsg = "Hours must be an integer value.";
 
             const formError = !this.state.formError;
@@ -95,6 +97,7 @@ class CreateTask extends React.Component {
             return;
         }
         if (this.state.volunteerNum !== undefined && (isNaN(this.state.volunteerNum) || !Number.isInteger(parseFloat(this.state.volunteerNum)))) {
+            // the number of volunteers was not given in an integer value
             const errorMsg = "Number of Volunteers must be an integer value.";
 
             const formError = !this.state.formError;
@@ -104,6 +107,7 @@ class CreateTask extends React.Component {
             this.setState({missingVolunteers: true});
             return;
         } else if (this.state.title && this.state.description && this.state.price && this.state.hours && this.state.volunteerNum) {
+            // all fields are filled in - we can send a POST call to the backend
             const newJob = {
                 owner: this.state.user,
                 title: this.state.title,
@@ -116,11 +120,12 @@ class CreateTask extends React.Component {
             if (this.state.image) {
                 newJob.image = this.state.image
             }
-            //FUTURE TODO: add a POST call to add the new job to the db
+            // a POST call to add the new job to the db
             const newJobSaved = await this.postTask(newJob);
             newJobSaved.owner = this.state.user;
             this.props.addJob(newJobSaved);
         } else {
+            // check to see if there was a field not filled in on the form
             const formError = !this.state.formError;
             this.setState({formError: formError});
             if (this.state.title === undefined) {
@@ -210,8 +215,6 @@ class CreateTask extends React.Component {
                         error={this.state.missingVolunteers} />
                     </Form.Group>
 
-                    {/* FUTURE TODO: allow for users to upload images that are not URLs, since they will be able to be stored to the db
-                        instead of just using the image URLs instead */}
                     <Form.Input
                         name="image"
                         label='IMAGE:'

@@ -46,8 +46,6 @@ class TaskCardEditDescription extends React.Component {
                     <span className='bottom-spacing'><b className='subtitles'>Num Volunteers Needed: </b><Input name='numVolunteers' className='input-volunteers-sizing' focus onChange={this.updateUserEntry} defaultValue={this.props.task.numVolunteers}/></span>
                     <span className='bottom-spacing'><b className='subtitles'>Price: </b><Input name='price' className='input-price-sizing' focus onChange={this.updateUserEntry} defaultValue={this.props.task.price}/></span>
 
-                    {/* FUTURE TODO: this will be updated to compare the user's IDs so that users with the same name
-                            won't be confused as being the same user - every user will have a unique ID instead */}
                     <Button className='done-editing' onClick={() => this.props.doneEditingTask(this.state.task)}>Done Editing Task</Button>
                 </Card>
             </div>

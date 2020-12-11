@@ -37,7 +37,7 @@ class TaskDescription extends React.Component {
 
     async addComment() {
         const newComment = {
-            commenter: this.state.user, //TODO: change the user to what it needs to be!!!
+            commenter: this.state.user,
             comment: this.state.newComment
         };
         
@@ -58,16 +58,12 @@ class TaskDescription extends React.Component {
     }
 
     addReportedJob(job) {
-        // FUTURE TODO: perform a POST call to add this job to the reported jobs table, or a PATCH call to update this job as reported -
-        //  whichever is used is dependant on how the database is set up
-
         // change the color of the button to indicate that it has been clicked
         const isReported = !this.state.isReported;
         this.setState({isReported: isReported});
     }
 
     deleteJob(job) {
-        // FUTURE TODO: perform a DELETE call to delete this job from the database
         const isDeleted = !this.state.isDeleted;
         this.setState({isDeleted: isDeleted});
     }
@@ -78,7 +74,7 @@ class TaskDescription extends React.Component {
     }
 
     async doneEditingTask(task) {
-        // FUTURE TODO: perform a PUT call to update the information of this job in the db
+        // a PUT call to update the information of this job in the db
         const newTask = await this.updateTask(task);
         newTask.owner = task.owner;
         this.setState({task: newTask});
@@ -90,7 +86,7 @@ class TaskDescription extends React.Component {
 
         return (
             <div>
-                { this.state.noSession ? <Redirect to={{pathname:'/'}} /> : console.log("login!") }
+                { this.state.noSession ? <Redirect to={{pathname:'/'}} /> : null }
                 <Dashboard 
                     user = {this.state.user}
                 />

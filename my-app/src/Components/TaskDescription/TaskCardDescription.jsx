@@ -25,17 +25,14 @@ class TaskCardDescription extends React.Component {
     }
 
     async addReportedJob(job) {
-        // FUTURE TODO: perform a POST call to add this job to the reported jobs table, or a PATCH call to update this job as reported -
-        //  whichever is used is dependant on how the database is set up
-
-        // change the color of the button to indicate that it has been clicked
+        // a PATCH call to update this job as reported
         const isReported = !this.state.isReported;
         await this.reportTask(job, isReported);
         this.setState({isReported: isReported});
     }
 
     async deleteJob(job) {
-        // FUTURE TODO: perform a DELETE call to delete this job from the database
+        // a DELETE call to delete this job from the database
         await this.deleteTask(job);
         const isDeleted = !this.state.isDeleted;
         this.setState({isDeleted: isDeleted});
@@ -65,8 +62,6 @@ class TaskCardDescription extends React.Component {
                     :
                     <Button className='report-task' onClick={() => this.addReportedJob(this.state.task)}>Report</Button>
                     }
-                    {/* FUTURE TODO: this will be updated to compare the user's IDs so that users with the same name
-                            won't be confused as being the same user - every user will have a unique ID instead */}
                     { this.state.task.owner._id === this.state.user._id ?
                     <Button className='edit-task' onClick={() => this.props.changeEditTaskMode()}>Edit Task</Button>
                     : null}

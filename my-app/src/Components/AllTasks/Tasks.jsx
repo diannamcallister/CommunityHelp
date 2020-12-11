@@ -24,8 +24,8 @@ class Tasks extends React.Component {
             user: this.props.location.state === undefined ? {} : this.props.location.state.user,
             reportedButtonText: 'See Reported',
             personalJobsButtonText: 'See Your Postings',
-            jobs: [], // FUTURE TODO: this will be initialized as an empty array, and populated from GET call to backend -> db
-            reportedJobs: [], // FUTURE TODO: this will be initiaalized as an empty array, and populated from GET call to backend -> db
+            jobs: [], // this is populated when a GET call is performed to the backend in componentDidMount()
+            reportedJobs: [],
             personalJobs: []
         };
         this.changeModalPosition = this.changeModalPosition.bind(this);
@@ -37,16 +37,12 @@ class Tasks extends React.Component {
     }
 
     async componentDidMount() {
-        // FUTURE TODOS:
-            // 1. fetch all tasks from db, save them in this.state.jobs so that they are displayed 
-            // 2. fetch all REPORTED tasks from db, save them in this.state.reportedJobs so that they are displayed (if the user is an admin)
-        let jobs = await this.getAllTasks(this.state.user.location); //TODO: don't hardcode TO
+        // fetch all jobs from the same location from the backend / db
+        let jobs = await this.getAllTasks(this.state.user.location);
         this.setState({jobs: jobs});
+        // set the reported jobs by filtering
         let reportedJobs = jobs.filter((job) => job.isReported === true);
         this.setState({reportedJobs: reportedJobs});
-        // if (this.props.location.state && this.props.location.state.deletedTask) {
-        //     this.deleteJob(this.props.location.state.deletedTask)
-        // }
     }
 
     changeModalPosition() {
@@ -83,7 +79,6 @@ class Tasks extends React.Component {
     }
 
     addJob(job) {
-        // FUTURE TODO: add a POST call to the backend to add the new job to the db
         const curJobs = this.state.jobs;
         curJobs.push(job);
         this.setState({jobs: curJobs});
@@ -108,18 +103,11 @@ class Tasks extends React.Component {
     }
 
     async deleteJob(job) {
-        //FUTURE TODOS:
-            // 1. add a DELETE call to the backend to delete the job from the db
-            // 2. compare jobs by IDs instead of titles, since each job will have a unique ID and this will avoid the issue of tasks with
-            //      identical titles being removed
+        // a DELETE call to the backend to delete the job from the db
         await deleteTask(job);
         const nonDeletedJobs = this.state.jobs.filter(cur_job => cur_job.title !== job.title);
         this.setState({jobs: nonDeletedJobs});
 
-        //FUTURE TODOS:
-            // 1. add a DELETE call to the backend to delete the job from all the reported jobs in the db
-            // 2. compare jobs by IDs instead of titles, since each job will have a unique ID and this will avoid the issue of tasks with
-            //      identical titles being removed
         // check to see if the job is in the reported jobs, and if it is, delete it from that list as well
         const nonDeletedReportedJobs = this.state.reportedJobs.filter(cur_job => cur_job.title !== job.title);
         if (nonDeletedReportedJobs !== this.state.reportedJobs) {
