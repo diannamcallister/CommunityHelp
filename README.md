@@ -86,6 +86,10 @@ In this section we will go through all the pages a normal user for the applicati
 * From this page, you are also able to see your specific job postings by click on the button "See Your Postings" on the bottom right of the screen. This button will filter through all the jobs, to only display the jobs that were created by you
 - You are able to click on a specific task that is shown, which will redirect you to "/task" - aka the Task Description Page (described below).
 
+#### All Tasks Page Routes ####
+* In the all tasks page, we recieve the current user that is using the application. We then extract the location of the current user and call the backend route "/api/tasks/:location" to get a list of tasks from the same location as the user currently using the application.
+* The frontend recieves the response body of all tasks and populates the task cards to display the image, title, and description of the task.
+
 ### Task Description Page ###
 <img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/TaskDescription/task_description_dif_user_task.png" width="400" height="250" />
 <img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/TaskDescription/task_description.png" width="400" height="250" />
@@ -94,6 +98,13 @@ In this section we will go through all the pages a normal user for the applicati
 * Access all information about a specific task, as well as see all comments for that specific task ("/task" is the URL for this page, however is populated from "/alltasks", so should only be routed to by clicking on a specific task in "/alltasks", rather than by changing the URL in the browser).
 * If the task posting is that of another user (it is NOT your job posting), you will be able to view and add comments to the task, report the task if you believe it is inappropriate, click on the name of the person who posted it to route to their profile page, or click on the name of someome who commented and route to their profile page.
 * If the task posting IS yours, you will have all the same functionality as if the posting wasn't yours, with the addition of being able to delete or edit the task posting. You are able to edit any of the fields of the posting, or delete the posting completely so that it can no longer be viewed.
+
+#### Task Description Page Routes ####
+* In the task description page, we recieve the current user that is using the application, as well as the selected task's information. This way, we don't have to hit the database upon loading this page since we already have all this information!
+* If a user chooses to report a task by clicking on the "Report Task" button, then the patch endpoint "/api/task/:id" is called, where "id" is the id of the task, to update the isReported field of the task. A user can also choose to unselect the "Report Task" button, making the post no longer be reported.
+* If a user adds a comment to a task, then the put endpoint "api/task/:id/comments" is called, where "id" is the id of the task, and the comment (as well as information about the user who put the comment) is then saved in the database to be able to be retrieved at a later date.
+* If the current user is looking at a task that they created, then they have the option to update their task. If the user updates their task, then the put endpoint "api/tasks/:id" where "id" is the id of the task is called so that the updated information of the task can be saved to the database.
+* If the current user is looking at a task that they created, then they have the option to delete their task. If the user deletes their task, then the delete endpoint "api/tasks/:id" where "id" is the id of the task, is called so that the task is removed from the database.
 
 # Overview for an Admin user
 
@@ -131,3 +142,7 @@ London Location Admin:
 
 * Admins are able to have identical functionality in the "/alltasks" page, with the addition of being able to view and remove reported postings. You are able to view reported postings by clicking on the "See Reported" button on the bottom right of the screen. You are then able to click on the "x" button on the inappropriate task to delete the posting.
 
+#### Admin All Tasks Page Routes ####
+
+* The admin all tasks page populates the page with tasks from the admin users' location in the same way as the usual user's All Tasks Page (see All Tasks Page Routes section). 
+* The admin has the extra button called "See Reported Tasks", which will display only reported tasks. If a task has been reported, it indicates that the task possibly contains some type of inappropriate information. If the admin user deems that the content of the task should not be present on the application and so the application should be deleted, the admin user can select the "x" button to delete the task, which will call the delete endpoint "/api/tasks/:id" where "id" is the id of the task, to remove the task from the database.
