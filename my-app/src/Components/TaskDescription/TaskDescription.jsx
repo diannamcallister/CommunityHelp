@@ -133,9 +133,10 @@ class TaskDescription extends React.Component {
                     <Grid.Column width={8}>
                         <h1 className='comment-title'>COMMENTS</h1>
                         <Divider className='divider' />
-                        { this.state.comments.map(comment => (
+                        { this.state.comments.map(comment => 
+                            comment.commenter === null ? null :
                             <p key={comment._id}> <b className='subtitles'><Link className='link-color' to={{pathname:'/UserProfile', state:{user: this.state.user, userToView:comment.commenter}}}>{comment.commenter.name}</Link>: </b>{comment.comment}</p>
-                        ))
+                            )
                         }
                         <div className='extra-middle-spacing'></div>
                         <div className="ui focus input bottom-right">
