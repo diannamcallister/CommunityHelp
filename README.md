@@ -3,6 +3,11 @@
 ### Link to deployed Site ###
 * https://community-help-page.herokuapp.com/
 
+### Link to Document about Backend ###
+* This link is to a google doc that contains much more detailed information about our backend, the endpoints we used and what the database currently looks like.
+* We have also explained in detail, in this README, what endpoints were used in which page.
+* https://docs.google.com/document/d/1aIwDBXRldGXVoEJD1dpXOCWvNExqAj2c0RZto9elAmM/edit?usp=sharing
+
 
 ### Structure of Code ###
 * All of our API routes for the backend are in the "team17/server.js" file 
@@ -13,8 +18,9 @@
 
 # Overview for a normal user
 
-* Login username: user
-* Login Password: user
+* Login email: user@gmail.com
+* Login Password: user123
+(this user is located in toronto so you will only see users that are in toronto once you login. For more information on different users, please look at the google doc above.)
 
 In this section we will go through all the pages a normal user for the application will see/interact with. We will also be explaining the API endpoints/routes we have created.
 
@@ -25,6 +31,11 @@ In this section we will go through all the pages a normal user for the applicati
 * To login as an admin user, under the login form username: admin, password: admin
 * To login as regular user, username: user, password: password
 * Upon logging in, user will be taken to tasks page (tasks shows up differently depending on admin or regular user)
+
+### Login/Signup Page Routes
+* In order for a user to login, they must enter their correct email and password, which then are sent through a post call with endpoint /users/login to verify the user exists. If the user exists they are sent to the tasks page where they can see tasks in their location. If the user does not exist, an error message is shown and they cannot proceed to the tasks page and can try again.
+* In order for a user to register, they must enter their name, location, profession, password (atleast 6 characters) and an email which is not in use. Once they enter these, a new user is sent through the endpoint 
+/api/users and they are sent to the tasks page. If they do not enter all fields, if the user is invalid or inuse, or if their password is too short, an error message is shown and they can try again. 
 
 
 ### Users Page ###
@@ -72,6 +83,11 @@ In this section we will go through all the pages a normal user for the applicati
 * If the task posting IS yours, you will have all the same functionality as if the posting wasn't yours, with the addition of being able to delete or edit the task posting. You are able to edit any of the fields of the posting, or delete the posting completely so that it can no longer be viewed.
 
 # Overview for an Admin user
+
+
+* Login email: admin@gmail.com
+* Login Password: admin123
+(this admin user is located in toronto so you will only see users that are in toronto once you login. For more information on different users, please look at the google doc above.)
 
 ### Admin Users Page ###
 <img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/UsersPage/admin_users_page.png" width="400" height="250" />

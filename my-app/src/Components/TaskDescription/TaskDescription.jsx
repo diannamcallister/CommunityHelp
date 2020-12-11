@@ -93,8 +93,9 @@ class TaskDescription extends React.Component {
 
     async doneEditingTask(task) {
         // FUTURE TODO: perform a PUT call to update the information of this job in the db
-        await this.updateTask(task);
-        this.setState({task: task});
+        const newTask = await this.updateTask(task);
+        newTask.owner = task.owner;
+        this.setState({task: newTask});
         this.changeEditTaskMode();
     }
 
@@ -154,7 +155,7 @@ class TaskDescription extends React.Component {
                                     name and comment, their comment won't get the same key - every comment will have a unique ID instead
                                 2. send the commented user's name to the UserProfile page so that the correct user's information can be displayed */}
                         { this.state.comments.map(comment => (
-                            <p key={comment._id}> <b className='subtitles'><Link className='link-color' to={{pathname:'/UserProfile', state:{user:comment.commenter._id}}}>{comment.commenter.name}</Link>: </b>{comment.comment}</p>
+                            <p key={comment._id}> <b className='subtitles'><Link className='link-color' to={{pathname:'/UserProfile', state:{user: this.state.user, userToView:comment.commenter._id}}}>{comment.commenter.name}</Link>: </b>{comment.comment}</p>
                         ))
                         }
                         <div className='extra-middle-spacing'></div>
