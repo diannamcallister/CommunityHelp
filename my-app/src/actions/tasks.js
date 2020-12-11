@@ -1,23 +1,14 @@
 export async function postTask(task) {
 
+    console.log("hello!!"); 
+    console.log(task);
+
     // the URL for the request
     const url = `/api/tasks`;
 
     const formData = new FormData();
 
-    const owner = {
-        "_id": "5fc3e5a1bd841ef02aeebc34",
-        "email": "test@gmail.com",
-        "password": "$2a$10$xmcUYTiAmpo4uqtSa1MyJucY.qqkkXt1sXPg65RaHO4xQeLlKKbWy",
-        "firstName": "dianna",
-        "lastName": "mcallister",
-        "location": "toronto",
-        "isAdmin": true,
-        "reviews": [],
-        "__v": 0
-    }
-
-    formData.append("owner", JSON.stringify(owner));
+    formData.append("owner", JSON.stringify(task.owner));
     formData.append("image", task.image);
     formData.append("location", task.location);
     formData.append("title", task.title);
@@ -132,7 +123,6 @@ export async function updateTask(task) {
 
 export async function getAllTasks(location) {
         // the URL for the request
-    location = "toronto";
     const url = `/api/tasks/${location}`;
 
     // Since this is a GET request, simply call fetch on the URL
@@ -209,20 +199,6 @@ export async function reportTask(task, newReportedVal) {
 
 export async function addCommentDB(task, comment) {
     const url = `/api/tasks/${task._id}/comments`;
-
-    const commenter = {
-        "_id": "5fc3e5a1bd841ef02aeebc34",
-        "email": "test@gmail.com",
-        "password": "$2a$10$xmcUYTiAmpo4uqtSa1MyJucY.qqkkXt1sXPg65RaHO4xQeLlKKbWy",
-        "firstName": "dianna",
-        "lastName": "mcallister",
-        "location": "toronto",
-        "isAdmin": true,
-        "reviews": [],
-        "__v": 0
-    }
-
-    comment.commenter = commenter; //TODO: have comment get retrieved from actual UI
 
     const request = new Request(url, {
         method: 'put', 

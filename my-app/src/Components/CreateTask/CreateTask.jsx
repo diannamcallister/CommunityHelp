@@ -2,6 +2,7 @@ import React from 'react';
 import "semantic-ui-css/semantic.min.css";
 import { Form, Button, Grid, Message } from 'semantic-ui-react';
 import { postTask } from '../../actions/tasks.js';
+import { Redirect } from "react-router-dom";
 
 import './CreateTasks.css';
 
@@ -14,6 +15,7 @@ class CreateTask extends React.Component {
         this.addJob = this.addJob.bind(this);
         this.postTask = postTask.bind(this);
         this.state = {
+            user: this.props.user === undefined ? <Redirect push to={{pathname:'/'}} /> : this.props.user,
             title: undefined,
             description: undefined,
             price: undefined,
@@ -103,13 +105,13 @@ class CreateTask extends React.Component {
             return;
         } else if (this.state.title && this.state.description && this.state.price && this.state.hours && this.state.volunteerNum) {
             const newJob = {
-
+                owner: this.state.user,
                 title: this.state.title,
                 description: this.state.description,
                 numHours: this.state.hours,
                 numVolunteers: this.state.volunteerNum,
                 price: this.state.price,
-                location: "toronto"
+                location: this.state.user.location
             }
             if (this.state.image) {
                 newJob.image = this.state.image

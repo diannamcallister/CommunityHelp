@@ -11,8 +11,7 @@ class TaskCardEditDescription extends React.Component {
 
         this.state = {
             task: this.props.task,
-            isAdmin: this.props.isAdmin,
-            username: this.props.username,
+            user: this.props.user,
         };
         this.updateUserEntry = this.updateUserEntry.bind(this);
     }

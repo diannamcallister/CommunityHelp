@@ -9,8 +9,6 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isAdmin: this.props.isAdmin,
-            username: this.props.username,
             user: this.props.user
         };
     }
@@ -25,18 +23,17 @@ class Dashboard extends Component {
     return (
         <Menu id='menu' inverted widths={5}>
             
-            <Menu.Item as={Link} to={{pathname:'/UserPage', state:{user:this.state.user}}}
+            <Menu.Item as={Link} to={{pathname:'/UserPage', state:{user:this.props.user}}}
             name='Users'
             active={activeItem === 'Users'}
             onClick={this.handleItemClick}
             />
-            
-            <Menu.Item as={Link} to={{pathname:'/alltasks', state:{isAdmin:this.state.isAdmin, username:this.props.username}}}
+            <Menu.Item as={Link} to={{pathname:'/alltasks', state:{user:this.props.user}}}
             name='Job Board'
             active={activeItem === 'JobBoard'}
             onClick={this.handleItemClick}
             />
-            <Menu.Item as={Link} to={{pathname:'/UserProfile', state:{isAdmin:this.state.isAdmin, username:this.props.username}}}
+            <Menu.Item as={Link} to={{pathname:'/UserProfile', state:{user:this.props.user}}}
             name='Profile'
             active={activeItem === 'Profile'}
             onClick={this.handleItemClick}
