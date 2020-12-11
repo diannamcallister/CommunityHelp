@@ -135,7 +135,7 @@ app.get("/users/check-session", (req, res) => {
 /*** API Routes below ************************************/
 // User API Route
 app.post('/api/users', mongoChecker, async (req, res) => {
-    log(req.body)
+    
 
     // Create a new user
     const user = new User({
@@ -146,7 +146,7 @@ app.post('/api/users', mongoChecker, async (req, res) => {
         profession: req.body.profession,
         isAdmin: req.body.isAdmin,
     })
-    console.log(req);
+
 
     try {
         // Save the user
@@ -208,7 +208,6 @@ app.get('/UserProfile/:profile_id', async (req, res) => {
 
     // Get the User
     try {
-        console.log(req.params.profile_id)
         const U = await User.find({email: req.params.profile_id})
        
         res.send(U) 
@@ -285,21 +284,19 @@ app.delete('/UserProfile/:delete_id', async (req, res) => {
 })
 // A Patch route to upload an image
 app.patch('/UserImage/:user_id', multipartMiddleware, async (req, res) => {
-    console.log("in server")
 	// check mongoose connection established.
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
 		res.status(500).send('Internal server error')
 		return;
     } 
-    console.log(req.files.image.path)
+
     if (req.files.image !== undefined) {
         cloudinary.uploader.upload(
             req.files.image.path, // req.files contains uploaded files
             async function (result) {
 
                 const id = req.params.user_id
-                console.log(result.url)
                 // Save task to the database
                 // async-await version:
                 try {
@@ -469,7 +466,6 @@ app.patch('/api/tasks/:id', async (req, res) => {
 app.put('/api/tasks/:id', multipartMiddleware, async (req, res) => {
     const id = req.params.id
     
-    console.log(id);
 
 	if (!ObjectID.isValid(id)) {
 		res.status(404).send('Resource not found')
@@ -487,12 +483,10 @@ app.put('/api/tasks/:id', multipartMiddleware, async (req, res) => {
 	try {
         if (req.files !== undefined && req.files.image !== undefined) {
 
-            console.log("in first if")
             cloudinary.uploader.upload(
                 req.files.image.path, // req.files contains uploaded files
                 async function (result) {
 
-                    console.log(req.body);
     
                     const user = JSON.parse(req.body.owner);
                     const owner = await User.findById({"_id": user._id});
