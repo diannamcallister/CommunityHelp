@@ -40,7 +40,9 @@ class UserProfile extends React.Component {
             // 1. fetch all tasks from db, save them in this.state.jobs so that they are displayed 
             // 2. fetch all REPORTED tasks from db, save them in this.state.reportedJobs so that they are displayed (if the user is an admin)
         // let user = await this.getUserProfile("a123@gmail.com"); //TODO: don't hardcode TO
-        let user = await this.getUserProfile(this.state.userToView.email); //TODO: don't hardcode TO
+        console.log(this.state.userToView._id)
+        let user = await this.getUserProfile(this.state.userToView._id); //TODO: don't hardcode TO
+        console.log(user)
         user = user[0]
         this.setState({email:user.email})
         this.setState({name:user.name})
@@ -51,13 +53,16 @@ class UserProfile extends React.Component {
     }
     async getAllReviews() {
         
-        let user = await this.getUserProfile(this.state.userToView.email); //TODO: don't hardcode TO
+        let user = await this.getUserProfile(this.state.userToView._id); //TODO: don't hardcode TO
         user = user[0]
         if (user.reviews.length >= 1){
             let comment1 = user.reviews[user.reviews.length -1]
             comment1 = comment1.comment
             let reviewer1 = user.reviews[user.reviews.length -1]
             reviewer1 = reviewer1.reviewer
+            reviewer1 = await this.getUserProfile(reviewer1)
+            reviewer1 = reviewer1[0]
+            reviewer1 = reviewer1.name
 
             let rating1 = user.reviews[user.reviews.length -1]
             rating1 = rating1.rating
@@ -72,6 +77,9 @@ class UserProfile extends React.Component {
             comment2 = comment2.comment
             let reviewer2 = user.reviews[user.reviews.length -2]
             reviewer2 = reviewer2.reviewer
+            reviewer2 = await this.getUserProfile(reviewer2)
+            reviewer2 = reviewer2[0]
+            reviewer2 = reviewer2.name
 
             let rating2 = user.reviews[user.reviews.length -2]
             rating2 = rating2.rating
@@ -86,6 +94,10 @@ class UserProfile extends React.Component {
             comment3 = comment3.comment
             let reviewer3 = user.reviews[user.reviews.length -3]
             reviewer3 = reviewer3.reviewer
+            reviewer3 = await this.getUserProfile(reviewer3)
+            reviewer3 = reviewer3[0]
+            reviewer3 = reviewer3.name
+
             let rating3 = user.reviews[user.reviews.length -3]
             rating3 = rating3.rating
 
@@ -146,7 +158,7 @@ class UserProfile extends React.Component {
             const res2 = await patchImage(this.state.user._id, this.state.new_image)
         }
         this.setState({new_image:null})
-        let user = await this.getUserProfile(this.state.user.email);
+        let user = await this.getUserProfile(this.state.user._id);
         user =user[0]
         this.setState({image: user.image});
         this.switchProfile(0)
@@ -156,9 +168,12 @@ class UserProfile extends React.Component {
     async postreview(){
         //fix reviewee
         
-        const review = {"reviewer": this.state.user.name, "rating": this.state.new_rating, "comment": this.state.new_comment, "time":"12:30"}
+        const review = {"reviewer": this.state.user._id, "rating": this.state.new_rating, "comment": this.state.new_comment, "time":"12:30"}
 
-        const res = await Addreview(this.state.userToView._id, review)
+        
+        if (this.state.new_comment != ''){
+            const res = await Addreview(this.state.userToView._id, review)
+        }
         this.setState({new_comment: ''})
         this.setState({new_rating: null})
         const res_update = await this.getAllReviews()
