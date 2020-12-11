@@ -16,10 +16,8 @@ class Tasks extends React.Component {
     constructor(props) {
         super(props);
 
-        this.checkSessionInfo = this.checkSessionInfo.bind(this);
-        this.checkSessionInfo(this.props.location.state);
-
         this.state = {
+            noSession: this.props.location.state === undefined ? true : false,
             modal_is_open: false,
             showReportedOnly: false,
             showPersonalJobs: false,
@@ -36,12 +34,6 @@ class Tasks extends React.Component {
         this.deleteJob = this.deleteJob.bind(this);
         this.getAllTasks = getAllTasks.bind(this);
         this.deleteTask = deleteTask.bind(this);
-    }
-
-    checkSessionInfo(props) {
-        if (props === undefined) {
-            return <Link to={{pathname:'/'}} />;
-        }
     }
 
     async componentDidMount() {
@@ -179,6 +171,7 @@ class Tasks extends React.Component {
     render() {
         return (
             <div className='overall-padding'>
+                { this.state.noSession ? <Redirect to={{pathname:'/'}} /> : null}
                 <Dashboard
                     user = {this.state.user}
                 />
