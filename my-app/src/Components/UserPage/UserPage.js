@@ -41,10 +41,10 @@ class UserPage extends Component {
           } else {
             top_image = thirdPlaceImage
           }
-          let temp_obj = {id: curr.user._id, image: top_image, name: curr.user.firstName, rating: curr.avgRating, user: curr.user}
+          let temp_obj = {id: curr.user._id, image: top_image, name: curr.user.name, rating: curr.avgRating, user: curr.user}
           topThreeArr.push(temp_obj)
         } else {
-          let temp_obj = {id: curr.user._id, image: curr.user.image, name: curr.user.firstName, rating: curr.avgRating, user: curr.user}
+          let temp_obj = {id: curr.user._id, image: curr.user.image, name: curr.user.name, rating: curr.avgRating, user: curr.user}
           allPlayersArr.push(temp_obj)
         }
   
