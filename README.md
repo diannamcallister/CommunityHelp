@@ -7,6 +7,8 @@
 * This link is to a google doc that contains much more detailed information about our backend, the endpoints we used and what the database currently looks like.
 * We have also explained in detail, in this README, what endpoints were used in which page.
 * https://docs.google.com/document/d/1aIwDBXRldGXVoEJD1dpXOCWvNExqAj2c0RZto9elAmM/edit?usp=sharing
+* We also have a Postman collection that you can easily import and use in your postman: https://www.getpostman.com/collections/65430f5db7c2947f6387
+* Copy this link, then in Postman go to Import > Link > and paste the link!
 
 
 ### Structure of Code ###
