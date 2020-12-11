@@ -16,8 +16,8 @@ class Login extends React.Component {
             location: '',
             name: '',
             profession: '',
-            errorMsgLogin: 'One or more fields has an error.',
-            errorMsgRegister: 'One or more fields has an error.',
+            errorMsgLogin: 'One or more fields has an error',
+            errorMsgRegister: 'One or more fields has an error',
             validEmail: true,
             validPassword: true,
             validName: true,
@@ -56,16 +56,12 @@ class Login extends React.Component {
             login.style.color = '#32BD32';
         }
         const curr = isLogin;
-        // const name = bar.className;
         this.setState({isLogin: curr});
     }
 
     //hardcoded username and password for either admin login or regular login
     async checkLogin() {
-
-        //get user with email, if error -> FormError: true, errorMsg: email or password is invalid, loginWorked: false
-        // no error -> loginWorked: true, 
-        this.setState({formError: false});
+        this.setState({formErrorLogin: false});
         console.log(this.state);
         const creds = {
             email: this.state.email,
@@ -76,26 +72,25 @@ class Login extends React.Component {
             if (Object.keys(user).length !== 0) {
                 this.setState({user: user});
                 this.setState({loginWorked: true});
-                this.setState({formError: false});
+                this.setState({formErrorLogin: false});
             } else {
-                this.setState({errorMsgLogin: 'Email or Password is incorrect.'});
+                this.setState({errorMsgLogin: 'Email or Password is incorrect'});
                 this.setState({formErrorLogin: true});
             }
         } catch(error) {
-            this.setState({errorMsgLogin: 'There is a problem with our server. Please try again.'});
+            this.setState({errorMsgLogin: 'There is a problem with our server. Please try again'});
             this.setState({formErrorLogin: true});
         }
     }
 
     async checkCredentials() {
-        this.setState({formError: false});
+        this.setState({formErrorRegister: false});
         const simpleEmailRegex = /^[ ]*([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})[ ]*$/i;
         if (!simpleEmailRegex.test(this.state.email)) {
             this.setState({validEmail: false});
         } else {
             this.setState({validEmail: true});
         }
-        console.log(this.state.name.length);
         if (this.state.password.length < 6) {
             this.setState({validPassword: false});
         } else {
@@ -119,10 +114,6 @@ class Login extends React.Component {
     }
 
     async checkRegister() {
-        // call to create register here, might need to get a 'get' from db to check if email is already in use
-        // check if all fields are valid to register and email doesnt exist
-        // if email exists
-        // console.log(this.state);
         await this.checkCredentials();
         console.log(this.state);
         if (this.state.validEmail && this.state.validName && this.state.validPassword && this.state.validLocation && this.state.validProfession) {
@@ -140,18 +131,12 @@ class Login extends React.Component {
                 this.setState({registerWorked: true});
             } catch(error) {
                 this.setState({formErrorRegister: true});
-                this.setState({errorMsgRegister: 'Something is wrong with our server. Please try again.'});
-                console.log('server error');
+                this.setState({errorMsgRegister: 'Something is wrong with our server. Please try again'});
             }
         } else {
             this.setState({formErrorRegister: true});
-            this.setState({errorMsgRegister: 'One or more fields has an error.'});
+            this.setState({errorMsgRegister: 'One or more fields has an error'});
         }
-            console.log(this.state.validEmail);
-            console.log(this.state.validName);
-            console.log(this.state.validPassword);
-            console.log(this.state.validLocation);
-            console.log(this.state.validProfession);
     }
 
     updateUserEntry = e => {
@@ -235,12 +220,6 @@ class Login extends React.Component {
                     </h1>
                 </div>
                 {this.state.isLogin ? this.showLogin() : this.showRegister()}
-                {/* <div className="Login-Box">
-                    <Button id="LoginButton" onClick= {() => this.switchPage(true)} primary>LOG IN</Button>
-                    <Button id= "RegisterButton" onClick= {() => this.switchPage(false)} secondary>REGISTER</Button>
-                    {this.state.isLogin ? this.showLogin() : this.showRegister()}
-                </div> */}
-        
             </div>
         )
     }
