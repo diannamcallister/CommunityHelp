@@ -200,8 +200,7 @@ app.patch('/UserEditProfile', async (req, res) => {
     // Get the User
     try {
         
-        
-        const user_edited = await User.findOneAndUpdate({email: req.body.email}, {firstName: req.body.firstName, lastName: req.body.lastName, location: req.body.location, profession: req.body.profession},{new: true})
+        const user_edited = await User.findOneAndUpdate({"email": req.body.email}, {$set:{name: req.body.name, location: req.body.location, profession: req.body.profession}},{new: true})
         
         //send edited profile
         res.send(user_edited) 
