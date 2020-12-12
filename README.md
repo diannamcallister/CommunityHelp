@@ -18,7 +18,7 @@
 * "team17/src/images" contains any images used for the application.
 * "team17/src/basics-stylesheets.css" contains styling for any common elements within the application such as buttons, text inputs and headers.
 
-*Note: all screenshots on this file are of the toronto location.
+*Note: all screenshots on this file are of the toronto location.Also, note that you cannot create an admin user by registering. You can only do so through postman. The idea is that admin users will need to email the organization (which is us) to get admin permission. This is because we do not want just anyone to become an admin.
 
 # Overview for a normal user
 
@@ -66,15 +66,17 @@ In this section we will go through all the pages a normal user for the applicati
 
 
 ### User Profile Page ###
-<img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/UserProfile/UserProfile.png" width="400" height="250" />
-<img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/UserProfile/EditProfile.png" width="400" height="250" />
-<img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/UserProfile/UserReviews.png" width="400" height="250" />
+<img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/UserProfile/user_profile.jpg" width="400" height="250" />
+<img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/UserProfile/user_edit_profile.jpg" width="400" height="250" />
+<img src="https://github.com/csc309-fall-2020/team17/blob/master/viewOfPages/UserProfile/user_rating.jpg" width="400" height="250" />
 
-* Access User Profile page by "/UserProfile" or by clicking "learn more" in User page for any given user.
+* Access the User Profile page by clicking Profile on the dashboard or by navigating to  Users and click "learn more" for any given user. We receive the current user thats logged and the the userviewing  as two different objects. The page is populated with the image, name, location and profession passed from the user. If the user viewing the page has the same _id as the user object then Edit Profile button is accessible.
 
-* By clicking on the Edit Profile button, a user has the option to edit their profile to update information about them they would like to disclose
+ 
+* Upon clicking Edit Profile fields name, image, location and profession can be populated with new inputs, after clicking save changes a call to the backend to patch these changes is made and the updated profile page is rendered.  
 
-* By clicking on "See Ratings" you can see a history of reviews and ratings of previous jobs a user has completed.
+
+* By clicking on "See Ratings" a get call is made to the database to get the three most recent reviews and when post is clicked a new review is patched into the user object in the database.
 
 
 ### All Tasks Page ###
