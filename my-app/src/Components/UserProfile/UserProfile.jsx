@@ -4,7 +4,7 @@ import {Button, Form, Rating} from 'semantic-ui-react';
 import './UserProfile.css'
 import './UserEditProfile.css'
 import './UserRatingsProfile.css'
-import { Redirect, Link } from "react-router-dom";
+import { Redirect} from "react-router-dom";
 import { getUserProfile, EditUser, Addreview, patchImage} from '../../actions/UserProfile.js';
 
 import Dashboard from '../Dashboard/Dashboard.js';
@@ -40,9 +40,9 @@ class UserProfile extends React.Component {
             // 1. fetch all tasks from db, save them in this.state.jobs so that they are displayed 
             // 2. fetch all REPORTED tasks from db, save them in this.state.reportedJobs so that they are displayed (if the user is an admin)
         // let user = await this.getUserProfile("a123@gmail.com"); //TODO: don't hardcode TO
-        console.log(this.state.userToView._id)
+        
         let user = await this.getUserProfile(this.state.userToView._id); //TODO: don't hardcode TO
-        console.log(user)
+        
         user = user[0]
         this.setState({email:user.email})
         this.setState({name:user.name})
@@ -55,57 +55,78 @@ class UserProfile extends React.Component {
         
         let user = await this.getUserProfile(this.state.userToView._id); //TODO: don't hardcode TO
         user = user[0]
-        if (user.reviews.length >= 1){
-            let comment1 = user.reviews[user.reviews.length -1]
-            comment1 = comment1.comment
-            let reviewer1 = user.reviews[user.reviews.length -1]
-            reviewer1 = reviewer1.reviewer
-            reviewer1 = await this.getUserProfile(reviewer1)
-            reviewer1 = reviewer1[0]
-            reviewer1 = reviewer1.name
+        let count = 0
+        let position = user.reviews.length -1
 
-            let rating1 = user.reviews[user.reviews.length -1]
-            rating1 = rating1.rating
-            this.setState({comment1: comment1})
-            this.setState({reviewer1: reviewer1})
-            this.setState({rating1: rating1})
-            
+
+        //find the latest three reviews where the user is not deleted
+        while(count <3 && position >=0){
         
+
+            if (count === 0){
+                let comment1 = user.reviews[position]
+                comment1 = comment1.comment
+                let reviewer1 = user.reviews[position]
+                reviewer1 = reviewer1.reviewer
+                reviewer1 = await this.getUserProfile(reviewer1)
+
+                if (reviewer1.length ===1){
+                    reviewer1 = reviewer1[0]
+                    reviewer1 = reviewer1.name
+    
+                    let rating1 = user.reviews[position]
+                    rating1 = rating1.rating
+                    this.setState({comment1: comment1})
+                    this.setState({reviewer1: reviewer1})
+                    this.setState({rating1: rating1})
+                    count ++
+                }
+
+
+            }
+            else if (count ===1){
+                let comment2 = user.reviews[position]
+                comment2 = comment2.comment
+                let reviewer2 = user.reviews[position]
+                reviewer2 = reviewer2.reviewer
+                reviewer2 = await this.getUserProfile(reviewer2)
+
+                if (reviewer2.length === 1){
+                    reviewer2 = reviewer2[0]
+                    reviewer2 = reviewer2.name
+    
+                    let rating2 = user.reviews[position]
+                    rating2 = rating2.rating
+                    this.setState({comment2: comment2})
+                    this.setState({reviewer2: reviewer2})
+                    this.setState({rating2: rating2})
+                count ++
+                }
+
+            }
+            else if (count ===2){
+                let comment3 = user.reviews[position]
+                comment3 = comment3.comment
+                let reviewer3 = user.reviews[position]
+                reviewer3 = reviewer3.reviewer
+                reviewer3 = await this.getUserProfile(reviewer3)
+
+                if (reviewer3.length === 1){
+                    reviewer3 = reviewer3[0]
+                    reviewer3 = reviewer3.name
+    
+                    let rating3 = user.reviews[position]
+                    rating3 = rating3.rating
+                    this.setState({comment3: comment3})
+                    this.setState({reviewer3: reviewer3})
+                    this.setState({rating3: rating3})
+                count ++
+                }
+                
+            }
+        position --
         }
-        if (user.reviews.length >= 2){
-            let comment2 = user.reviews[user.reviews.length -2]
-            comment2 = comment2.comment
-            let reviewer2 = user.reviews[user.reviews.length -2]
-            reviewer2 = reviewer2.reviewer
-            reviewer2 = await this.getUserProfile(reviewer2)
-            reviewer2 = reviewer2[0]
-            reviewer2 = reviewer2.name
 
-            let rating2 = user.reviews[user.reviews.length -2]
-            rating2 = rating2.rating
-
-            this.setState({comment2: comment2})
-            this.setState({reviewer2: reviewer2})
-            this.setState({rating2: rating2})
-            
-        }
-        if (user.reviews.length >= 3){
-            let comment3 = user.reviews[user.reviews.length -3]
-            comment3 = comment3.comment
-            let reviewer3 = user.reviews[user.reviews.length -3]
-            reviewer3 = reviewer3.reviewer
-            reviewer3 = await this.getUserProfile(reviewer3)
-            reviewer3 = reviewer3[0]
-            reviewer3 = reviewer3.name
-
-            let rating3 = user.reviews[user.reviews.length -3]
-            rating3 = rating3.rating
-
-            this.setState({comment3: comment3})
-            this.setState({reviewer3: reviewer3})
-            this.setState({rating3: rating3})
-            
-        }
     this.switchProfile(2)
     }
 
@@ -153,7 +174,7 @@ class UserProfile extends React.Component {
         
         const new_user = {email: this.state.email, name: this.state.name, location: this.state.location, profession: this.state.profession}
         const res = await this.EditUser(new_user);
-        if (this.state.new_image != null){
+        if (this.state.new_image !== null){
     
             const res2 = await patchImage(this.state.user._id, this.state.new_image)
         }
@@ -168,15 +189,15 @@ class UserProfile extends React.Component {
     async postreview(){
         //fix reviewee
         
-        const review = {"reviewer": this.state.user._id, "rating": this.state.new_rating, "comment": this.state.new_comment, "time":"12:30"}
+        const review = {"reviewer": this.state.user._id, "rating": this.state.new_rating, "comment": this.state.new_comment, "time": this.state.time}
 
         
-        if (this.state.new_comment != ''){
-            const res = await Addreview(this.state.userToView._id, review)
+        if (this.state.new_comment !== ''){
+            await Addreview(this.state.userToView._id, review)
         }
         this.setState({new_comment: ''})
         this.setState({new_rating: null})
-        const res_update = await this.getAllReviews()
+        await this.getAllReviews()
         
     }
 
